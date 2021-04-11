@@ -13,8 +13,6 @@ class Action {
 
  final DocumentReference assosId;
 
- Action({ required this.name, required this.city, required this.postalCode,
-  required this.address, required this.description,
-  required this.type, required this.startDate, required this.endDate,
-  required this.assosId});
+ Action(this.name, this.city, this.postalCode, this.address, this.description,
+ this.type, this.startDate, this.endDate, this.assosId);
  }

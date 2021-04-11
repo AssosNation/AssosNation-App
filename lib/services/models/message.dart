@@ -6,6 +6,5 @@ class Message {
   final DocumentReference sender;
   final Timestamp timestamp;
 
-  Message({ required this.content, required this.convId, required this.sender,
-    required this.timestamp});
+  Message(this.content, this.convId, this.sender, this.timestamp);
 }
