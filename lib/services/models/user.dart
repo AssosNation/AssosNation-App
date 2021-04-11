@@ -6,5 +6,5 @@ class User {
   final String mail;
   final List<Association>? subscriptions;
 
-  User({required this.firstName, required this.lastName, required this.mail, this.subscriptions});
+  User(this.firstName, this.lastName, this.mail, this.subscriptions);
 }
