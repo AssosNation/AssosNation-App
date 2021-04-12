@@ -9,7 +9,7 @@ class Post {
   final String content;
   final String photo;
   final Timestamp timestamp;
-  final List<User> usersWhoLiked;
+  final List<AnUser> usersWhoLiked;
 
   Post(this.name, this.assosId, this.likesNumber, this.content, this.photo,
       this.timestamp, this.usersWhoLiked);

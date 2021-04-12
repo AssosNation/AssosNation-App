@@ -1,9 +1,14 @@
 import 'package:assosnation_app/services/interfaces/authentication_interface.dart';
+import 'package:assosnation_app/services/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService extends AuthenticationInterface{
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  User _userFromFirebaseUser(User user) {
+    return user != null ? User(, lastName, mail, subscriptions)
+  }
 
   @override
   Future createUserWithEmailAndPwd(mail, pwd) async{
