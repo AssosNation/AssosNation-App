@@ -1,19 +1,22 @@
+import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/interfaces/authentication_interface.dart';
-import 'package:assosnation_app/services/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService extends AuthenticationInterface{
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  User _userFromFirebaseUser(User user) {
-    return user != null ? User(, lastName, mail, subscriptions)
+  Stream<User?> get user {
+    return _auth.authStateChanges();
   }
 
   @override
   Future createUserWithEmailAndPwd(mail, pwd) async{
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: mail, password: pwd);
+
+      await FireStoreService().addUserToDB(userCredential.user);
+      print("createdUser good");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -28,10 +31,11 @@ class AuthService extends AuthenticationInterface{
   @override
   Future signIn(mail, pwd) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: mail,
           password: pwd
       );
+      print("User connected $userCredential");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -43,6 +47,6 @@ class AuthService extends AuthenticationInterface{
 
   @override
   void signOff() {
-    // TODO: implement signOff
+    _auth.signOut();
   }
 }

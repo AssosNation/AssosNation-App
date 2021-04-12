@@ -1,7 +1,10 @@
 abstract class DatabaseInterface {
-  void getAssociationsList();
-  void getAllUsers();
-  void getAllPostsByAssociation();
-  void getAllConversations();
-  void getAllMessagesByConversation();
+  Future getAssociationsList();
+  Future getAllUsers();
+  Future getAllPostsByAssociation();
+  Future getAllConversations();
+  Future getAllMessagesByConversation();
+  Future addUserToDB(uid);
+  Future getUserInfosFromDB(uid);
+  Future removeUserFromDB(uid);
 }
