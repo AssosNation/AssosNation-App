@@ -11,7 +11,8 @@ class _SignUpFormState extends State<SignUpForm> {
     return Container(
       color: Colors.brown,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery.of(context).size.width * 0.92,
+        height: MediaQuery.of(context).size.height * 0.50,
         child: Column(
           children: [Text("toototototo")],
         ),

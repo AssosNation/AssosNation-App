@@ -2,8 +2,7 @@ import 'package:assosnation_app/services/firebase/firestore/firestore_service.da
 import 'package:assosnation_app/services/interfaces/authentication_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthService extends AuthenticationInterface{
-
+class AuthService extends AuthenticationInterface {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Stream<User?> get user {
@@ -11,9 +10,10 @@ class AuthService extends AuthenticationInterface{
   }
 
   @override
-  Future createUserWithEmailAndPwd(mail, pwd) async{
+  Future signUpUserWithEmailAndPwd(mail, pwd) async {
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: mail, password: pwd);
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: mail, password: pwd);
 
       await FireStoreService().addUserToDB(userCredential.user);
       print("createdUser good");
@@ -31,10 +31,8 @@ class AuthService extends AuthenticationInterface{
   @override
   Future signIn(mail, pwd) async {
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-          email: mail,
-          password: pwd
-      );
+      UserCredential userCredential =
+          await _auth.signInWithEmailAndPassword(email: mail, password: pwd);
       print("User connected $userCredential");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

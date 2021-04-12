@@ -32,7 +32,7 @@ class _AuthenticationState extends State<Authentication> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AnimatedSwitcher(
-                duration: const Duration(seconds: 1),
+                duration: const Duration(milliseconds: 500),
                 child: _isSigningUp == false ? SignInForm() : SignUpForm(),
               ),
             ],

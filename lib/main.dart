@@ -1,5 +1,5 @@
 import 'package:assosnation_app/pages/authentication.dart';
-import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -33,21 +33,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void connection() {
-    final service = AuthService();
-    service.signUpUserWithEmailAndPwd("tester3@test.fr", "000000");
-  }
-
-  void connection2() {
-    final service = AuthService();
-    service.signIn("tester3@test.fr", "000000");
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          ElevatedButton(
+              onPressed: () {
+                final _auth = FirebaseAuth.instance;
+                _auth.signOut();
+              },
+              child: Text("Disconnect"))
+        ],
       ),
       body: Center(child: Authentication()),
     );
