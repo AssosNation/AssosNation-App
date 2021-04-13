@@ -1,12 +1,19 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/interfaces/authentication_interface.dart';
+import 'package:assosnation_app/services/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService extends AuthenticationInterface {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Stream<User?> get user {
-    return _auth.authStateChanges();
+  AnUser _userFromFirebaseUser(User _user) {
+    return AnUser(_user.uid, _user.email!);
+  }
+
+  Stream<AnUser?> get user {
+    return _auth
+        .authStateChanges()
+        .map((_user) => _user != null ? _userFromFirebaseUser(_user) : null);
   }
 
   @override

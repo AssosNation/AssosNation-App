@@ -5,7 +5,7 @@ class AnUser {
   final String mail;
   late final String? firstName;
   late final String? lastName;
-  late final  List<Association>? subscriptions;
+  late final List<Association>? subscriptions;
 
   AnUser(this.uid, this.mail);
 }

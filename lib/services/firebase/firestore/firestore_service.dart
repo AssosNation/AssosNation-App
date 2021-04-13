@@ -1,10 +1,8 @@
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
-import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FireStoreService extends DatabaseInterface {
-
   final FirebaseFirestore _service = FirebaseFirestore.instance;
 
   @override
@@ -49,12 +47,10 @@ class FireStoreService extends DatabaseInterface {
         'mail': user.email,
         'subscriptions': ""
       });
-    } on FirebaseException catch(e) {
+    } on FirebaseException catch (e) {
       print("Error while adding user to database");
       print(e.message);
     }
-
-
   }
 
   @override
@@ -67,5 +63,4 @@ class FireStoreService extends DatabaseInterface {
     // TODO: implement removeUserFromDB
     throw UnimplementedError();
   }
-
 }
