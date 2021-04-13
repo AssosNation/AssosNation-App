@@ -44,7 +44,7 @@ class _SignInFormState extends State<SignInForm> {
     return Container(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.92,
-        height: MediaQuery.of(context).size.height * 0.4,
+        height: MediaQuery.of(context).size.height * 0.8,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
           child: Form(
