@@ -4,7 +4,7 @@ abstract class DatabaseInterface {
   Future getAllPostsByAssociation();
   Future getAllConversations();
   Future getAllMessagesByConversation();
-  Future addUserToDB(uid);
+  Future addUserToDB(user);
   Future getUserInfosFromDB(uid);
   Future removeUserFromDB(uid);
 }

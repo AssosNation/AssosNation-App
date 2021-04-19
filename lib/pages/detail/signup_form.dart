@@ -14,14 +14,17 @@ class _SignUpFormState extends State<SignUpForm> {
   String _lastName = "";
   String _mail = "";
   String _pwd = "";
+  String _pwd2 = "";
 
   _verifyAndValidateForm() async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        print("${_formKey.currentState}");
         _formKey.currentState!.save();
-        dynamic res = await _auth.signIn(_mail, _pwd);
-        print(" response => $res");
+
+        dynamic res = await _auth.signUpUserWithAllInfos(
+            _mail, _pwd, _firstName, _lastName);
+
+        print("response => $res");
         if (res == null) {
           _displaySnackBarWithMessage("Failed to connect, try again");
         } else {
@@ -65,7 +68,7 @@ class _SignUpFormState extends State<SignUpForm> {
                             InputDecoration(labelText: "Enter your First Name"),
                         keyboardType: TextInputType.name,
                         validator: (firstName) {
-                          if (firstName!.isEmpty || _isEmailValidated(_mail))
+                          if (firstName!.isEmpty)
                             return "This field can't be empty";
                           _firstName = firstName;
                           return null;
@@ -78,10 +81,10 @@ class _SignUpFormState extends State<SignUpForm> {
                       ),
                       TextFormField(
                         decoration:
-                            InputDecoration(labelText: "Enter your First Name"),
+                            InputDecoration(labelText: "Enter your Last Name"),
                         keyboardType: TextInputType.name,
                         validator: (lastName) {
-                          if (lastName!.isEmpty || _isEmailValidated(_mail))
+                          if (lastName!.isEmpty)
                             return "This field can't be empty";
                           _lastName = lastName;
                           return null;
@@ -121,11 +124,11 @@ class _SignUpFormState extends State<SignUpForm> {
                         obscureText: true,
                         validator: (pwd) {
                           if (pwd == null || pwd == "")
-                            return "Not a valid password";
+                            return "This is not a valid password";
                           return null;
                         },
                         onSaved: (pwdValue) {
-                          if (pwdValue != null) {
+                          if (pwdValue != null && pwdValue != _pwd2) {
                             setState(() => _pwd = pwdValue);
                           }
                         },
@@ -135,14 +138,14 @@ class _SignUpFormState extends State<SignUpForm> {
                             InputDecoration(labelText: "Confirm your password"),
                         obscureText: true,
                         validator: (pwd) {
-                          if (pwd == null || pwd == "")
-                            return "Not a valid password";
-                          _pwd = pwd;
+                          if (pwd!.isEmpty)
+                            return "This is not a valid password";
+                          _pwd2 = pwd;
                           return null;
                         },
                         onSaved: (pwdValue) {
-                          if (pwdValue != null) {
-                            setState(() => _pwd = pwdValue);
+                          if (pwdValue != null && pwdValue != _pwd) {
+                            setState(() => _pwd2 = pwdValue);
                           }
                         },
                       ),

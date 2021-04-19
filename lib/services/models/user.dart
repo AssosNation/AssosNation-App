@@ -8,4 +8,5 @@ class AnUser {
   late final List<Association>? subscriptions;
 
   AnUser(this.uid, this.mail);
+  AnUser.withData(this.uid, this.mail, this.firstName, this.lastName);
 }

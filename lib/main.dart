@@ -59,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(widget.title),
         actions: [
@@ -72,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
               : Container()
         ],
       ),
-      body: Center(child: _user == null ? Authentication() : Authentication()),
+      body: Center(child: _user == null ? Authentication() : Container()),
     );
   }
 }
