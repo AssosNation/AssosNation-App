@@ -1,5 +1,6 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 abstract class LocationInterface {
-  void askForPermissions();
-  void retrieveCurrentLocation();
-  void checkIfPermissionsGiven();
+  Future<CameraPosition> determinePosition();
+  Future<CameraPosition> lastKnownCameraPos();
 }
