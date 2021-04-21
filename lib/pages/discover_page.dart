@@ -1,3 +1,4 @@
+import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/pages/detail/location.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class Discover extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text("Discover"),
+        AnTitle("DISCOVER"),
         Flexible(
           flex: 1,
           child: CarouselSlider.builder(
@@ -31,11 +32,11 @@ class Discover extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.80),
           ),
         ),
-        Text("MAP"),
+        AnTitle("AROUND YOU"),
         Flexible(
           flex: 2,
           child: Card(
-            margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
+            margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: Location(),
           ),
         )
