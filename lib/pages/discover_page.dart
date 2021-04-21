@@ -15,7 +15,7 @@ class Discover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text("Discover"),
         Flexible(
@@ -31,10 +31,13 @@ class Discover extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.80),
           ),
         ),
-        Text("LOCATION"),
+        Text("MAP"),
         Flexible(
           flex: 2,
-          child: Location(),
+          child: Card(
+            margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
+            child: Location(),
+          ),
         )
       ],
     );
