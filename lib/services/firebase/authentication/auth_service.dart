@@ -66,11 +66,14 @@ class AuthService extends AuthenticationInterface {
       UserCredential userCredential =
           await _auth.signInWithEmailAndPassword(email: mail, password: pwd);
       print("User connected $userCredential");
+      return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
+        return false;
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
+        return false;
       }
     }
   }

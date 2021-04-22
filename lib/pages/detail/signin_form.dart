@@ -18,10 +18,13 @@ class _SignInFormState extends State<SignInForm> {
         print("${_formKey.currentState}");
         _formKey.currentState!.save();
         dynamic res = await _auth.signIn(_mail, _pwd);
+        print(res);
         if (res == null) {
-          _displaySnackBarWithMessage("Failed to connect, try again");
+          _displaySnackBarWithMessage(
+              "Failed to connect, try again", Colors.red);
         } else {
-          _displaySnackBarWithMessage("Succesfully connected ! Welcome");
+          _displaySnackBarWithMessage(
+              "Succesfully connected ! Welcome", Colors.green);
         }
       }
     }
@@ -31,10 +34,10 @@ class _SignInFormState extends State<SignInForm> {
     return email.contains(new RegExp(r'[a-z0-9A-Z-.]+1*@[a-zA-Z]+\.[a-z]+'));
   }
 
-  _displaySnackBarWithMessage(String msg) {
+  _displaySnackBarWithMessage(String msg, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(msg),
-      backgroundColor: Colors.deepOrange,
+      backgroundColor: color,
       duration: Duration(seconds: 3),
     ));
   }
