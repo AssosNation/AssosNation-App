@@ -97,7 +97,17 @@ class _MyHomePageState extends State<MyHomePage> {
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: _user != null ? _diplayBottomNavBar() : null,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Image.asset(
+              'images/logo.png',
+              height: 45,
+            ),
+            Container(
+                padding: const EdgeInsets.all(10), child: Text("AssosNation"))
+          ],
+        ),
         actions: [
           _user != null
               ? ElevatedButton(
