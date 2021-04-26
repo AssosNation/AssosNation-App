@@ -46,8 +46,6 @@ class AuthService extends AuthenticationInterface {
 
         await FireStoreService().addUserToDB(newUser);
       }
-
-      print("createdUser good");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -57,7 +55,6 @@ class AuthService extends AuthenticationInterface {
     } catch (e) {
       print(e);
     }
-    throw UnimplementedError();
   }
 
   @override

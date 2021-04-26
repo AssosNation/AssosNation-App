@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -19,11 +20,8 @@ class _SignUpFormState extends State<SignUpForm> {
   _verifyAndValidateForm() async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
-
         dynamic res = await _auth.signUpUserWithAllInfos(
             _mail, _pwd, _firstName, _lastName);
-
         print("response => $res");
         if (res == null) {
           _displaySnackBarWithMessage("Failed to connect, try again");
@@ -35,7 +33,8 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   _isEmailValidated(String email) {
-    return email.contains(new RegExp(r'[a-z0-9A-Z-.]+1*@[a-zA-Z]+\.[a-z]+'));
+    return email
+        .contains(new RegExp(r'([a-z0-9A-Z-.]+@[a-zA-Z]+\.[a-z]{1,3})'));
   }
 
   _displaySnackBarWithMessage(String msg) {
@@ -48,118 +47,108 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.92,
-        height: MediaQuery.of(context).size.height * 0.8,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Text("Signing Up"),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        decoration:
-                            InputDecoration(labelText: "Enter your First Name"),
-                        keyboardType: TextInputType.name,
-                        validator: (firstName) {
-                          if (firstName!.isEmpty)
-                            return "This field can't be empty";
-                          _firstName = firstName;
-                          return null;
-                        },
-                        onSaved: (firstName) {
-                          if (firstName != null) {
-                            setState(() => _firstName = firstName);
-                          }
-                        },
-                      ),
-                      TextFormField(
-                        decoration:
-                            InputDecoration(labelText: "Enter your Last Name"),
-                        keyboardType: TextInputType.name,
-                        validator: (lastName) {
-                          if (lastName!.isEmpty)
-                            return "This field can't be empty";
-                          _lastName = lastName;
-                          return null;
-                        },
-                        onSaved: (lastName) {
-                          if (lastName != null) {
-                            setState(() => _lastName = lastName);
-                          }
-                        },
-                      ),
-                    ],
+    return SingleChildScrollView(
+      child: Container(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.92,
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Text("Signing Up"),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                              labelText: "Enter your First Name"),
+                          keyboardType: TextInputType.name,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (firstName) {
+                            if (firstName!.isNotEmpty) {
+                              _firstName = firstName;
+                              return null;
+                            } else
+                              return "Please enter your first name";
+                          },
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                              labelText: "Enter your Last Name"),
+                          keyboardType: TextInputType.name,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (lastName) {
+                            if (lastName!.isNotEmpty) {
+                              _lastName = lastName;
+                              return null;
+                            } else
+                              return "Please enter your first name";
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                            labelText: "Enter your email address"),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (email) {
-                          if (email!.isEmpty || _isEmailValidated(_mail))
-                            return "This is not a valid email address";
-                          _mail = email;
-                          return null;
-                        },
-                        onSaved: (emailValue) {
-                          if (emailValue != null) {
-                            setState(() => _mail = emailValue);
-                          }
-                        },
-                      ),
-                      TextFormField(
-                        decoration:
-                            InputDecoration(labelText: "Enter your password"),
-                        obscureText: true,
-                        validator: (pwd) {
-                          if (pwd == null || pwd == "")
-                            return "This is not a valid password";
-                          return null;
-                        },
-                        onSaved: (pwdValue) {
-                          if (pwdValue != null && pwdValue != _pwd2) {
-                            setState(() => _pwd = pwdValue);
-                          }
-                        },
-                      ),
-                      TextFormField(
-                        decoration:
-                            InputDecoration(labelText: "Confirm your password"),
-                        obscureText: true,
-                        validator: (pwd) {
-                          if (pwd!.isEmpty)
-                            return "This is not a valid password";
-                          _pwd2 = pwd;
-                          return null;
-                        },
-                        onSaved: (pwdValue) {
-                          if (pwdValue != null && pwdValue != _pwd) {
-                            setState(() => _pwd2 = pwdValue);
-                          }
-                        },
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                            decoration: InputDecoration(
+                                labelText: "Enter your email address"),
+                            keyboardType: TextInputType.emailAddress,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (email) {
+                              if (_isEmailValidated(email!)) {
+                                _mail = email;
+                                return null;
+                              } else if (email.isEmpty)
+                                return "This field cannot be empty";
+                              else
+                                return "This email address is not valid";
+                            }),
+                        TextFormField(
+                          decoration:
+                              InputDecoration(labelText: "Enter your password"),
+                          obscureText: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (pwd) {
+                            if (pwd!.isNotEmpty) {
+                              _pwd = pwd;
+                              return null;
+                            } else
+                              return "Please enter a password";
+                          },
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                              labelText: "Confirm your password"),
+                          obscureText: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (pwd2) {
+                            if (pwd2!.isNotEmpty && pwd2 == _pwd) {
+                              _pwd2 = pwd2;
+                              return null;
+                            } else
+                              return "Please match your passwords";
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
-                  child: ElevatedButton(
-                    onPressed: _verifyAndValidateForm,
-                    child: Text("Validate"),
-                  ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
+                    child: ElevatedButton(
+                      onPressed: _verifyAndValidateForm,
+                      child: Text("Submit"),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
