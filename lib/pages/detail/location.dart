@@ -10,7 +10,6 @@ class Location extends StatefulWidget {
 }
 
 class _LocationState extends State<Location> {
-  final position = LocationService().determinePosition();
   Completer<GoogleMapController> _controller = Completer();
 
   @override
@@ -23,19 +22,37 @@ class _LocationState extends State<Location> {
               case ConnectionState.done:
                 return GoogleMap(
                   initialCameraPosition: LocationService().defaultPos,
+                  markers: {
+                    Marker(
+                      markerId: MarkerId("userPos"),
+                      position: snapshot.data.target,
+                    )
+                  },
+                  compassEnabled: true,
+                  onMapCreated: (controller) {
+                    _controller.complete(controller);
+                    controller.animateCamera(
+                        CameraUpdate.newCameraPosition(snapshot.data));
+                  },
+                );
+              case ConnectionState.waiting:
+                return GoogleMap(
+                  initialCameraPosition: LocationService().defaultPos,
                   onMapCreated: (controller) {
                     _controller.complete(controller);
                   },
                 );
-              case ConnectionState.waiting:
-                return CircularProgressIndicator();
               case ConnectionState.none:
                 return CircularProgressIndicator();
               case ConnectionState.active:
                 return CircularProgressIndicator();
             }
           } else if (snapshot.hasError) {
-            return Container();
+            return Container(
+              height: 200,
+              width: 200,
+              color: Colors.grey,
+            );
           } else {
             return CircularProgressIndicator();
           }
