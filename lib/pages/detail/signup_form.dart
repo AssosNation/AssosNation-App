@@ -22,7 +22,6 @@ class _SignUpFormState extends State<SignUpForm> {
       if (_formKey.currentState!.validate()) {
         dynamic res = await _auth.signUpUserWithAllInfos(
             _mail, _pwd, _firstName, _lastName);
-        print("response => $res");
         if (res == null) {
           _displaySnackBarWithMessage("Failed to connect, try again");
         } else {

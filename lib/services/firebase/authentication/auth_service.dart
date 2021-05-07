@@ -72,6 +72,9 @@ class AuthService extends AuthenticationInterface {
         print('Wrong password provided for that user.');
         return false;
       }
+    } on FirebaseException catch (e) {
+      print("A problem occured when signing in");
+      print(e);
     }
   }
 

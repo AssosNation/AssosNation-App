@@ -15,10 +15,7 @@ class _SignInFormState extends State<SignInForm> {
   _verifyAndValidateForm() async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        print("${_formKey.currentState}");
-        _formKey.currentState!.save();
         dynamic res = await _auth.signIn(_mail, _pwd);
-        print(res);
         if (res == null) {
           _displaySnackBarWithMessage(
               "Failed to connect, try again", Colors.red);
@@ -31,7 +28,8 @@ class _SignInFormState extends State<SignInForm> {
   }
 
   _isEmailValidated(String email) {
-    return email.contains(new RegExp(r'[a-z0-9A-Z-.]+1*@[a-zA-Z]+\.[a-z]+'));
+    return email
+        .contains(new RegExp(r'([a-z0-9A-Z-.]+@[a-zA-Z]+\.[a-z]{1,3})'));
   }
 
   _displaySnackBarWithMessage(String msg, Color color) {
@@ -60,21 +58,19 @@ class _SignInFormState extends State<SignInForm> {
                   child: Column(
                     children: [
                       TextFormField(
-                        decoration: InputDecoration(
-                            labelText: "Enter your email address"),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (email) {
-                          if (email!.isEmpty || _isEmailValidated(_mail))
-                            return "This is not a valid email address";
-                          _mail = email;
-                          return null;
-                        },
-                        onSaved: (emailValue) {
-                          if (emailValue != null) {
-                            setState(() => _mail = emailValue);
-                          }
-                        },
-                      ),
+                          decoration: InputDecoration(
+                              labelText: "Enter your email address"),
+                          keyboardType: TextInputType.emailAddress,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (email) {
+                            if (_isEmailValidated(email!)) {
+                              _mail = email;
+                              return null;
+                            } else if (email.isEmpty)
+                              return "This field cannot be empty";
+                            else
+                              return "This email address is not valid";
+                          }),
                       TextFormField(
                         decoration:
                             InputDecoration(labelText: "Enter your password"),
