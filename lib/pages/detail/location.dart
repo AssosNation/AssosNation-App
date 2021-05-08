@@ -36,12 +36,7 @@ class _LocationState extends State<Location> {
                   },
                 );
               case ConnectionState.waiting:
-                return GoogleMap(
-                  initialCameraPosition: LocationService().defaultPos,
-                  onMapCreated: (controller) {
-                    _controller.complete(controller);
-                  },
-                );
+                return CircularProgressIndicator();
               case ConnectionState.none:
                 return CircularProgressIndicator();
               case ConnectionState.active:
