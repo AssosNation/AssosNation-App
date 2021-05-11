@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final List<String> entries = <String>['1', '2', '3'];
+    final List<int> colorCodes = <int>[600, 500, 100];
     return Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -19,26 +21,16 @@ class Profile extends StatelessWidget {
       AnTitle("Mes associations"),
       Container(
           height: 200.0,
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
-            children: <Widget>[
-              Container(
-                height: 50,
-                color: Colors.greenAccent,
-                child: const Center(child: Text('Association A')),
-              ),
-              Container(
-                height: 50,
-                color: Colors.greenAccent,
-                child: const Center(child: Text('Association B')),
-              ),
-              Container(
-                height: 50,
-                color: Colors.greenAccent,
-                child: const Center(child: Text('Association C')),
-              ),
-            ],
-          ))
+          child: ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: entries.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 50,
+                  color: Colors.amber[colorCodes[index]],
+                  child: Center(child: Text('Asso ${entries[index]}')),
+                );
+              }))
     ]);
   }
 }
