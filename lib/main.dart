@@ -1,5 +1,5 @@
 import 'package:assosnation_app/pages/authentication.dart';
-import 'package:assosnation_app/pages/discover_page.dart';
+import 'package:assosnation_app/pages/profile_page.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
               : Container()
         ],
       ),
-      body: Center(child: _user == null ? Authentication() : Discover()),
+      body: Center(child: _user == null ? Authentication() : Profile()),
     );
   }
 }
