@@ -12,17 +12,19 @@ class Profile extends StatelessWidget {
 
     final _user = context.watch<AnUser?>();
 
-    return Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+    return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircleAvatar(
             //TODO : add a Image in the DB for the user to display it here
             backgroundImage: NetworkImage(
-                'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'),
+                'https://media-exp1.licdn.com/dms/image/C5603AQEJ5TDmil5VAA/profile-displayphoto-shrink_800_800/0/1522223155450?e=1626307200&v=beta&t=qXIHutBHwCHF9gKoXPP_P6fnvgNvzmUqV5ZOeqDvEiI'),
             radius: 60,
           ),
-          AnTitle(_user!.mail),
+          Column(
+            children: [AnTitle("Alexandro Alterno"), AnTitle(_user!.mail)],
+          )
         ],
       ),
       AnTitle("Mes associations"),
