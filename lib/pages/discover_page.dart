@@ -1,5 +1,8 @@
 import 'package:assosnation_app/components/an_title.dart';
+import 'package:assosnation_app/components/association_card.dart';
 import 'package:assosnation_app/pages/detail/location.dart';
+import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/models/association.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -26,16 +29,33 @@ class _DiscoverState extends State<Discover> {
         AnTitle("DISCOVER"),
         Flexible(
           flex: 1,
-          child: CarouselSlider.builder(
-            itemCount: imgList.length,
-            itemBuilder: (ctx, index, realIdx) {
-              return Container(
-                child: Image.network(imgList[index]),
-              );
-            },
-            options: CarouselOptions(
-                height: MediaQuery.of(context).size.height * 0.80),
-          ),
+          child: FutureBuilder(
+              future: FireStoreService().getAllAssociations(),
+              builder: (ctx, AsyncSnapshot<List<Association>> snapshot) {
+                if (snapshot.hasData) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return CircularProgressIndicator();
+                    case ConnectionState.done:
+                      List<Association> assosList = snapshot.data!;
+                      return CarouselSlider.builder(
+                        itemCount: assosList.length,
+                        itemBuilder: (ctx, index, realIdx) {
+                          return Container(
+                            child: AssociationCard(assosList[index]),
+                          );
+                        },
+                        options: CarouselOptions(
+                            height: MediaQuery.of(context).size.height * 0.80),
+                      );
+                    case ConnectionState.none:
+                      return CircularProgressIndicator();
+                    case ConnectionState.active:
+                      return CircularProgressIndicator();
+                  }
+                }
+                return Container();
+              }),
         ),
         AnTitle("AROUND YOU"),
         Flexible(

@@ -1,5 +1,7 @@
+import 'package:assosnation_app/services/models/association.dart';
+
 abstract class DatabaseInterface {
-  Future getAllAssociations();
+  Future<List<Association>> getAllAssociations();
   Future getAllUsers();
   Future getAllPostsByAssociation();
   Future getAllConversations();
