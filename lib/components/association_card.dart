@@ -30,11 +30,11 @@ class AssociationCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.fromLTRB(5, 5, 0, 5),
                     child: Text(association.city),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.fromLTRB(5, 5, 15, 5),
                     child: Text(association.postalCode),
                   )
                 ],
