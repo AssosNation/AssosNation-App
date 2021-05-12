@@ -1,5 +1,5 @@
 abstract class DatabaseInterface {
-  Future getAssociationsList();
+  Future getAllAssociations();
   Future getAllUsers();
   Future getAllPostsByAssociation();
   Future getAllConversations();

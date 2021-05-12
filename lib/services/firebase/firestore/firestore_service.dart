@@ -31,12 +31,6 @@ class FireStoreService extends DatabaseInterface {
   }
 
   @override
-  Future getAssociationsList() {
-    // TODO: implement getAssociationsList
-    throw UnimplementedError();
-  }
-
-  @override
   Future addUserToDB(user) async {
     CollectionReference users = _service.collection("users");
     try {
@@ -63,5 +57,33 @@ class FireStoreService extends DatabaseInterface {
   Future removeUserFromDB(uid) {
     // TODO: implement removeUserFromDB
     throw UnimplementedError();
+  }
+
+  @override
+  Future getAllAssociations() async {
+    CollectionReference associations = _service.collection("associations");
+    try {
+      QuerySnapshot snapshot = await associations.get();
+      snapshot.docs.
+      /*snapshot.docs.forEach((element) {
+        print(element.data());
+      });*/
+      /*final toto = snapshot.docs.map((e) => Association(
+          e["name"],
+          e["description"],
+          e["mail"],
+          e["address"],
+          e["city"],
+          e["postalCode"],
+          e["phone"],
+          e["banner"],
+          e["president"],
+          e["type"],
+          e["posts"],
+          e["actions"]));*/
+    } on FirebaseException catch (e) {
+      print("Error while adding user to database");
+      print(e.message);
+    }
   }
 }
