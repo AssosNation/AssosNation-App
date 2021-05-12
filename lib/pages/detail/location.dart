@@ -22,12 +22,8 @@ class _LocationState extends State<Location> {
               case ConnectionState.done:
                 return GoogleMap(
                   initialCameraPosition: LocationService().defaultPos,
-                  markers: {
-                    Marker(
-                      markerId: MarkerId("userPos"),
-                      position: snapshot.data.target,
-                    )
-                  },
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
                   compassEnabled: true,
                   onMapCreated: (controller) {
                     _controller.complete(controller);
