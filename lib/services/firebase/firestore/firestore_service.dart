@@ -64,7 +64,7 @@ class FireStoreService extends DatabaseInterface {
     CollectionReference associations = _service.collection("associations");
     try {
       QuerySnapshot snapshot = await associations.get();
-      snapshot.docs.
+      print(snapshot.docs.length);
       /*snapshot.docs.forEach((element) {
         print(element.data());
       });*/

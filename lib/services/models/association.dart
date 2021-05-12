@@ -1,5 +1,5 @@
-import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/action.dart';
+import 'package:assosnation_app/services/models/post.dart';
 
 class Association {
   final String name;
@@ -16,8 +16,17 @@ class Association {
   final List<Post>? posts;
   final List<Action>? actions;
 
-  Association(this.name, this.description, this.mail, this.address, this.city,
-      this.postalCode, this.phone, this.banner, this.president, this.type,
-      this.posts, this.actions);
-
+  Association(
+      this.name,
+      this.description,
+      this.mail,
+      this.address,
+      this.city,
+      this.postalCode,
+      this.phone,
+      this.banner,
+      this.president,
+      this.type,
+      this.posts,
+      this.actions);
 }
