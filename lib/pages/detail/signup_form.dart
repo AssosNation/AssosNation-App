@@ -1,3 +1,5 @@
+import 'package:assosnation_app/components/forms/form_main_title.dart';
+import 'package:assosnation_app/components/forms/form_subtitle.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,11 +59,12 @@ class _SignUpFormState extends State<SignUpForm> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Text("Signing Up"),
+                  FormMainTitle("Signing Up"),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: Column(
                       children: [
+                        FormSubTitle("Global Informations"),
                         TextFormField(
                           decoration: InputDecoration(
                               labelText: "Enter your First Name"),
@@ -95,6 +98,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: Column(
                       children: [
+                        FormSubTitle("Connection Informations"),
                         TextFormField(
                             decoration: InputDecoration(
                                 labelText: "Enter your email address"),

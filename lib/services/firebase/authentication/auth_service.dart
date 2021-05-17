@@ -99,7 +99,7 @@ class AuthService extends AuthenticationInterface {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: mail, password: pwd);
       if (userCredential.user != null) {
-        final newUser = Association.application(
+        final newAssociation = Association.application(
             userCredential.user!.uid,
             name,
             description,
@@ -113,18 +113,18 @@ class AuthService extends AuthenticationInterface {
             "",
             [],
             []); // type, posts, actions
-
-        await FireStoreService().addUserToDB(newUser);
+        await FireStoreService().addAssociationToDb(newAssociation);
+        signOff();
+        return true;
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        Future.error("The password provided is too weak.");
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        Future.error("The account already exists for that email.");
       }
     } catch (e) {
       print(e);
     }
-    return Future.delayed(Duration(seconds: 1));
   }
 }

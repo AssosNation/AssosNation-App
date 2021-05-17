@@ -27,12 +27,14 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
   _verifyAndValidateForm() async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        dynamic res = await _auth.applyAsAssociation(_name, _description,
-            _president, _mail, _phone, _address, _postalCode, _city, _pwd);
+        dynamic res = await _auth.applyAsAssociation(_name, _description, _mail,
+            _phone, _address, _postalCode, _city, _president, _pwd);
         if (res == null) {
-          _displaySnackBarWithMessage("Failed to connect, try again");
+          _displaySnackBarWithMessage(
+              "Something wrong happened, please try again");
         } else {
-          _displaySnackBarWithMessage("Succesfully connected ! Welcome");
+          _displaySnackBarWithMessage(
+              "Your application has been sent ! You will be contacted by our team soon");
         }
       }
     }

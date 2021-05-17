@@ -1,3 +1,4 @@
+import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -52,7 +53,7 @@ class _SignInFormState extends State<SignInForm> {
             key: _formKey,
             child: Column(
               children: [
-                Text("Login"),
+                FormMainTitle("Login"),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                   child: Column(
