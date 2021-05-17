@@ -11,9 +11,7 @@ class AssociationCardTitle extends StatelessWidget {
     return Container(
       child: Text(assos.name,
           style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18.0,
-              color: Colors.lightBlue)),
+              fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.teal)),
     );
   }
 }

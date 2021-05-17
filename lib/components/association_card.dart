@@ -21,14 +21,11 @@ class AssociationCard extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                color: Colors.orange[50],
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    AssociationCardTitle(association),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  AssociationCardTitle(association),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
