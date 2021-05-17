@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
+import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,12 +32,6 @@ class FireStoreService extends DatabaseInterface {
   }
 
   @override
-  Future getAssociationsList() {
-    // TODO: implement getAssociationsList
-    throw UnimplementedError();
-  }
-
-  @override
   Future addUserToDB(user) async {
     CollectionReference users = _service.collection("users");
     try {
@@ -63,5 +58,30 @@ class FireStoreService extends DatabaseInterface {
   Future removeUserFromDB(uid) {
     // TODO: implement removeUserFromDB
     throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Association>> getAllAssociations() async {
+    CollectionReference associations = _service.collection("associations");
+    try {
+      QuerySnapshot snapshot = await associations.get();
+      List<Association> assosList = snapshot.docs
+          .map((e) => Association(
+              e.get("name"),
+              e.get("description"),
+              e.get("mail"),
+              e.get("address"),
+              e.get("city"),
+              e.get("postalCode"),
+              e.get("phone"),
+              e.get("banner"),
+              e.get("president"),
+              e.get("type"), [], []))
+          .toList();
+      return assosList;
+    } on FirebaseException catch (e) {
+      print(e.message);
+      return Future.error("Error while retrieving all associations");
+    }
   }
 }
