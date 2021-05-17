@@ -1,3 +1,4 @@
+import 'package:assosnation_app/components/association_card_title.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +21,14 @@ class AssociationCard extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(association.name),
-                ],
+              Container(
+                color: Colors.orange[50],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    AssociationCardTitle(association),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
