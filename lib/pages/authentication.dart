@@ -20,10 +20,10 @@ class _AuthenticationState extends State<Authentication> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TextButton(
+              ElevatedButton(
                   onPressed: () => setState(() => _isSigningUp = false),
                   child: Text("Sign-In")),
-              TextButton(
+              ElevatedButton(
                   onPressed: () => setState(() => _isSigningUp = true),
                   child: Text("Sign-Up")),
             ],

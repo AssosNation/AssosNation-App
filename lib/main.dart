@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
               : Container()
         ],
       ),
-      body: Center(child: _user == null ? Authentication() : Discover()),
+      body: SafeArea(child: Center(child: _user == null ? Authentication() : Discover())),
     );
   }
 }

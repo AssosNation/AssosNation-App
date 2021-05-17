@@ -9,4 +9,5 @@ abstract class DatabaseInterface {
   Future addUserToDB(user);
   Future getUserInfosFromDB(uid);
   Future removeUserFromDB(uid);
+  Future addAssociationToDb(association);
 }

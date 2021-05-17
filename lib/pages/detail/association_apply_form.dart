@@ -1,3 +1,5 @@
+import 'package:assosnation_app/components/forms/form_main_title.dart';
+import 'package:assosnation_app/components/forms/form_subtitle.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -62,12 +64,12 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Text("Association Application"),
+                  FormMainTitle("Association Application"),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: Column(
                       children: [
-                        Text("General Informations"),
+                        FormSubTitle("General Informations"),
                         TextFormField(
                           decoration: InputDecoration(
                               labelText: "Enter the association's Name"),
@@ -114,7 +116,7 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: Column(
                       children: [
-                        Text("Contact Informations"),
+                        FormSubTitle("Contact Informations"),
                         TextFormField(
                             decoration: InputDecoration(
                                 labelText:
@@ -152,7 +154,7 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: Column(
                       children: [
-                        Text("Postal Informations"),
+                        FormSubTitle("Postal Informations"),
                         TextFormField(
                           decoration: InputDecoration(
                               labelText: "Enter the association's address"),
@@ -199,6 +201,7 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: Column(
                       children: [
+                        FormSubTitle("Connection Informations"),
                         TextFormField(
                           decoration:
                               InputDecoration(labelText: "Enter your password"),
@@ -229,7 +232,7 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
+                    padding: const EdgeInsets.fromLTRB(5, 150, 10, 0),
                     child: ElevatedButton(
                       onPressed: _verifyAndValidateForm,
                       child: Text("Send your application"),

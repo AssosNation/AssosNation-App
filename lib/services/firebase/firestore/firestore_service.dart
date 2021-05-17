@@ -67,6 +67,7 @@ class FireStoreService extends DatabaseInterface {
       QuerySnapshot snapshot = await associations.get();
       List<Association> assosList = snapshot.docs
           .map((e) => Association(
+              e.id,
               e.get("name"),
               e.get("description"),
               e.get("mail"),
@@ -82,6 +83,34 @@ class FireStoreService extends DatabaseInterface {
     } on FirebaseException catch (e) {
       print(e.message);
       return Future.error("Error while retrieving all associations");
+    }
+  }
+
+  @override
+  Future addAssociationToDb(association) async {
+    CollectionReference assos = _service.collection("associations");
+    try {
+      association as Association;
+
+      await assos.doc(association.uid).set({
+        'name': association.name,
+        'description': association.description,
+        'president': association.president,
+        'address': association.address,
+        'city': association.city,
+        'postalCode': association.postalCode,
+        'phone': association.phone,
+        'mail': association.mail,
+        'banner': association.banner,
+        'type': "",
+        'posts': [],
+        'actions': [],
+        'approved':
+            true // TODO need to change this after everything will be fine
+      });
+    } on FirebaseException catch (e) {
+      print("Error while adding association to database");
+      print(e.message);
     }
   }
 }
