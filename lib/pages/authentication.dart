@@ -1,4 +1,4 @@
-import 'package:assosnation_app/pages/detail/association_apply_form.dart';
+import 'package:assosnation_app/pages/detail/signin_form.dart';
 import 'package:flutter/material.dart';
 
 import 'detail/signup_form.dart';
@@ -33,9 +33,7 @@ class _AuthenticationState extends State<Authentication> {
             children: [
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
-                child: _isSigningUp == false
-                    ? AssociationApplyForm()
-                    : SignUpForm(),
+                child: _isSigningUp == false ? SignInForm() : SignUpForm(),
               ),
             ],
           ),
