@@ -46,15 +46,15 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.92,
-          height: MediaQuery.of(context).size.height * 0.8,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-            child: Form(
-              key: _formKey,
+    return Container(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.92,
+        height: MediaQuery.of(context).size.height * 0.8,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
               child: Column(
                 children: [
                   Text("Signing Up"),
@@ -144,6 +144,13 @@ class _SignUpFormState extends State<SignUpForm> {
                     child: ElevatedButton(
                       onPressed: _verifyAndValidateForm,
                       child: Text("Submit"),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text("You are an association ? Apply here"),
                     ),
                   )
                 ],

@@ -82,4 +82,18 @@ class AuthService extends AuthenticationInterface {
   void signOff() {
     _auth.signOut();
   }
+
+  @override
+  Future applyAsAssociation(
+      String name,
+      String description,
+      String president,
+      String mail,
+      String phone,
+      String address,
+      String postalCode,
+      String city) {
+    // TODO: implement applyAsAssociation
+    throw UnimplementedError();
+  }
 }
