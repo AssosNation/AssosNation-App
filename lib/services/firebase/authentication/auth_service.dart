@@ -92,8 +92,10 @@ class AuthService extends AuthenticationInterface {
       String phone,
       String address,
       String postalCode,
-      String city) {
-    // TODO: implement applyAsAssociation
-    throw UnimplementedError();
+      String city,
+      String pwd) {
+    print(
+        "$name, $description, $president, $mail, $phone, $address, $postalCode, $city");
+    return Future.delayed(Duration(seconds: 1));
   }
 }

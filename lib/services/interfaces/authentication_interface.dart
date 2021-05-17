@@ -10,6 +10,7 @@ abstract class AuthenticationInterface {
       String phone,
       String address,
       String postalCode,
-      String city);
+      String city,
+      String pwd);
   Future signIn(mail, pwd);
 }
