@@ -28,22 +28,19 @@ class _AuthenticationState extends State<Authentication> {
                   child: Text("Sign-Up")),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
-                child: _isSigningUp == false ? SignInForm() : SignUpForm(),
-              ),
-            ],
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: _isSigningUp == false ? SignInForm() : SignUpForm(),
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 }
-
-/*
-
-
- */

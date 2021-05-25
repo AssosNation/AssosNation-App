@@ -1,4 +1,5 @@
 import 'package:assosnation_app/pages/authentication.dart';
+import 'package:assosnation_app/pages/detail/association_apply_form.dart';
 import 'package:assosnation_app/pages/discover_page.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
@@ -35,6 +36,10 @@ class MyApp extends StatelessWidget {
               initialData: null,
               child: MyHomePage(key: UniqueKey(), title: appName),
             ),
+            initialRoute: "/",
+            routes: {
+              "/applyAssociation": (_) => AssociationApplyForm(),
+            },
           );
         }
         if (snapshot.connectionState == ConnectionState.none) {
@@ -56,11 +61,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _selectedPage = 0;
+
+  final List<Widget> _pages = [
+    Discover(),
+    Discover(),
+    Discover(),
+  ];
+
+  Widget _diplayBottomNavBar() {
+    return BottomNavigationBar(
+        currentIndex: _selectedPage,
+        unselectedItemColor: Colors.teal,
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.dynamic_feed), label: "Feed"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.saved_search), label: "Discover"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle), label: "Profile"),
+        ],
+        onTap: (index) {
+          setState(() {
+            _selectedPage = index;
+          });
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      bottomNavigationBar: _user != null ? _diplayBottomNavBar() : null,
       appBar: AppBar(
         title: Text(widget.title),
         actions: [
@@ -74,7 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
               : Container()
         ],
       ),
-      body: SafeArea(child: Center(child: _user == null ? Authentication() : Discover())),
+      body: Center(
+          child: _user != null ? _pages[_selectedPage] : Authentication()),
     );
   }
 }

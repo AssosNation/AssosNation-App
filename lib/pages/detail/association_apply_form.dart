@@ -55,192 +55,207 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.92,
-        height: MediaQuery.of(context).size.height * 0.8,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  FormMainTitle("Association Application"),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
-                    child: Column(
-                      children: [
-                        FormSubTitle("General Informations"),
-                        TextFormField(
-                          decoration: InputDecoration(
-                              labelText: "Enter the association's Name"),
-                          keyboardType: TextInputType.name,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (name) {
-                            if (name!.isNotEmpty) {
-                              _name = name;
-                              return null;
-                            } else
-                              return "Please enter the association's name";
-                          },
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                              labelText: "Enter the president's name"),
-                          keyboardType: TextInputType.name,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (president) {
-                            if (president!.isNotEmpty) {
-                              _president = president;
-                              return null;
-                            } else
-                              return "Please enter the president's name";
-                          },
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                              labelText: "Enter the association's description"),
-                          keyboardType: TextInputType.multiline,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (description) {
-                            if (description!.isNotEmpty) {
-                              _description = description;
-                              return null;
-                            } else
-                              return "Please enter the association's description";
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
-                    child: Column(
-                      children: [
-                        FormSubTitle("Contact Informations"),
-                        TextFormField(
+    return Scaffold(
+      appBar: AppBar(
+        backwardsCompatibility: true,
+      ),
+      body: Center(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.92,
+          height: MediaQuery.of(context).size.height * 0.92,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    FormMainTitle("Association Application"),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
+                      child: Column(
+                        children: [
+                          FormSubTitle("General Informations"),
+                          TextFormField(
                             decoration: InputDecoration(
-                                labelText:
-                                    "Enter the association email address"),
-                            keyboardType: TextInputType.emailAddress,
+                                labelText: "Enter the association's Name"),
+                            keyboardType: TextInputType.name,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            validator: (email) {
-                              if (_isEmailValidated(email!)) {
-                                _mail = email;
+                            validator: (name) {
+                              if (name!.isNotEmpty) {
+                                _name = name;
                                 return null;
-                              } else if (email.isEmpty)
-                                return "This field cannot be empty";
-                              else
-                                return "This email address is not valid";
-                            }),
-                        TextFormField(
+                              } else
+                                return "Please enter the association's name";
+                            },
+                          ),
+                          TextFormField(
                             decoration: InputDecoration(
-                                labelText:
-                                    "Enter the association phone number"),
-                            keyboardType: TextInputType.phone,
+                                labelText: "Enter the president's name"),
+                            keyboardType: TextInputType.name,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            validator: (phone) {
-                              if (phone!.isNotEmpty) {
-                                _phone = phone;
+                            validator: (president) {
+                              if (president!.isNotEmpty) {
+                                _president = president;
+                                return null;
+                              } else
+                                return "Please enter the president's name";
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                labelText:
+                                    "Enter the association's description"),
+                            keyboardType: TextInputType.multiline,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (description) {
+                              if (description!.isNotEmpty) {
+                                _description = description;
                                 return null;
                               } else
                                 return "Please enter the association's description";
-                            }),
-                      ],
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
-                    child: Column(
-                      children: [
-                        FormSubTitle("Postal Informations"),
-                        TextFormField(
-                          decoration: InputDecoration(
-                              labelText: "Enter the association's address"),
-                          keyboardType: TextInputType.streetAddress,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (address) {
-                            if (address!.isNotEmpty) {
-                              _address = address;
-                              return null;
-                            } else
-                              return "Please enter the address";
-                          },
-                        ),
-                        TextFormField(
-                          decoration:
-                              InputDecoration(labelText: "Enter the city"),
-                          keyboardType: TextInputType.name,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (city) {
-                            if (city!.isNotEmpty) {
-                              _city = city;
-                              return null;
-                            } else
-                              return "Please enter the city";
-                          },
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                              labelText: "Enter the association's postal code"),
-                          keyboardType: TextInputType.number,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (postalCode) {
-                            if (postalCode!.isNotEmpty) {
-                              _postalCode = postalCode;
-                              return null;
-                            } else
-                              return "Please enter the postal code";
-                          },
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
+                      child: Column(
+                        children: [
+                          FormSubTitle("Contact Informations"),
+                          TextFormField(
+                              decoration: InputDecoration(
+                                  labelText:
+                                      "Enter the association email address"),
+                              keyboardType: TextInputType.emailAddress,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (email) {
+                                if (_isEmailValidated(email!)) {
+                                  _mail = email;
+                                  return null;
+                                } else if (email.isEmpty)
+                                  return "This field cannot be empty";
+                                else
+                                  return "This email address is not valid";
+                              }),
+                          TextFormField(
+                              decoration: InputDecoration(
+                                  labelText:
+                                      "Enter the association phone number"),
+                              keyboardType: TextInputType.phone,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (phone) {
+                                if (phone!.isNotEmpty) {
+                                  _phone = phone;
+                                  return null;
+                                } else
+                                  return "Please enter the association's description";
+                              }),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
-                    child: Column(
-                      children: [
-                        FormSubTitle("Connection Informations"),
-                        TextFormField(
-                          decoration:
-                              InputDecoration(labelText: "Enter your password"),
-                          obscureText: true,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (pwd) {
-                            if (pwd!.isNotEmpty) {
-                              _pwd = pwd;
-                              return null;
-                            } else
-                              return "Please enter a password";
-                          },
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                              labelText: "Confirm your password"),
-                          obscureText: true,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (pwd2) {
-                            if (pwd2!.isNotEmpty && pwd2 == _pwd) {
-                              _pwd2 = pwd2;
-                              return null;
-                            } else
-                              return "Please match your passwords";
-                          },
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
+                      child: Column(
+                        children: [
+                          FormSubTitle("Postal Informations"),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                labelText: "Enter the association's address"),
+                            keyboardType: TextInputType.streetAddress,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (address) {
+                              if (address!.isNotEmpty) {
+                                _address = address;
+                                return null;
+                              } else
+                                return "Please enter the address";
+                            },
+                          ),
+                          TextFormField(
+                            decoration:
+                                InputDecoration(labelText: "Enter the city"),
+                            keyboardType: TextInputType.name,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (city) {
+                              if (city!.isNotEmpty) {
+                                _city = city;
+                                return null;
+                              } else
+                                return "Please enter the city";
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                labelText:
+                                    "Enter the association's postal code"),
+                            keyboardType: TextInputType.number,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (postalCode) {
+                              if (postalCode!.isNotEmpty) {
+                                _postalCode = postalCode;
+                                return null;
+                              } else
+                                return "Please enter the postal code";
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 150, 10, 0),
-                    child: ElevatedButton(
-                      onPressed: _verifyAndValidateForm,
-                      child: Text("Send your application"),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
+                      child: Column(
+                        children: [
+                          FormSubTitle("Connection Informations"),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                labelText: "Enter your password"),
+                            obscureText: true,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (pwd) {
+                              if (pwd!.isNotEmpty) {
+                                _pwd = pwd;
+                                return null;
+                              } else
+                                return "Please enter a password";
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                labelText: "Confirm your password"),
+                            obscureText: true,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (pwd2) {
+                              if (pwd2!.isNotEmpty && pwd2 == _pwd) {
+                                _pwd2 = pwd2;
+                                return null;
+                              } else
+                                return "Please match your passwords";
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 150, 10, 0),
+                      child: ElevatedButton(
+                        onPressed: _verifyAndValidateForm,
+                        child: Text("Send your application"),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

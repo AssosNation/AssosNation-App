@@ -153,7 +153,8 @@ class _SignUpFormState extends State<SignUpForm> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed("/applyAssociation"),
                       child: Text("You are an association ? Apply here"),
                     ),
                   )
