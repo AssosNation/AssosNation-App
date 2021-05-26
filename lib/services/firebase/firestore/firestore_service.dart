@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
+import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,9 +20,22 @@ class FireStoreService extends DatabaseInterface {
   }
 
   @override
-  Future getAllPostsByAssociation() {
-    // TODO: implement getAllPostsByAssociation
-    throw UnimplementedError();
+  Future<List<Post>> getAllPostsByAssociation() async {
+    CollectionReference posts = _service.collection("posts");
+    try {
+      QuerySnapshot snapshot = await posts.get();
+      List<Post> postList = snapshot.docs
+          .map((post) => Post(
+          post.get('title'),
+          post.get('assosId').toString(),
+          post.get('likesNumber'),
+          post.get('content'),
+          post.get('photo')))
+          .toList();
+        return postList;
+      } on FirebaseException catch (e) {
+      return Future.error("Error while retrieving all posts");
+    }
   }
 
   @override
