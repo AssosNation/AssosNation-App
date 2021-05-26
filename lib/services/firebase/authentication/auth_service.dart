@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/interfaces/authentication_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
@@ -99,6 +100,8 @@ class AuthService extends AuthenticationInterface {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: mail, password: pwd);
       if (userCredential.user != null) {
+        final _defImageUrl =
+            await StorageService().getDefaultAssocaitonBannerUrl();
         final newAssociation = Association.application(
             userCredential.user!.uid,
             name,
@@ -108,7 +111,7 @@ class AuthService extends AuthenticationInterface {
             city,
             postalCode,
             phone,
-            "", // image URL
+            _defImageUrl, // image URL
             president,
             "",
             [],
