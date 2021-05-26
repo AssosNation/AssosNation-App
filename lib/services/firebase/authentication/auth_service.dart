@@ -1,5 +1,6 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/interfaces/authentication_interface.dart';
+import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -72,11 +73,58 @@ class AuthService extends AuthenticationInterface {
         print('Wrong password provided for that user.');
         return false;
       }
+    } on FirebaseException catch (e) {
+      print("A problem occured when signing in");
+      print(e);
     }
   }
 
   @override
   void signOff() {
     _auth.signOut();
+  }
+
+  @override
+  Future applyAsAssociation(
+      String name,
+      String description,
+      String mail,
+      String phone,
+      String address,
+      String postalCode,
+      String city,
+      String president,
+      String pwd) async {
+    try {
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: mail, password: pwd);
+      if (userCredential.user != null) {
+        final newAssociation = Association.application(
+            userCredential.user!.uid,
+            name,
+            description,
+            mail,
+            address,
+            city,
+            postalCode,
+            phone,
+            "", // image URL
+            president,
+            "",
+            [],
+            []); // type, posts, actions
+        await FireStoreService().addAssociationToDb(newAssociation);
+        signOff();
+        return true;
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        Future.error("The password provided is too weak.");
+      } else if (e.code == 'email-already-in-use') {
+        Future.error("The account already exists for that email.");
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

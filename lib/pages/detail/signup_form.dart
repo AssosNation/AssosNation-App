@@ -1,3 +1,5 @@
+import 'package:assosnation_app/components/forms/form_main_title.dart';
+import 'package:assosnation_app/components/forms/form_subtitle.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,6 @@ class _SignUpFormState extends State<SignUpForm> {
       if (_formKey.currentState!.validate()) {
         dynamic res = await _auth.signUpUserWithAllInfos(
             _mail, _pwd, _firstName, _lastName);
-        print("response => $res");
         if (res == null) {
           _displaySnackBarWithMessage("Failed to connect, try again");
         } else {
@@ -47,22 +48,23 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.92,
-          height: MediaQuery.of(context).size.height * 0.8,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-            child: Form(
-              key: _formKey,
+    return Container(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.92,
+        height: MediaQuery.of(context).size.height * 0.8,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Text("Signing Up"),
+                  FormMainTitle("Signing Up"),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: Column(
                       children: [
+                        FormSubTitle("Global Informations"),
                         TextFormField(
                           decoration: InputDecoration(
                               labelText: "Enter your First Name"),
@@ -96,6 +98,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: Column(
                       children: [
+                        FormSubTitle("Connection Informations"),
                         TextFormField(
                             decoration: InputDecoration(
                                 labelText: "Enter your email address"),
@@ -145,6 +148,14 @@ class _SignUpFormState extends State<SignUpForm> {
                     child: ElevatedButton(
                       onPressed: _verifyAndValidateForm,
                       child: Text("Submit"),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
+                    child: ElevatedButton(
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed("/applyAssociation"),
+                      child: Text("You are an association ? Apply here"),
                     ),
                   )
                 ],
