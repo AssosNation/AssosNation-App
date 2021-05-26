@@ -12,6 +12,7 @@ class Association {
   final String banner;
   final String phone;
   final String president;
+  final bool approved;
 
   final String? type;
   final List<Post>? posts;
@@ -28,6 +29,7 @@ class Association {
       this.phone,
       this.banner,
       this.president,
+      this.approved,
       this.type,
       this.posts,
       this.actions);
@@ -43,6 +45,7 @@ class Association {
       this.phone,
       this.banner,
       this.president,
+      this.approved,
       this.type,
       this.posts,
       this.actions);

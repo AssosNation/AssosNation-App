@@ -113,6 +113,7 @@ class AuthService extends AuthenticationInterface {
             phone,
             _defImageUrl, // image URL
             president,
+            true, // NEED TO CHANGE THAT TO FALSE AFTERWARD
             "",
             [],
             []); // type, posts, actions
