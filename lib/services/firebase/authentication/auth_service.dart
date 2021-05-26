@@ -25,7 +25,6 @@ class AuthService extends AuthenticationInterface {
           .createUserWithEmailAndPassword(email: mail, password: pwd);
 
       await FireStoreService().addUserToDB(userCredential.user);
-      print("createdUser good");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -64,7 +63,6 @@ class AuthService extends AuthenticationInterface {
     try {
       UserCredential userCredential =
           await _auth.signInWithEmailAndPassword(email: mail, password: pwd);
-      print("User connected $userCredential");
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
