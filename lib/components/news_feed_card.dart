@@ -33,17 +33,17 @@ class NewsFeedCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.network(
-                        "https://media-exp1.licdn.com/dms/image/C5603AQG8R8Nn1Ghfog/profile-displayphoto-shrink_200_200/0/1530535669298?e=1626307200&v=beta&t=2-vwdj9T-o48WDBgn5I4m8Fw-FwifUJrJor-nzbTZh4")
+                        "https://media-exp1.licdn.com/dms/image/C5603AQG8R8Nn1Ghfog/profile-displayphoto-shrink_200_200/0/1530535669298?e=1626307200&v=beta&t=2-vwdj9T-o48WDBgn5I4m8Fw-FwifUJrJor-nzbTZh4"),
                   ],
-                )
-              ],
-            ),
-            Column(
-              children: [
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(this._post.content),
+                    Text(
+                      this._post.content,
+                      maxLines: 5,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                    ),
                     ElevatedButton.icon(
                         onPressed: () {},
                         icon: Icon(Icons.whatshot_outlined),

@@ -31,8 +31,7 @@ class _NewsFeedState extends State<NewsFeed> {
                       return Expanded(
                         child: ListView.builder(
                           itemBuilder: (context, index) {
-                            return Expanded(
-                                child: NewsFeedCard(postList[index]));
+                            return NewsFeedCard(postList[index]);
                           },
                           itemCount: postList.length,
                           shrinkWrap: true,
