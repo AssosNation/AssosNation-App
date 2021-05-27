@@ -26,11 +26,14 @@ class _NewsFeedState extends State<NewsFeed> {
                 FutureBuilder(
                   future: FireStoreService().getAllPostsByAssociation(),
                   builder: (context, AsyncSnapshot<List<Post>> snapshot) {
-                    if(snapshot.hasData) {
+                    if (snapshot.hasData) {
                       List<Post> postList = snapshot.data!;
                       return Expanded(
                         child: ListView.builder(
-                          itemBuilder: (context, index) => Expanded(child: NewsFeedCard(postList[index])),
+                          itemBuilder: (context, index) {
+                            return Expanded(
+                                child: NewsFeedCard(postList[index]));
+                          },
                           itemCount: postList.length,
                           shrinkWrap: true,
                         ),
@@ -40,12 +43,9 @@ class _NewsFeedState extends State<NewsFeed> {
                     }
                   },
                 ),
-
               ],
             ),
-
           )
-
         ],
       ),
     );
