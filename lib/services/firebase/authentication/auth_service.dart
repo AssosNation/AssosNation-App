@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/interfaces/authentication_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
@@ -24,7 +25,6 @@ class AuthService extends AuthenticationInterface {
           .createUserWithEmailAndPassword(email: mail, password: pwd);
 
       await FireStoreService().addUserToDB(userCredential.user);
-      print("createdUser good");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -63,7 +63,6 @@ class AuthService extends AuthenticationInterface {
     try {
       UserCredential userCredential =
           await _auth.signInWithEmailAndPassword(email: mail, password: pwd);
-      print("User connected $userCredential");
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -99,6 +98,8 @@ class AuthService extends AuthenticationInterface {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: mail, password: pwd);
       if (userCredential.user != null) {
+        final _defImageUrl =
+            await StorageService().getDefaultAssocaitonBannerUrl();
         final newAssociation = Association.application(
             userCredential.user!.uid,
             name,
@@ -108,8 +109,9 @@ class AuthService extends AuthenticationInterface {
             city,
             postalCode,
             phone,
-            "", // image URL
+            _defImageUrl, // image URL
             president,
+            true, // NEED TO CHANGE THAT TO FALSE AFTERWARD
             "",
             [],
             []); // type, posts, actions

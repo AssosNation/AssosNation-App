@@ -91,6 +91,7 @@ class FireStoreService extends DatabaseInterface {
               e.get("phone"),
               e.get("banner"),
               e.get("president"),
+              e.get("approved"),
               e.get("type"), [], []))
           .toList();
       return assosList;
