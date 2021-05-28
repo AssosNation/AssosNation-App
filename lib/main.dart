@@ -1,6 +1,7 @@
 import 'package:assosnation_app/pages/authentication.dart';
 import 'package:assosnation_app/pages/detail/association_apply_form.dart';
 import 'package:assosnation_app/pages/discover_page.dart';
+import 'package:assosnation_app/pages/messaging_page.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -61,11 +62,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedPage = 0;
+  int _selectedPage = 2;
 
   final List<Widget> _pages = [
     Discover(),
     Discover(),
+    MessagingPage(),
     Discover(),
   ];
 
@@ -80,6 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.saved_search), label: "Discover"),
           BottomNavigationBarItem(
+              icon: Icon(Icons.message), label: "Messaging"),
+          BottomNavigationBarItem(
               icon: Icon(Icons.account_circle), label: "Profile"),
         ],
         onTap: (index) {
@@ -87,6 +91,18 @@ class _MyHomePageState extends State<MyHomePage> {
             _selectedPage = index;
           });
         });
+  }
+
+  Widget _profileImageIfConnected(AnUser? _user) {
+    if (_user != null) {
+      return Padding(
+        padding: const EdgeInsets.all(3),
+        child: CircleAvatar(
+          child: Text(_user.mail.substring(0, 2).toUpperCase()),
+        ),
+      );
+    }
+    return Container();
   }
 
   @override
@@ -97,6 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: _user != null ? _diplayBottomNavBar() : null,
       appBar: AppBar(
+        leading: _profileImageIfConnected(_user),
         title: Text(widget.title),
         actions: [
           _user != null
