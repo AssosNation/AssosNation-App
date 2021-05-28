@@ -100,10 +100,6 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image.asset(
-              'images/logo.png',
-              height: 45,
-            ),
             Container(
                 padding: const EdgeInsets.all(10), child: Text("AssosNation"))
           ],
