@@ -13,7 +13,7 @@ class _MessagingPageState extends State<MessagingPage> {
       children: [
         Expanded(
             child: ListView.builder(
-          itemCount: 5,
+          itemCount: 20,
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
@@ -35,7 +35,9 @@ class _MessagingPageState extends State<MessagingPage> {
                   ],
                 ),
                 trailing: Text("$index h"),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushNamed("/conversation");
+                },
               ),
             );
           },
