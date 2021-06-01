@@ -14,7 +14,7 @@ class Profile extends StatelessWidget {
 
     return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           CircleAvatar(
             //TODO : add a Image in the DB for the user to display it here
@@ -23,7 +23,7 @@ class Profile extends StatelessWidget {
             radius: 60,
           ),
           Column(
-            children: [AnTitle("Alexandro Alterno"), AnTitle(_user!.mail)],
+            children: [AnTitle(_user!.firstName), AnTitle(_user.mail)],
           )
         ],
       ),

@@ -50,8 +50,17 @@ class FireStoreService extends DatabaseInterface {
   }
 
   @override
-  Future getUserInfosFromDB(uid) async {
-    // DocumentReference _userRef = users.doc(uid);
+  Future<AnUser> getUserInfosFromDB(uid) async {
+    CollectionReference _users = _service.collection("users");
+    try {
+      DocumentSnapshot snapshot = await _users.doc(uid).get();
+      final _user = AnUser.withData(uid, snapshot.get('mail'),
+          snapshot.get('firstName'), snapshot.get('lastName'));
+      return _user;
+    } on FirebaseException catch (e) {
+      print(e.message);
+      return Future.error("Error while retrieving all associations");
+    }
   }
 
   @override
