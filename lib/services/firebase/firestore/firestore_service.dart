@@ -27,14 +27,15 @@ class FireStoreService extends DatabaseInterface {
       QuerySnapshot snapshot = await posts.get();
       List<Post> postList = snapshot.docs
           .map((post) => Post(
-          post.get('title'),
-          post.get('assosId').toString(),
-          post.get('likesNumber'),
-          post.get('content'),
-          post.get('photo')))
+              post.get('title'),
+              post.get('assosId').toString(),
+              post.get('likesNumber'),
+              post.get('content'),
+              post.get('photo'),
+              post.get('timestamp').toDate()))
           .toList();
-        return postList;
-      } on FirebaseException catch (e) {
+      return postList;
+    } on FirebaseException catch (e) {
       return Future.error("Error while retrieving all posts");
     }
   }
