@@ -27,6 +27,7 @@ class FireStoreService extends DatabaseInterface {
       QuerySnapshot snapshot = await posts.get();
       List<Post> postList = snapshot.docs
           .map((post) => Post(
+              post.id,
               post.get('title'),
               post.get('assosId').toString(),
               post.get('likesNumber'),

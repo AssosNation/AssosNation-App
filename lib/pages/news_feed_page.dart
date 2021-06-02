@@ -1,8 +1,7 @@
-import 'package:assosnation_app/services/models/post.dart';
-import 'package:flutter/material.dart';
-
 import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/models/post.dart';
+import 'package:flutter/material.dart';
 
 class NewsFeed extends StatefulWidget {
   @override
@@ -50,8 +49,3 @@ class _NewsFeedState extends State<NewsFeed> {
     );
   }
 }
-
-/*
-
-
- */

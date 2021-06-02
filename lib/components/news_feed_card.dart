@@ -1,8 +1,12 @@
+import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
+import 'package:assosnation_app/services/models/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'forms/form_main_title.dart';
+
 class NewsFeedCard extends StatelessWidget {
-  final _post;
+  final Post _post;
 
   NewsFeedCard(this._post);
 
@@ -15,42 +19,91 @@ class NewsFeedCard extends StatelessWidget {
         child: Column(
           children: [
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(this._post.title),
-                    Text(this._post.title),
-                    Text(this._post.title)
-                  ],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
+                        child: CircleAvatar(),
+                      ),
+                      Text(this._post.title)
+                    ],
+                  ),
                 )
               ],
             ),
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.network(
-                        "https://media-exp1.licdn.com/dms/image/C5603AQG8R8Nn1Ghfog/profile-displayphoto-shrink_200_200/0/1530535669298?e=1626307200&v=beta&t=2-vwdj9T-o48WDBgn5I4m8Fw-FwifUJrJor-nzbTZh4"),
-                  ],
+                FormMainTitle(
+                  this._post.title,
                 ),
                 Row(
                   children: [
-                    Text(
-                      this._post.content,
-                      maxLines: 5,
-                      softWrap: false,
-                      overflow: TextOverflow.fade,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
+                        child: Text(
+                          this._post.content,
+                          maxLines: 5,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ),
-                    ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: Icon(Icons.whatshot_outlined),
-                        label: Text("Like")),
-                    Text(this._post.likesNumber.toString())
                   ],
-                )
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FutureBuilder(
+                        future: StorageService().getImageByPost(_post.id),
+                        builder: (ctx, AsyncSnapshot<String> snapshots) {
+                          if (snapshots.hasData) {
+                            switch (snapshots.connectionState) {
+                              case ConnectionState.done:
+                                return Image.network(
+                                  snapshots.data!,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                );
+                              case ConnectionState.waiting:
+                                return CircularProgressIndicator();
+                              case ConnectionState.active:
+                                return CircularProgressIndicator();
+                              case ConnectionState.none:
+                                return CircularProgressIndicator();
+                            }
+                          }
+                          return Container();
+                        }),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                      child: Icon(
+                        Icons.thumb_up,
+                        color: Theme.of(context).accentColor,
+                      ),
+                    ),
+                    Text(this._post.likesNumber.toString()),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.thumb_up_alt_outlined),
+                        label: Text("Like")),
+                  ],
+                ),
               ],
             ),
           ],
