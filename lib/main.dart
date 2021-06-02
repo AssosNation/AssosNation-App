@@ -1,6 +1,7 @@
 import 'package:assosnation_app/pages/authentication.dart';
 import 'package:assosnation_app/pages/detail/association_apply_form.dart';
 import 'package:assosnation_app/pages/discover_page.dart';
+import 'package:assosnation_app/pages/news_feed_page.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -64,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedPage = 0;
 
   final List<Widget> _pages = [
-    Discover(),
+    NewsFeed(),
     Discover(),
     Discover(),
   ];

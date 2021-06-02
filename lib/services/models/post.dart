@@ -1,7 +1,5 @@
-import 'package:assosnation_app/services/models/user.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Post {
+  final String id;
   final String title;
   final String assosId;
   final int likesNumber;
@@ -9,6 +7,6 @@ class Post {
   final String photo;
   final DateTime timestamp;
 
-  Post(this.title, this.assosId, this.likesNumber, this.content, this.photo,
-      this.timestamp);
+  Post(this.id, this.title, this.assosId, this.likesNumber, this.content,
+      this.photo, this.timestamp);
 }

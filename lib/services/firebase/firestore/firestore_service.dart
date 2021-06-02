@@ -1,6 +1,6 @@
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
-import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,6 +27,7 @@ class FireStoreService extends DatabaseInterface {
       QuerySnapshot snapshot = await posts.get();
       List<Post> postList = snapshot.docs
           .map((post) => Post(
+              post.id,
               post.get('title'),
               post.get('assosId').toString(),
               post.get('likesNumber'),
