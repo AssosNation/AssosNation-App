@@ -8,17 +8,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService extends AuthenticationInterface {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<AnUser?> _userFromFirebaseUser(User _user) async {
-    final _userInfos = await FireStoreService().getUserInfosFromDB(_user.uid);
-    return AnUser.withData(
-        _user.uid, _user.email!, _userInfos.firstName, _userInfos.lastName);
+  AnUser? _userFromFirebaseUser(User _user) {
+    return AnUser.retrieveDataFromDb(_user.uid, _user.email!);
   }
 
   Stream<AnUser?> get user {
     return _auth.authStateChanges().map((_user) {
       if (_user != null) {
-        final toto = _userFromFirebaseUser(_user).then((value) => value);
-        print(toto);
+        return _userFromFirebaseUser(_user);
       } else
         return null;
     });
