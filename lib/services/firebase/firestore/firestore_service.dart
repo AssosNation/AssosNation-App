@@ -1,6 +1,7 @@
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
+import 'package:assosnation_app/services/models/message.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -113,15 +114,18 @@ class FireStoreService extends DatabaseInterface {
   @override
   Future getAllConversationsByUser(AnUser user) async {
     CollectionReference _conversations = _service.collection("conversations");
+    DocumentReference _userRef = _service.doc("users/${user.uid}");
     try {
       QuerySnapshot snapshot = await _conversations
-          .where("participants", arrayContains: user.uid)
+          .where("participants", arrayContains: _userRef)
           .get();
 
-      List<Conversation> conversationList = snapshot.docs
-          .map((e) => Conversation(
-              e.id, e.get("title"), e.get("messages"), e.get("participants")))
-          .toList();
+      List<Conversation> _conversationList = snapshot.docs.map((e) {
+        return Conversation(
+            e.id, e.get("title"), e.get("messages"), e.get("participants"));
+      }).toList();
+
+      return _conversationList;
     } on FirebaseException catch (e) {
       print("Error while adding association to database");
       print(e.message);
@@ -129,8 +133,24 @@ class FireStoreService extends DatabaseInterface {
   }
 
   @override
-  Future getAllMessagesByConversation(Conversation conversation) {
-    // TODO: implement getAllMessagesByConversation
-    throw UnimplementedError();
+  Future<List<Message>> getAllMessagesByConversation(
+      Conversation _conversation) async {
+    CollectionReference _messages = _service.collection("messages");
+    DocumentReference _docRef =
+        _service.doc("conversations/${_conversation.uid}");
+    try {
+      QuerySnapshot snapshot =
+          await _messages.where("convId", isEqualTo: _docRef).get();
+
+      List<Message> _messageList = snapshot.docs
+          .map((e) => Message(e.id, e.get("content"), e.get("convId"),
+              e.get("sender"), e.get("timestamp")))
+          .toList();
+      return _messageList;
+    } on FirebaseException catch (e) {
+      print("Error when getting messages from conversation $_conversation");
+      return Future.error(
+          "Error when getting messages from conversation $_conversation");
+    }
   }
 }
