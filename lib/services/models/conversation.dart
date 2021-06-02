@@ -1,10 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/models/message.dart';
 
 class Conversation {
-  final String _uid;
+  final String uid;
   final String title;
-  final List<DocumentReference> messages;
-  final List<DocumentReference> participants;
+  List messages;
+  List participants;
 
-  Conversation(this._uid, this.title, this.messages, this.participants);
+  Conversation(this.uid, this.title, this.messages, this.participants) {
+    _retrieveAllMessagesFromDb();
+  }
+
+  FireStoreService _service = FireStoreService();
+
+  _retrieveAllMessagesFromDb() async {
+    List<Message> _messages = await _service.getAllMessagesByConversation(this);
+    messages = _messages;
+    print(_messages);
+  }
 }

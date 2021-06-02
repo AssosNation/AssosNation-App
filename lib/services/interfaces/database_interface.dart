@@ -1,5 +1,6 @@
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
+import 'package:assosnation_app/services/models/message.dart';
 import 'package:assosnation_app/services/models/user.dart';
 
 abstract class DatabaseInterface {
@@ -13,5 +14,6 @@ abstract class DatabaseInterface {
   Future addAssociationToDb(Association association);
   Future<List<Association>> getSubscribedAssociationByUser(String uid);
   Future getAllConversationsByUser(AnUser user);
-  Future getAllMessagesByConversation(Conversation conversation);
+  Future<List<Message>> getAllMessagesByConversation(
+      Conversation _conversation);
 }

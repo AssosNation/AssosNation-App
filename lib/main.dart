@@ -1,10 +1,12 @@
 import 'package:assosnation_app/pages/authentication.dart';
 import 'package:assosnation_app/pages/detail/association_apply_form.dart';
+import 'package:assosnation_app/pages/detail/conversation_page.dart';
 import 'package:assosnation_app/pages/discover_page.dart';
 import 'package:assosnation_app/pages/messaging_page.dart';
 import 'package:assosnation_app/pages/news_feed_page.dart';
 import 'package:assosnation_app/pages/profile_page.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
+import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -42,6 +44,7 @@ class MyApp extends StatelessWidget {
             initialRoute: "/",
             routes: {
               "/applyAssociation": (_) => AssociationApplyForm(),
+              "/conversation": (Conversation _conv) => ConversationPage(_conv),
             },
           );
         }
@@ -115,6 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: _user != null ? _diplayBottomNavBar() : null,
       appBar: AppBar(
+        centerTitle: true,
         leading: _profileImageIfConnected(_user),
         title: Text(widget.title),
         actions: [
