@@ -204,3 +204,4 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 /pubspec.lock
 /android/.idea/
+/android/.idea/gradle.xml

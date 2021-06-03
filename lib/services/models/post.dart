@@ -5,6 +5,7 @@ class Post {
   final int likesNumber;
   final String content;
   final String photo;
+
   final DateTime timestamp;
 
   Post(this.id, this.title, this.assosId, this.likesNumber, this.content,
