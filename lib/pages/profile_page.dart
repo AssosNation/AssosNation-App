@@ -12,7 +12,7 @@ class Profile extends StatelessWidget {
 
     final _user = context.watch<AnUser?>();
 
-    return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -23,7 +23,13 @@ class Profile extends StatelessWidget {
             radius: 60,
           ),
           Column(
-            children: [AnTitle(_user!.firstName), AnTitle(_user.mail)],
+            children: [
+              Row(children: [
+                AnTitle(_user!.firstName),
+                AnTitle(_user.lastName)
+              ]),
+              AnTitle(_user.mail)
+            ],
           )
         ],
       ),
