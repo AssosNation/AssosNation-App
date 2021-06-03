@@ -3,15 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
 
-  final String name;
+  final String title;
   final String assosId;
   final int likesNumber;
   final String content;
   final String photo;
-  final Timestamp timestamp;
-  final List<AnUser> usersWhoLiked;
 
-  Post(this.name, this.assosId, this.likesNumber, this.content, this.photo,
-      this.timestamp, this.usersWhoLiked);
-
+  Post(this.title, this.assosId, this.likesNumber, this.content, this.photo);
 }
