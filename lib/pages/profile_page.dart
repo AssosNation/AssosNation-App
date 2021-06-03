@@ -39,8 +39,7 @@ class Profile extends StatelessWidget {
         ],
       ),
       AnTitle("Mes associations"),
-      Flexible(
-        flex: 1,
+      Expanded(
         child: FutureBuilder(
             future:
                 FireStoreService().getSubscribedAssociationByUser(_user.uid),
@@ -59,6 +58,7 @@ class Profile extends StatelessWidget {
                               return Card(
                                 color: Theme.of(context).accentColor,
                                 child: ListTile(
+                                  onTap: () {},
                                   title: Text(assosList[index].name),
                                   subtitle: Text(assosList[index].description),
                                 ),
