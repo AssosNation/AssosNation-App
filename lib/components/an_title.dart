@@ -17,7 +17,7 @@ class AnTitle extends StatelessWidget {
               _title,
               style: TextStyle(
                   fontSize: 20.0,
-                  color: Colors.blue,
+                  color: Colors.teal,
                   fontWeight: FontWeight.w600),
             ),
           ],

@@ -1,6 +1,6 @@
+import 'package:assosnation_app/pages/detail/signin_form.dart';
 import 'package:flutter/material.dart';
 
-import 'detail/signin_form.dart';
 import 'detail/signup_form.dart';
 
 class Authentication extends StatefulWidget {
@@ -20,30 +20,27 @@ class _AuthenticationState extends State<Authentication> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TextButton(
+              ElevatedButton(
                   onPressed: () => setState(() => _isSigningUp = false),
                   child: Text("Sign-In")),
-              TextButton(
+              ElevatedButton(
                   onPressed: () => setState(() => _isSigningUp = true),
                   child: Text("Sign-Up")),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
-                child: _isSigningUp == false ? SignInForm() : SignUpForm(),
-              ),
-            ],
-          )
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: _isSigningUp == false ? SignInForm() : SignUpForm(),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 }
-
-/*
-
-
- */

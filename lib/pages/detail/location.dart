@@ -10,7 +10,6 @@ class Location extends StatefulWidget {
 }
 
 class _LocationState extends State<Location> {
-  final position = LocationService().determinePosition();
   Completer<GoogleMapController> _controller = Completer();
 
   @override
@@ -23,8 +22,13 @@ class _LocationState extends State<Location> {
               case ConnectionState.done:
                 return GoogleMap(
                   initialCameraPosition: LocationService().defaultPos,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  compassEnabled: true,
                   onMapCreated: (controller) {
                     _controller.complete(controller);
+                    controller.animateCamera(
+                        CameraUpdate.newCameraPosition(snapshot.data));
                   },
                 );
               case ConnectionState.waiting:
@@ -35,7 +39,11 @@ class _LocationState extends State<Location> {
                 return CircularProgressIndicator();
             }
           } else if (snapshot.hasError) {
-            return Container();
+            return Container(
+              height: 200,
+              width: 200,
+              color: Colors.grey,
+            );
           } else {
             return CircularProgressIndicator();
           }
