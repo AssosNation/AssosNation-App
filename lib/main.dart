@@ -1,6 +1,7 @@
 import 'package:assosnation_app/pages/authentication.dart';
 import 'package:assosnation_app/pages/detail/association_apply_form.dart';
 import 'package:assosnation_app/pages/discover_page.dart';
+import 'package:assosnation_app/pages/messaging_page.dart';
 import 'package:assosnation_app/pages/news_feed_page.dart';
 import 'package:assosnation_app/pages/profile_page.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
@@ -68,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> _pages = [
     NewsFeed(),
     Discover(),
+    MessagingPage(),
     Profile(),
   ];
 
@@ -82,6 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.saved_search), label: "Discover"),
           BottomNavigationBarItem(
+              icon: Icon(Icons.message), label: "Messaging"),
+          BottomNavigationBarItem(
               icon: Icon(Icons.account_circle), label: "Profile"),
         ],
         onTap: (index) {
@@ -89,6 +93,18 @@ class _MyHomePageState extends State<MyHomePage> {
             _selectedPage = index;
           });
         });
+  }
+
+  Widget _profileImageIfConnected(AnUser? _user) {
+    if (_user != null) {
+      return Padding(
+        padding: const EdgeInsets.all(3),
+        child: CircleAvatar(
+          child: Text(_user.mail.substring(0, 2).toUpperCase()),
+        ),
+      );
+    }
+    return Container();
   }
 
   @override
@@ -99,13 +115,8 @@ class _MyHomePageState extends State<MyHomePage> {
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: _user != null ? _diplayBottomNavBar() : null,
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-                padding: const EdgeInsets.all(10), child: Text("AssosNation"))
-          ],
-        ),
+        leading: _profileImageIfConnected(_user),
+        title: Text(widget.title),
         actions: [
           _user != null
               ? ElevatedButton(
