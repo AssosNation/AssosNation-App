@@ -103,8 +103,8 @@ class AuthService extends AuthenticationInterface {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: mail, password: pwd);
       if (userCredential.user != null) {
-        final _defImageUrl =
-            await StorageService().getDefaultAssocaitonBannerUrl();
+        final _defImageUrl = await StorageService()
+            .getDefaultAssocaitonBannerUrl(); // We retrieve the default image for an association
         final newAssociation = Association.application(
             userCredential.user!.uid,
             name,
@@ -118,6 +118,7 @@ class AuthService extends AuthenticationInterface {
             president,
             true, // NEED TO CHANGE THAT TO FALSE AFTERWARD
             "",
+            [],
             [],
             []); // type, posts, actions
         await FireStoreService().addAssociationToDb(newAssociation);

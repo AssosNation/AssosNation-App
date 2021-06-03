@@ -15,7 +15,7 @@ class Profile extends StatelessWidget {
     final _user = context.watch<AnUser?>();
 
     if (_user != null)
-      FireStoreService().getAssociationsByUser(_user.subscriptions);
+      FireStoreService().getSubscribedAssociationByUser(_user.uid);
 
     return Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       Row(
@@ -42,7 +42,8 @@ class Profile extends StatelessWidget {
       Flexible(
         flex: 1,
         child: FutureBuilder(
-            future: FireStoreService().getAllAssociations(),
+            future:
+                FireStoreService().getSubscribedAssociationByUser(_user.uid),
             builder: (ctx, AsyncSnapshot<List<Association>> snapshot) {
               if (snapshot.hasData) {
                 switch (snapshot.connectionState) {
@@ -51,17 +52,16 @@ class Profile extends StatelessWidget {
                   case ConnectionState.done:
                     List<Association> assosList = snapshot.data!;
                     return Container(
-                        height: 200.0,
                         child: ListView.builder(
                             padding: const EdgeInsets.all(8),
                             itemCount: assosList.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                height: 50,
-                                color: Colors.cyan,
-                                child: Center(
-                                    child:
-                                        Text('Asso ${assosList[index].name}')),
+                              return Card(
+                                color: Theme.of(context).accentColor,
+                                child: ListTile(
+                                  title: Text(assosList[index].name),
+                                  subtitle: Text(assosList[index].description),
+                                ),
                               );
                             }));
                   case ConnectionState.none:

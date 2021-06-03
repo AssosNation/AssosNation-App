@@ -91,7 +91,10 @@ class FireStoreService extends DatabaseInterface {
               e.get("banner"),
               e.get("president"),
               e.get("approved"),
-              e.get("type"), [], []))
+              e.get("type"),
+              e.get("posts"),
+              e.get("actions"),
+              e.get("subscribers")))
           .toList();
       return assosList;
     } on FirebaseException catch (e) {
@@ -101,11 +104,9 @@ class FireStoreService extends DatabaseInterface {
   }
 
   @override
-  Future addAssociationToDb(association) async {
+  Future addAssociationToDb(Association association) async {
     CollectionReference assos = _service.collection("associations");
     try {
-      association as Association;
-
       await assos.doc(association.uid).set({
         'name': association.name,
         'description': association.description,
@@ -119,6 +120,7 @@ class FireStoreService extends DatabaseInterface {
         'type': "",
         'posts': [],
         'actions': [],
+        'subscribers': [],
         'approved':
             true // TODO need to change this after everything will be fine
       });
@@ -129,15 +131,30 @@ class FireStoreService extends DatabaseInterface {
   }
 
   @override
-  Future getAssociationsByUser(List? subscriptions) async {
+  Future<List<Association>> getSubscribedAssociationByUser(String uid) async {
     CollectionReference associations = _service.collection("associations");
     try {
-      if (subscriptions != null) {
-        List subs = subscriptions.map((e) => e.id.toString()).toList();
-        print(subs);
-        QuerySnapshot snapshot = await associations.get();
-        print('TOTO ${snapshot.docs}');
-      }
+      final snapshot =
+          await associations.where("subscribers", arrayContains: uid).get();
+      List<Association> _subAssosList = snapshot.docs
+          .map((e) => Association(
+              e.id,
+              e.get("name"),
+              e.get("description"),
+              e.get("mail"),
+              e.get("address"),
+              e.get("city"),
+              e.get("postalCode"),
+              e.get("phone"),
+              e.get("banner"),
+              e.get("president"),
+              e.get("approved"),
+              e.get("type"),
+              e.get("posts"),
+              e.get("actions"),
+              e.get("subscribers")))
+          .toList();
+      return _subAssosList;
     } on FirebaseException catch (e) {
       print(e.message);
       return Future.error("Error while retrieving all associations");

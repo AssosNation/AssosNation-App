@@ -8,8 +8,8 @@ abstract class DatabaseInterface {
   Future getAllConversations();
   Future getAllMessagesByConversation();
   Future addUserToDB(user);
-  Future<AnUser?> getUserInfosFromDB(uid);
-  Future removeUserFromDB(uid);
-  Future addAssociationToDb(association);
-  Future getAssociationsByUser(List? subscriptions);
+  Future<AnUser?> getUserInfosFromDB(String uid);
+  Future removeUserFromDB(String uid);
+  Future addAssociationToDb(Association association);
+  Future<List<Association>> getSubscribedAssociationByUser(String uid);
 }
