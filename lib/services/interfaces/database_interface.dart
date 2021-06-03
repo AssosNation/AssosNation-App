@@ -11,4 +11,5 @@ abstract class DatabaseInterface {
   Future<AnUser?> getUserInfosFromDB(uid);
   Future removeUserFromDB(uid);
   Future addAssociationToDb(association);
+  Future getAssociationsByUser(List? subscriptions);
 }

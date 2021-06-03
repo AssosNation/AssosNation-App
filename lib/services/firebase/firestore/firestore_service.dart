@@ -127,4 +127,20 @@ class FireStoreService extends DatabaseInterface {
       print(e.message);
     }
   }
+
+  @override
+  Future getAssociationsByUser(List? subscriptions) async {
+    CollectionReference associations = _service.collection("associations");
+    try {
+      if (subscriptions != null) {
+        List subs = subscriptions.map((e) => e.id.toString()).toList();
+        print(subs);
+        QuerySnapshot snapshot = await associations.get();
+        print('TOTO ${snapshot.docs}');
+      }
+    } on FirebaseException catch (e) {
+      print(e.message);
+      return Future.error("Error while retrieving all associations");
+    }
+  }
 }

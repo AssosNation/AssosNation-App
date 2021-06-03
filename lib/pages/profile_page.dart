@@ -1,4 +1,6 @@
 import 'package:assosnation_app/components/an_title.dart';
+import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +13,9 @@ class Profile extends StatelessWidget {
     final List<int> colorCodes = <int>[600, 500, 100];
 
     final _user = context.watch<AnUser?>();
+
+    if (_user != null)
+      FireStoreService().getAssociationsByUser(_user.subscriptions);
 
     return Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       Row(
@@ -34,18 +39,40 @@ class Profile extends StatelessWidget {
         ],
       ),
       AnTitle("Mes associations"),
-      Container(
-          height: 200.0,
-          child: ListView.builder(
-              padding: const EdgeInsets.all(8),
-              itemCount: associations.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: 50,
-                  color: Colors.amber[colorCodes[index]],
-                  child: Center(child: Text('Asso ${associations[index]}')),
-                );
-              }))
+      Flexible(
+        flex: 1,
+        child: FutureBuilder(
+            future: FireStoreService().getAllAssociations(),
+            builder: (ctx, AsyncSnapshot<List<Association>> snapshot) {
+              if (snapshot.hasData) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return CircularProgressIndicator();
+                  case ConnectionState.done:
+                    List<Association> assosList = snapshot.data!;
+                    return Container(
+                        height: 200.0,
+                        child: ListView.builder(
+                            padding: const EdgeInsets.all(8),
+                            itemCount: assosList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                height: 50,
+                                color: Colors.cyan,
+                                child: Center(
+                                    child:
+                                        Text('Asso ${assosList[index].name}')),
+                              );
+                            }));
+                  case ConnectionState.none:
+                    return CircularProgressIndicator();
+                  case ConnectionState.active:
+                    return CircularProgressIndicator();
+                }
+              }
+              return Container();
+            }),
+      ),
     ]);
   }
 }
