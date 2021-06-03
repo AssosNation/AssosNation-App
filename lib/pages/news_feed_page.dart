@@ -25,19 +25,32 @@ class _NewsFeedState extends State<NewsFeed> {
                   future: FireStoreService().getAllPostsByAssociation(),
                   builder: (context, AsyncSnapshot<List<Post>> snapshot) {
                     if (snapshot.hasData) {
-                      List<Post> postList = snapshot.data!;
-                      return Expanded(
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            return NewsFeedCard(postList[index]);
-                          },
-                          itemCount: postList.length,
-                          shrinkWrap: true,
-                        ),
-                      );
-                    } else {
-                      return Text("Pas de news pour toi l'ami");
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.none:
+                          return CircularProgressIndicator();
+                        case ConnectionState.waiting:
+                          return CircularProgressIndicator();
+                        case ConnectionState.active:
+                          break;
+                        case ConnectionState.done:
+                          List<Post> postList = snapshot.data!;
+                          return Expanded(
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                return NewsFeedCard(postList[index]);
+                              },
+                              itemCount: postList.length,
+                              shrinkWrap: true,
+                            ),
+                          );
+                      }
                     }
+                    if (snapshot.hasError) {
+                      return Container(
+                        child: Text("Something wrong happened"),
+                      );
+                    }
+                    return Container();
                   },
                 ),
               ],
