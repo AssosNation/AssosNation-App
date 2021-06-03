@@ -1,5 +1,6 @@
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,12 +12,6 @@ class FireStoreService extends DatabaseInterface {
   @override
   Future getAllConversations() {
     // TODO: implement getAllConversations
-    throw UnimplementedError();
-  }
-
-  @override
-  Future getAllMessagesByConversation() {
-    // TODO: implement getAllMessagesByConversation
     throw UnimplementedError();
   }
 
@@ -175,5 +170,29 @@ class FireStoreService extends DatabaseInterface {
       print(e.message);
       return Future.error("Error while retrieving all associations");
     }
+  }
+
+  @override
+  Future getAllConversationsByUser(AnUser user) async {
+    CollectionReference _conversations = _service.collection("conversations");
+    try {
+      QuerySnapshot snapshot = await _conversations
+          .where("participants", arrayContains: user.uid)
+          .get();
+
+      List<Conversation> conversationList = snapshot.docs
+          .map((e) => Conversation(
+              e.id, e.get("title"), e.get("messages"), e.get("participants")))
+          .toList();
+    } on FirebaseException catch (e) {
+      print("Error while adding association to database");
+      print(e.message);
+    }
+  }
+
+  @override
+  Future getAllMessagesByConversation(Conversation conversation) {
+    // TODO: implement getAllMessagesByConversation
+    throw UnimplementedError();
   }
 }
