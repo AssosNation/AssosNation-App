@@ -8,14 +8,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService extends AuthenticationInterface {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  AnUser? _userFromFirebaseUser(User _user) {
-    return AnUser.retrieveDataFromDb(_user.uid, _user.email!);
+  Future<AnUser?> _userFromFirebaseUser(User _user) async {
+    final userInfos = await FireStoreService().getUserInfosFromDB(_user.uid);
+    return AnUser.withData(_user.uid, _user.email!, userInfos.firstName,
+        userInfos.lastName, userInfos.subscriptions);
   }
 
   Stream<AnUser?> get user {
-    return _auth.authStateChanges().map((_user) {
+    return _auth.authStateChanges().asyncMap((_user) async {
       if (_user != null) {
-        return _userFromFirebaseUser(_user);
+        return await _userFromFirebaseUser(_user);
       } else
         return null;
     });
@@ -46,7 +48,7 @@ class AuthService extends AuthenticationInterface {
           .createUserWithEmailAndPassword(email: mail, password: pwd);
       if (userCredential.user != null) {
         final newUser = AnUser.withData(userCredential.user!.uid,
-            userCredential.user!.email!, firstName, lastName);
+            userCredential.user!.email!, firstName, lastName, []);
 
         await FireStoreService().addUserToDB(newUser);
       }

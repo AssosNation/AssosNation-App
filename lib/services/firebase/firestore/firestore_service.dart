@@ -54,12 +54,16 @@ class FireStoreService extends DatabaseInterface {
     CollectionReference _users = _service.collection("users");
     try {
       DocumentSnapshot snapshot = await _users.doc(uid).get();
-      final _user = AnUser.withData(uid, snapshot.get('mail'),
-          snapshot.get('firstName'), snapshot.get('lastName'));
+      final _user = AnUser.withData(
+          uid,
+          snapshot.get('mail'),
+          snapshot.get('firstName'),
+          snapshot.get('lastName'),
+          snapshot.get("subscriptions"));
       return _user;
     } on FirebaseException catch (e) {
       print(e.message);
-      return Future.error("Error while retrieving all associations");
+      return Future.error("Error while retrieving all user data");
     }
   }
 
