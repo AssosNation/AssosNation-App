@@ -1,7 +1,7 @@
+import 'package:assosnation_app/components/event_card.dart';
+import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/models/action.dart';
 import 'package:flutter/material.dart';
-
-import 'detail/signin_form.dart';
-import 'detail/signup_form.dart';
 
 class Calendar extends StatefulWidget {
   @override
@@ -9,45 +9,43 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Expanded(
-                child: ListView(
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      Card(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text("Ceci est un evenement"),
-                              Text("01/01/1990"),
-                              GestureDetector(
-                                onTap: () => {}, //Ajouter au calendrier de son app,
-                                child: Text("Ajouter au calendrier"),
-                              )
-                            ]
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                FutureBuilder(
+                  future: FireStoreService().getAllUserRegisteredActions(),
+                  builder: (context,
+                      AsyncSnapshot<List<AssociationAction>> snapshot) {
+                    if (snapshot.hasData) {
+                      List<AssociationAction> actionList = snapshot.data!;
+                      return Expanded(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return AssociationActionCard(actionList[index]);
+                          },
+                          itemCount: actionList.length,
+                          shrinkWrap: true,
                         ),
-                      )
-                    ]
+                      );
+                    } else {
+                      return Text("Pas d'actions pour toi l'ami");
+                    }
+                  },
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          )
         ],
       ),
     );
   }
 }
-
-/*
-
-
- */

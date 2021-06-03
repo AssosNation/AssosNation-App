@@ -16,7 +16,7 @@ class Association {
 
   final String? type;
   final List<Post>? posts;
-  final List<Action>? actions;
+  final List<AssociationAction>? actions;
 
   Association(
       this.uid,
