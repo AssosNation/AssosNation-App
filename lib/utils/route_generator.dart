@@ -17,7 +17,7 @@ class RouteGenerator {
         print("args => $args");
         if (args is Conversation) {
           return MaterialPageRoute(
-              builder: (context) => ConversationPage(
+              builder: (_) => ConversationPage(
                     conversation: args,
                   ));
         }

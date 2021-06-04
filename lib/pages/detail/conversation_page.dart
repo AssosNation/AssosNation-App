@@ -18,8 +18,7 @@ class ConversationPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Conversation Title"),
-        backwardsCompatibility: true,
+        title: Text(conversation.title),
       ),
       body: Column(
         children: [

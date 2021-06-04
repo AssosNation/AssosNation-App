@@ -4,12 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MessagingPage extends StatefulWidget {
-  @override
-  _MessagingPageState createState() => _MessagingPageState();
-}
+class MessagingPage extends StatelessWidget {
+  const MessagingPage({Key? key}) : super(key: key);
 
-class _MessagingPageState extends State<MessagingPage> {
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
@@ -71,36 +68,3 @@ class _MessagingPageState extends State<MessagingPage> {
     );
   }
 }
-
-/*
-ListView.builder(
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  child: Text("$index"),
-                ),
-                title: Text("Conversation Name"),
-                subtitle: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("Last sender : "),
-                    Expanded(
-                      child: Text(
-                        "Last message sent",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-                trailing: Text("$index h"),
-                onTap: () {
-                  Navigator.of(context).pushNamed("/conversation");
-                },
-              ),
-            );
-          },
-        )
- */

@@ -32,9 +32,10 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.teal,
             ),
             home: StreamProvider<AnUser?>(
-              create: (_) => AuthService().user,
+              create: (context) => AuthService().user,
               initialData: null,
-              child: MyHomePage(key: UniqueKey(), title: appName),
+              builder: (context, child) =>
+                  MyHomePage(key: UniqueKey(), title: appName),
             ),
             initialRoute: "/",
             onGenerateRoute: RouteGenerator.generateRoute,
