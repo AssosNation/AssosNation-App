@@ -26,20 +26,18 @@ class MyApp extends StatelessWidget {
           return Container();
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          return MaterialApp(
-            title: appName,
-            theme: ThemeData(
-              primarySwatch: Colors.teal,
-            ),
-            home: StreamProvider<AnUser?>(
+          return StreamProvider<AnUser?>(
               create: (context) => AuthService().user,
               initialData: null,
-              builder: (context, child) =>
-                  MyHomePage(key: UniqueKey(), title: appName),
-            ),
-            initialRoute: "/",
-            onGenerateRoute: RouteGenerator.generateRoute,
-          );
+              builder: (context, child) => MaterialApp(
+                    title: appName,
+                    theme: ThemeData(
+                      primarySwatch: Colors.teal,
+                    ),
+                    home: MyHomePage(key: UniqueKey(), title: appName),
+                    initialRoute: "/",
+                    onGenerateRoute: RouteGenerator.generateRoute,
+                  ));
         }
         if (snapshot.connectionState == ConnectionState.none) {
           return CircularProgressIndicator();
