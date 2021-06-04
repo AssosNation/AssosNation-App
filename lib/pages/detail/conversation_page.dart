@@ -1,6 +1,5 @@
 import 'package:assosnation_app/components/messaging/send_message_form.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
-import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,10 +7,6 @@ import 'package:provider/provider.dart';
 class ConversationPage extends StatefulWidget {
   @override
   _ConversationPageState createState() => _ConversationPageState();
-
-  final Conversation _conv;
-
-  ConversationPage(this._conv);
 }
 
 class _ConversationPageState extends State<ConversationPage> {
@@ -29,7 +24,7 @@ class _ConversationPageState extends State<ConversationPage> {
           Expanded(
             flex: 10,
             child: FutureBuilder(
-              future: FireStoreService().getAllConversationsByUser(_user!),
+              future: FireStoreService().getAllConversationsByUser(_user),
               builder: (BuildContext build, AsyncSnapshot snapshots) {
                 if (snapshots.hasData) {
                   switch (snapshots.connectionState) {
@@ -42,7 +37,7 @@ class _ConversationPageState extends State<ConversationPage> {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              child: ConversationPage(snapshots.data[index]),
+                              child: ConversationPage(),
                             ),
                           );
                         },

@@ -13,12 +13,12 @@ class _MessagingPageState extends State<MessagingPage> {
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
-    FireStoreService().getAllConversationsByUser(_user!);
+    FireStoreService().getAllConversationsByUser(_user);
     return Column(
       children: [
         Expanded(
             child: FutureBuilder(
-          future: FireStoreService().getAllConversationsByUser(_user!),
+          future: FireStoreService().getAllConversationsByUser(_user),
           builder: (BuildContext build, AsyncSnapshot snapshots) {
             if (snapshots.hasData) {
               switch (snapshots.connectionState) {

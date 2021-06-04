@@ -10,9 +10,6 @@ class AnUser {
   AnUser(this.uid, this.mail);
   AnUser.withData(
       this.uid, this.mail, this.firstName, this.lastName, this.subscriptions);
-  /*AnUser.retrieveDataFromDb(this.uid, this.mail) {
-    _retrieveUserData();
-  }*/
 
   _retrieveUserData() async {
     final _userInfos = await FireStoreService().getUserInfosFromDB(this.uid);

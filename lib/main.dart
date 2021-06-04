@@ -1,13 +1,11 @@
 import 'package:assosnation_app/pages/authentication.dart';
-import 'package:assosnation_app/pages/detail/association_apply_form.dart';
-import 'package:assosnation_app/pages/detail/conversation_page.dart';
 import 'package:assosnation_app/pages/discover_page.dart';
 import 'package:assosnation_app/pages/messaging_page.dart';
 import 'package:assosnation_app/pages/news_feed_page.dart';
 import 'package:assosnation_app/pages/profile_page.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
-import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/route_generator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -42,10 +40,7 @@ class MyApp extends StatelessWidget {
               child: MyHomePage(key: UniqueKey(), title: appName),
             ),
             initialRoute: "/",
-            routes: {
-              "/applyAssociation": (_) => AssociationApplyForm(),
-              "/conversation": (Conversation _conv) => ConversationPage(_conv),
-            },
+            onGenerateRoute: RouteGenerator.generateRoute,
           );
         }
         if (snapshot.connectionState == ConnectionState.none) {

@@ -174,24 +174,27 @@ class FireStoreService extends DatabaseInterface {
   }
 
   @override
-  Future getAllConversationsByUser(AnUser user) async {
-    CollectionReference _conversations = _service.collection("conversations");
-    DocumentReference _userRef = _service.doc("users/${user.uid}");
-    try {
-      QuerySnapshot snapshot = await _conversations
-          .where("participants", arrayContains: _userRef)
-          .get();
+  Future getAllConversationsByUser(AnUser? user) async {
+    if (user != null) {
+      CollectionReference _conversations = _service.collection("conversations");
+      DocumentReference _userRef = _service.doc("users/${user.uid}");
+      try {
+        QuerySnapshot snapshot = await _conversations
+            .where("participants", arrayContains: _userRef)
+            .get();
 
-      List<Conversation> _conversationList = snapshot.docs.map((e) {
-        return Conversation(
-            e.id, e.get("title"), e.get("messages"), e.get("participants"));
-      }).toList();
+        List<Conversation> _conversationList = snapshot.docs.map((e) {
+          return Conversation(
+              e.id, e.get("title"), e.get("messages"), e.get("participants"));
+        }).toList();
 
-      return _conversationList;
-    } on FirebaseException catch (e) {
-      print("Error while adding association to database");
-      print(e.message);
+        return _conversationList;
+      } on FirebaseException catch (e) {
+        print("Error while adding association to database");
+        print(e.message);
+      }
     }
+    return Future.error("User is not connected, something's wrong");
   }
 
   @override
