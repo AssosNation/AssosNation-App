@@ -1,4 +1,5 @@
-import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/messaging/messaging_service.dart';
+import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,39 +15,48 @@ class MessagingPage extends StatelessWidget {
       children: [
         Expanded(
             child: FutureBuilder(
-          future: FireStoreService().getAllConversationsByUser(_user),
-          builder: (BuildContext build, AsyncSnapshot snapshots) {
+          future: MessagingService().getAllConversationsByUser(_user!.uid),
+          builder: (BuildContext build,
+              AsyncSnapshot<List<Conversation>> snapshots) {
             if (snapshots.hasData) {
               switch (snapshots.connectionState) {
                 case ConnectionState.waiting:
                   return CircularProgressIndicator();
                 case ConnectionState.done:
                   return ListView.builder(
-                    itemCount: snapshots.data.length,
+                    itemCount: snapshots.data!.length,
                     itemBuilder: (context, index) {
                       return Card(
                         child: ListTile(
                           leading: CircleAvatar(
-                            child: Text("$index"),
+                            child: Text(
+                                "${snapshots.data![index].title.substring(0, 1)}"),
                           ),
-                          title: Text(snapshots.data[index].title),
+                          title: Text(snapshots.data![index].title),
                           subtitle: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text("Last sender : "),
+                              FutureBuilder(
+                                future: snapshots.data![index]
+                                    .getLastMessageSenderAsync(),
+                                initialData: "",
+                                builder: (context, snapshot) =>
+                                    Text("${snapshot.data} : "),
+                              ),
                               Expanded(
                                 child: Text(
-                                  "Last message sent",
+                                  snapshots.data![index].getLastMessageSent(),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
                           ),
-                          trailing: Text("$index h"),
+                          trailing: Text(
+                              "${snapshots.data![index].getDiffTimeBetweenNowAndLastMessage()} h"),
                           onTap: () {
                             Navigator.of(context).pushNamed("/conversation",
-                                arguments: snapshots.data[index]);
+                                arguments: snapshots.data![index]);
                           },
                         ),
                       );

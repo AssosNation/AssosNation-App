@@ -1,5 +1,3 @@
-import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
-
 class AnUser {
   final String uid;
   final String mail;
@@ -10,11 +8,4 @@ class AnUser {
   AnUser(this.uid, this.mail);
   AnUser.withData(
       this.uid, this.mail, this.firstName, this.lastName, this.subscriptions);
-
-  _retrieveUserData() async {
-    final _userInfos = await FireStoreService().getUserInfosFromDB(this.uid);
-    firstName = _userInfos.firstName;
-    lastName = _userInfos.lastName;
-    subscriptions = _userInfos.subscriptions;
-  }
 }

@@ -1,5 +1,5 @@
 import 'package:assosnation_app/components/messaging/send_message_form.dart';
-import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/messaging/messaging_service.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,8 @@ class ConversationPage extends StatelessWidget {
           Expanded(
             flex: 10,
             child: FutureBuilder(
-              future: FireStoreService().getAllConversationsByUser(_user),
+              future: MessagingService()
+                  .getAllMessagesByConversation(conversation.uid),
               builder: (BuildContext build, AsyncSnapshot snapshots) {
                 if (snapshots.hasData) {
                   switch (snapshots.connectionState) {
