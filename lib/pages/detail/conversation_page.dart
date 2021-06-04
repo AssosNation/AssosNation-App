@@ -1,3 +1,4 @@
+import 'package:assosnation_app/components/messaging/message_card.dart';
 import 'package:assosnation_app/components/messaging/send_message_form.dart';
 import 'package:assosnation_app/services/messaging/messaging_service.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
@@ -39,9 +40,18 @@ class ConversationPage extends StatelessWidget {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              child: Container(
-                                child: Text("msg"),
-                              ),
+                              child: snapshots.data[index]["sender"].id ==
+                                      _user!.uid
+                                  ? MessageCard(
+                                      "${_user.firstName} ${_user.lastName}",
+                                      snapshots.data[index]["content"],
+                                      snapshots.data[index]["timestamp"],
+                                      true)
+                                  : MessageCard(
+                                      "${_user.firstName} ${_user.lastName}",
+                                      snapshots.data[index]["content"],
+                                      snapshots.data[index]["timestamp"],
+                                      false),
                             ),
                           );
                         },
