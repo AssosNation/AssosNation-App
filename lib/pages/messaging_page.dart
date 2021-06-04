@@ -13,7 +13,6 @@ class _MessagingPageState extends State<MessagingPage> {
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
-    FireStoreService().getAllConversationsByUser(_user);
     return Column(
       children: [
         Expanded(
@@ -33,7 +32,7 @@ class _MessagingPageState extends State<MessagingPage> {
                           leading: CircleAvatar(
                             child: Text("$index"),
                           ),
-                          title: Text("Conversation Name"),
+                          title: Text(snapshots.data[index].title),
                           subtitle: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -49,7 +48,8 @@ class _MessagingPageState extends State<MessagingPage> {
                           ),
                           trailing: Text("$index h"),
                           onTap: () {
-                            Navigator.of(context).pushNamed("/conversation");
+                            Navigator.of(context).pushNamed("/conversation",
+                                arguments: snapshots.data[index]);
                           },
                         ),
                       );

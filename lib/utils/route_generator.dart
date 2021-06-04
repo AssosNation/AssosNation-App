@@ -14,8 +14,12 @@ class RouteGenerator {
       case "/applyAssociation":
         return MaterialPageRoute(builder: (_) => AssociationApplyForm());
       case "/conversation":
+        print("args => $args");
         if (args is Conversation) {
-          return MaterialPageRoute(builder: (_) => ConversationPage());
+          return MaterialPageRoute(
+              builder: (context) => ConversationPage(
+                    conversation: args,
+                  ));
         }
         return _errorRoute();
       default:

@@ -1,15 +1,17 @@
 import 'package:assosnation_app/components/messaging/send_message_form.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ConversationPage extends StatefulWidget {
-  @override
-  _ConversationPageState createState() => _ConversationPageState();
-}
+class ConversationPage extends StatelessWidget {
+  final Conversation conversation;
+  ConversationPage({
+    Key? key,
+    required this.conversation,
+  }) : super(key: key);
 
-class _ConversationPageState extends State<ConversationPage> {
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
@@ -37,7 +39,9 @@ class _ConversationPageState extends State<ConversationPage> {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              child: ConversationPage(),
+                              child: Container(
+                                child: Text("msg"),
+                              ),
                             ),
                           );
                         },

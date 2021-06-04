@@ -11,9 +11,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   final appName = "AssosNation";
@@ -27,7 +25,6 @@ class MyApp extends StatelessWidget {
         if (snapshot.hasError) {
           return Container();
         }
-
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
             title: appName,
@@ -53,7 +50,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({required Key key, required this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -62,7 +59,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedPage = 0;
+  int _selectedPage = 2;
 
   final List<Widget> _pages = [
     NewsFeed(),
