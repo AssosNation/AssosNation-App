@@ -40,9 +40,11 @@ class _LocationState extends State<Location> {
             }
           } else if (snapshot.hasError) {
             return Container(
-              height: 200,
-              width: 200,
-              color: Colors.grey,
+              width: MediaQuery.of(context).size.width * 0.92,
+              child: Center(
+                child:
+                    Text("Please activate the location service on your device"),
+              ),
             );
           } else {
             return CircularProgressIndicator();
