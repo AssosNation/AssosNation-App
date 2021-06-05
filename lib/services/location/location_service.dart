@@ -36,8 +36,6 @@ class LocationService implements LocationInterface {
     final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
 
-    print(position);
-
     return CameraPosition(
         target: LatLng(position.latitude, position.longitude), zoom: 15);
   }
