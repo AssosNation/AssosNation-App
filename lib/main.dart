@@ -58,7 +58,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedPage = 2;
+  int _selectedPage = 1;
 
   final List<Widget> _pages = [
     NewsFeed(),
