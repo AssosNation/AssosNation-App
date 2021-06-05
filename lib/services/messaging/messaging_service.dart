@@ -1,5 +1,6 @@
 import 'package:assosnation_app/services/interfaces/messaging_interface.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
+import 'package:assosnation_app/services/models/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MessagingService extends MessagingInterface {
@@ -18,10 +19,9 @@ class MessagingService extends MessagingInterface {
         return Conversation(
             e.id, e.get("title"), e.get("messages"), e.get("participants"));
       }).toList();
+
       return _conversationList;
     } on FirebaseException catch (e) {
-      print("Error when getting Conversations by User");
-      print(e.message);
       return Future.error("Error when getting Conversations by User");
     }
   }
@@ -29,15 +29,29 @@ class MessagingService extends MessagingInterface {
   @override
   Future<List<dynamic>> getAllMessagesByConversation(String convId) async {
     try {
-      DocumentSnapshot conversationSnapshot =
+      DocumentSnapshot snapshot =
           await _service.collection("conversations").doc(convId).get();
 
-      List<dynamic> _messages = conversationSnapshot.get("messages");
-      return _messages;
+      List _messages = snapshot.get("messages");
+      List<Message> msgList = _messages
+          .map((e) => Message(e["content"], e["sender"], e["timestamp"]))
+          .toList();
+      return msgList;
     } on FirebaseException catch (e) {
-      print("Error when getting messages from conversation $convId");
       return Future.error(
           "Error when getting messages from conversation $convId");
+    }
+  }
+
+  Future<String> getParticipantName(DocumentReference ref) async {
+    try {
+      DocumentSnapshot snapshot = await ref.get();
+      if (ref.path.contains("users"))
+        return "${snapshot.get("firstName")} ${snapshot.get("lastName")}";
+      else
+        return snapshot.get("name");
+    } on FirebaseException catch (e) {
+      return Future.error("Error when retrieving participant's name");
     }
   }
 }

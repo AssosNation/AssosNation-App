@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/messaging/messaging_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Conversation {
@@ -6,7 +7,13 @@ class Conversation {
   final String title;
   List messages;
   List participants;
-  Conversation(this.uid, this.title, this.messages, this.participants);
+  List<String> names = [];
+
+  Conversation(this.uid, this.title, this.messages, this.participants) {
+    this.participants.forEach((participant) async {
+      names.add(await MessagingService().getParticipantName(participant));
+    });
+  }
 
   getDiffTimeBetweenNowAndLastMessage() {
     final DateTime currentTime = Timestamp.now().toDate();
@@ -25,9 +32,15 @@ class Conversation {
 
   Future<String> getLastMessageSenderAsync() async {
     try {
-      final user =
-          await FireStoreService().getUserInfosFromDB(_getLastMessageSender());
-      return "${user.firstName} ${user.lastName}";
+      if (messages.last["sender"].toString().contains("users")) {
+        final lastSender = await FireStoreService()
+            .getUserInfosFromDB(_getLastMessageSender());
+        return "${lastSender.firstName} ${lastSender.lastName}";
+      } else {
+        final lastSender = await FireStoreService()
+            .getAssociationInfosFromDB(_getLastMessageSender());
+        return "${lastSender.name}";
+      }
     } on FirebaseException catch (e) {
       Future.error("Error when retrieving user infos for last message");
     }

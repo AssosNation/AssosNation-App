@@ -71,6 +71,34 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
+  Future<Association> getAssociationInfosFromDB(String assosId) async {
+    CollectionReference associations = _service.collection("associations");
+    try {
+      DocumentSnapshot snapshot = await associations.doc(assosId).get();
+
+      final assos = Association(
+          snapshot.id,
+          snapshot.get("name"),
+          snapshot.get("description"),
+          snapshot.get("mail"),
+          snapshot.get("address"),
+          snapshot.get("city"),
+          snapshot.get("postalCode"),
+          snapshot.get("phone"),
+          snapshot.get("banner"),
+          snapshot.get("president"),
+          snapshot.get("approved"),
+          snapshot.get("type"),
+          snapshot.get("posts"),
+          snapshot.get("actions"),
+          snapshot.get("subscribers"));
+      return assos;
+    } on FirebaseException catch (e) {
+      print(e.message);
+      return Future.error("Error while retrieving association data");
+    }
+  }
+
   @override
   Future removeUserFromDB(uid) {
     // TODO: implement removeUserFromDB

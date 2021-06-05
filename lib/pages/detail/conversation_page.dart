@@ -16,7 +16,6 @@ class ConversationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(conversation.title),
@@ -28,29 +27,31 @@ class ConversationPage extends StatelessWidget {
             child: FutureBuilder(
               future: MessagingService()
                   .getAllMessagesByConversation(conversation.uid),
-              builder: (BuildContext build, AsyncSnapshot snapshots) {
+              builder: (BuildContext build, AsyncSnapshot<List> snapshots) {
                 if (snapshots.hasData) {
                   switch (snapshots.connectionState) {
                     case ConnectionState.waiting:
                       return CircularProgressIndicator();
                     case ConnectionState.done:
                       return ListView.builder(
-                        itemCount: snapshots.data.length,
+                        itemCount: snapshots.data!.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              child: snapshots.data[index]["sender"].id ==
+                              child: snapshots.data![index].sender.id ==
                                       _user!.uid
                                   ? MessageCard(
                                       "${_user.firstName} ${_user.lastName}",
-                                      snapshots.data[index]["content"],
-                                      snapshots.data[index]["timestamp"],
+                                      snapshots.data![index].content,
+                                      snapshots.data![index].timestamp,
                                       true)
                                   : MessageCard(
-                                      "${_user.firstName} ${_user.lastName}",
-                                      snapshots.data[index]["content"],
-                                      snapshots.data[index]["timestamp"],
+                                      conversation.names.firstWhere((name) =>
+                                          name !=
+                                          "${_user.firstName} ${_user.lastName}"),
+                                      snapshots.data![index].content,
+                                      snapshots.data![index].timestamp,
                                       false),
                             ),
                           );

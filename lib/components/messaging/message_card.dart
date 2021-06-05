@@ -22,7 +22,7 @@ class MessageCard extends StatelessWidget {
       color: senderIsLocalUser ? Theme.of(context).accentColor : Colors.grey,
       child: ListTile(
         title: Text(
-          sender.toString(),
+          sender,
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Text(content,
