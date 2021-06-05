@@ -8,14 +8,10 @@ import 'package:provider/provider.dart';
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //TODO : change this list with the associations of the user connected
-    final List<String> associations = <String>['1', '2', '3'];
-    final List<int> colorCodes = <int>[600, 500, 100];
-
     final _user = context.watch<AnUser?>();
 
     if (_user != null)
-      FireStoreService().getSubscribedAssociationByUser(_user.uid);
+      FireStoreService().getSubscribedAssociationsByUser(_user.uid);
 
     return Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       Row(
@@ -42,7 +38,7 @@ class Profile extends StatelessWidget {
       Expanded(
         child: FutureBuilder(
             future:
-                FireStoreService().getSubscribedAssociationByUser(_user.uid),
+                FireStoreService().getSubscribedAssociationsByUser(_user.uid),
             builder: (ctx, AsyncSnapshot<List<Association>> snapshot) {
               if (snapshot.hasData) {
                 switch (snapshot.connectionState) {
