@@ -9,6 +9,7 @@ import 'package:assosnation_app/utils/route_generator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
                     title: appName,
                     theme: ThemeData(
                       primarySwatch: Colors.teal,
+                      textTheme: GoogleFonts.montserratTextTheme(
+                        Theme.of(context).textTheme,
+                      ),
                     ),
                     home: MyHomePage(key: UniqueKey(), title: appName),
                     initialRoute: "/",
