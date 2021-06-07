@@ -117,7 +117,6 @@ class Profile extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
-                        Profile();
                       },
                     )
                   ],
