@@ -3,6 +3,8 @@ import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -85,6 +87,49 @@ class Profile extends StatelessWidget {
               return Container();
             }),
       ),
+      CupertinoButton(
+          color: Colors.redAccent,
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  elevation: 50,
+                  title: Icon(
+                    Icons.info_outline_rounded,
+                    color: Colors.redAccent,
+                    size: 55,
+                  ),
+                  content: Text("Are you sure ?"),
+                  actions: [
+                    CupertinoButton(
+                      child: Text("Yes"),
+                      onPressed: () {
+                        final _auth = FirebaseAuth.instance;
+                        _auth.signOut();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    CupertinoButton(
+                      child: Text(
+                        "No",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Profile();
+                      },
+                    )
+                  ],
+                );
+              },
+            );
+          },
+          child: Text(
+            "Sign Out",
+            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+          )),
+      SizedBox(height: 20)
     ]);
   }
 }
