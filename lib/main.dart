@@ -110,7 +110,6 @@ class _MyHomePageState extends State<MyHomePage> {
     final _user = context.watch<AnUser?>();
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       bottomNavigationBar: _user != null ? _diplayBottomNavBar() : null,
       appBar: AppBar(
         centerTitle: true,
