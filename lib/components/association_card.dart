@@ -11,38 +11,50 @@ class AssociationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Stack(
-        children: [
-          Image.network(
-            association.banner,
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.8,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.horizontal(left: Radius.elliptical(2, 1), right: Radius.elliptical(1, 2))
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(5,10, 5, 10),
+        child: Center(
+          child: Stack(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  AssociationCardTitle(association),
-                ],
+              Image.network(
+                association.banner,
+                height: double.infinity,
+                width: double.infinity,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if(loadingProgress == null) return child;
+                  else return Center(child: CircularProgressIndicator());
+                },
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 5, 0, 5),
-                    child: Text(association.city),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      AssociationCardTitle(association),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 5, 15, 5),
-                    child: Text(association.postalCode),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 5, 0, 5),
+                        child: Text(association.city),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 5, 15, 5),
+                        child: Text(association.postalCode),
+                      )
+                    ],
                   )
                 ],
-              )
+              ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
