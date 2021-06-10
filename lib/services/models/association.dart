@@ -1,6 +1,3 @@
-import 'package:assosnation_app/services/models/action.dart';
-import 'package:assosnation_app/services/models/post.dart';
-
 class Association {
   final String uid;
   final String name;
@@ -13,10 +10,10 @@ class Association {
   final String phone;
   final String president;
   final bool approved;
-
   final String? type;
-  final List<Post>? posts;
-  final List<AssociationAction>? actions;
+  final List<dynamic>? posts;
+  final List<dynamic>? actions;
+  List<dynamic> subscribers;
 
   Association(
       this.uid,
@@ -32,7 +29,8 @@ class Association {
       this.approved,
       this.type,
       this.posts,
-      this.actions);
+      this.actions,
+      this.subscribers);
 
   Association.application(
       this.uid,
@@ -48,5 +46,6 @@ class Association {
       this.approved,
       this.type,
       this.posts,
-      this.actions);
+      this.actions,
+      this.subscribers);
 }

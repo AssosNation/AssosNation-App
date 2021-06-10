@@ -35,6 +35,7 @@ class _SignInFormState extends State<SignInForm> {
 
   _displaySnackBarWithMessage(String msg, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      behavior: SnackBarBehavior.floating,
       content: Text(msg),
       backgroundColor: color,
       duration: Duration(seconds: 3),
@@ -43,62 +44,64 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.92,
-        height: MediaQuery.of(context).size.height * 0.8,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                FormMainTitle("Login"),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                          decoration: InputDecoration(
-                              labelText: "Enter your email address"),
-                          keyboardType: TextInputType.emailAddress,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (email) {
-                            if (_isEmailValidated(email!)) {
-                              _mail = email;
-                              return null;
-                            } else if (email.isEmpty)
-                              return "This field cannot be empty";
-                            else
-                              return "This email address is not valid";
-                          }),
-                      TextFormField(
-                        decoration:
-                            InputDecoration(labelText: "Enter your password"),
-                        obscureText: true,
-                        validator: (pwd) {
-                          if (pwd == null || pwd == "")
-                            return "Not a valid password";
-                          _pwd = pwd;
-                          return null;
-                        },
-                        onSaved: (pwdValue) {
-                          if (pwdValue != null) {
-                            setState(() => _pwd = pwdValue);
-                          }
-                        },
-                      )
-                    ],
+    return SingleChildScrollView(
+      child: Container(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.92,
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  FormMainTitle("Login"),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                            decoration: InputDecoration(
+                                labelText: "Enter your email address"),
+                            keyboardType: TextInputType.emailAddress,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            validator: (email) {
+                              if (_isEmailValidated(email!)) {
+                                _mail = email;
+                                return null;
+                              } else if (email.isEmpty)
+                                return "This field cannot be empty";
+                              else
+                                return "This email address is not valid";
+                            }),
+                        TextFormField(
+                          decoration:
+                              InputDecoration(labelText: "Enter your password"),
+                          obscureText: true,
+                          validator: (pwd) {
+                            if (pwd == null || pwd == "")
+                              return "Not a valid password";
+                            _pwd = pwd;
+                            return null;
+                          },
+                          onSaved: (pwdValue) {
+                            if (pwdValue != null) {
+                              setState(() => _pwd = pwdValue);
+                            }
+                          },
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
-                  child: ElevatedButton(
-                    onPressed: _verifyAndValidateForm,
-                    child: Text("Connect"),
-                  ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
+                    child: ElevatedButton(
+                      onPressed: _verifyAndValidateForm,
+                      child: Text("Connect"),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

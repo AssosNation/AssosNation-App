@@ -25,9 +25,17 @@ class StorageService extends StorageInterface {
   }
 
   @override
-  Future getImageByPost() {
-    // TODO: implement getImageByPost
-    throw UnimplementedError();
+  Future<String> getImageByPost(String _postId) async {
+    try {
+      Reference ref = _storage
+          .ref()
+          .child('posts_images')
+          .child('5abb9eb43216742a008b45cc-1334-667.jpg');
+      final _imageUrl = await ref.getDownloadURL();
+      return _imageUrl;
+    } on FirebaseException catch (e) {
+      return Future.error("Cannot find the default image url");
+    }
   }
 
   @override

@@ -15,6 +15,8 @@ class LocationService implements LocationInterface {
   Future<CameraPosition> determinePosition() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      Future.delayed(Duration(seconds: 5));
+      await Geolocator.openLocationSettings();
       return Future.error('Location services are disabled.');
     }
 
@@ -33,8 +35,6 @@ class LocationService implements LocationInterface {
 
     final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
-
-    print(position);
 
     return CameraPosition(
         target: LatLng(position.latitude, position.longitude), zoom: 15);

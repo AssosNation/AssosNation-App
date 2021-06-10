@@ -8,14 +8,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService extends AuthenticationInterface {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  AnUser _userFromFirebaseUser(User _user) {
-    return AnUser(_user.uid, _user.email!);
+  Future<AnUser?> _userFromFirebaseUser(User _user) async {
+    final userInfos = await FireStoreService().getUserInfosFromDB(_user.uid);
+    return AnUser.withData(_user.uid, _user.email!, userInfos.firstName,
+        userInfos.lastName, userInfos.subscriptions);
   }
 
   Stream<AnUser?> get user {
-    return _auth
-        .authStateChanges()
-        .map((_user) => _user != null ? _userFromFirebaseUser(_user) : null);
+    return _auth.authStateChanges().asyncMap((_user) async {
+      if (_user != null) {
+        return await _userFromFirebaseUser(_user);
+      } else
+        return null;
+    });
   }
 
   @override
@@ -43,18 +48,17 @@ class AuthService extends AuthenticationInterface {
           .createUserWithEmailAndPassword(email: mail, password: pwd);
       if (userCredential.user != null) {
         final newUser = AnUser.withData(userCredential.user!.uid,
-            userCredential.user!.email!, firstName, lastName);
+            userCredential.user!.email!, firstName, lastName, []);
 
         await FireStoreService().addUserToDB(newUser);
+        return true;
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        Future.error('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        Future.error('The account already exists for that email.');
       }
-    } catch (e) {
-      print(e);
     }
   }
 
@@ -98,8 +102,8 @@ class AuthService extends AuthenticationInterface {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: mail, password: pwd);
       if (userCredential.user != null) {
-        final _defImageUrl =
-            await StorageService().getDefaultAssocaitonBannerUrl();
+        final _defImageUrl = await StorageService()
+            .getDefaultAssocaitonBannerUrl(); // We retrieve the default image for an association
         final newAssociation = Association.application(
             userCredential.user!.uid,
             name,
@@ -113,6 +117,7 @@ class AuthService extends AuthenticationInterface {
             president,
             true, // NEED TO CHANGE THAT TO FALSE AFTERWARD
             "",
+            [],
             [],
             []); // type, posts, actions
         await FireStoreService().addAssociationToDb(newAssociation);
