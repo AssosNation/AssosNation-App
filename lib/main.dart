@@ -6,7 +6,6 @@ import 'package:assosnation_app/pages/profile_page.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/route_generator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -115,16 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         leading: _profileImageIfConnected(_user),
         title: Text(widget.title),
-        actions: [
-          _user != null
-              ? ElevatedButton(
-                  onPressed: () {
-                    final _auth = FirebaseAuth.instance;
-                    _auth.signOut();
-                  },
-                  child: Text("Sign Out"))
-              : Container()
-        ],
+        actions: [],
       ),
       body: Center(
           child: _user != null ? _pages[_selectedPage] : Authentication()),
