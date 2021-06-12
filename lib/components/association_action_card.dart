@@ -1,6 +1,7 @@
 import 'package:assosnation_app/services/models/associationAction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'forms/form_main_title.dart';
 
@@ -29,7 +30,18 @@ class AssociationActionCard extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
                         child: CircleAvatar(),
                       ),
-                      Text(this.action.association.name)
+                      Text(this.action.association.name),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(DateFormat('dd-MM-yyyy').add_Hm().format(
+                          DateTime.parse(
+                              this.action.startDate.toDate().toString())))
                     ],
                   ),
                 )
@@ -60,11 +72,11 @@ class AssociationActionCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                       child: Icon(
-                        Icons.thumb_up,
+                        Icons.people,
                         color: Theme.of(context).accentColor,
                       ),
                     ),
-                    Text(''),
+                    Text('### de participants'),
                   ],
                 ),
                 Divider(),
@@ -73,8 +85,8 @@ class AssociationActionCard extends StatelessWidget {
                   children: [
                     TextButton.icon(
                         onPressed: () {},
-                        icon: Icon(Icons.thumb_up_alt_outlined),
-                        label: Text("Like")),
+                        icon: Icon(Icons.add),
+                        label: Text("Je participe")),
                   ],
                 ),
               ],

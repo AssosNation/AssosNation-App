@@ -9,6 +9,8 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
+  var _isFirstPart = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,13 +18,26 @@ class _CalendarState extends State<Calendar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  onPressed: () => setState(() => _isFirstPart = true),
+                  child: Text("Actions de mes assos")),
+              ElevatedButton(
+                  onPressed: () => setState(() => _isFirstPart = false),
+                  child: Text("Toutes les actions")),
+            ],
+          ),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 FutureBuilder(
-                  future: FireStoreService().getUserAssociationsByDate(),
+                  future: _isFirstPart
+                      ? FireStoreService().getUserAssociationsByDate()
+                      : FireStoreService().getAllActions(),
                   builder: (context,
                       AsyncSnapshot<List<AssociationAction>> snapshot) {
                     if (snapshot.hasData) {

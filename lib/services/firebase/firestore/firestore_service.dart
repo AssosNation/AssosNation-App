@@ -184,6 +184,27 @@ class FireStoreService extends DatabaseInterface {
       DocumentReference reference) async {
     Association association =
         await this.getAssociationInfosFromDB(reference.id);
+    return this.getActionsByAssociation(association);
+  }
+
+  Future<List<AssociationAction>> getAllActions() async {
+    try {
+      List<Association> associationList = await this.getAllAssociations();
+      List<AssociationAction> actionList = [];
+      for (var association in associationList) {
+        List<AssociationAction> newActionList =
+            this.getActionsByAssociation(association);
+        actionList = actionList + newActionList;
+      }
+      actionList.sort((a, b) => a.startDate.compareTo(b.startDate));
+      return actionList;
+    } on FirebaseException catch (e) {
+      print(e.message);
+      return Future.error("Error while retrieving all actions");
+    }
+  }
+
+  List<AssociationAction> getActionsByAssociation(Association association) {
     List<AssociationAction> actionList = [];
     if (association.actions!.length == 0) {
       return actionList;
