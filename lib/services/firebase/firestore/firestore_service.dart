@@ -293,7 +293,7 @@ class FireStoreService extends DatabaseInterface {
   }
 
   @override
-  Future<List<Association>> getSubscribedAssociationByUser(String uid) async {
+  Future<List<Association>> getSubscribedAssociationsByUser(String uid) async {
     CollectionReference associations = _service.collection("associations");
     try {
       final snapshot =
