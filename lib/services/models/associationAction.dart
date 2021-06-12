@@ -1,6 +1,5 @@
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class AssociationAction {
   final String id;
@@ -10,8 +9,8 @@ class AssociationAction {
   final String address;
   final String description;
   final String type;
-  final DateTime startDate;
-  final DateTime endDate;
+  final Timestamp startDate;
+  final Timestamp endDate;
   final Association association;
 
   AssociationAction(

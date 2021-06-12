@@ -1,6 +1,6 @@
-import 'package:assosnation_app/components/event_card.dart';
+import 'package:assosnation_app/components/association_action_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
-import 'package:assosnation_app/services/models/action.dart';
+import 'package:assosnation_app/services/models/associationAction.dart';
 import 'package:flutter/material.dart';
 
 class Calendar extends StatefulWidget {
@@ -22,7 +22,7 @@ class _CalendarState extends State<Calendar> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 FutureBuilder(
-                  future: FireStoreService().getAllUserRegisteredActions(),
+                  future: FireStoreService().getUserAssociationsByDate(),
                   builder: (context,
                       AsyncSnapshot<List<AssociationAction>> snapshot) {
                     if (snapshot.hasData) {

@@ -1,5 +1,5 @@
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
-import 'package:assosnation_app/services/models/action.dart';
+import 'package:assosnation_app/services/models/associationAction.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
@@ -136,31 +136,6 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
-  //TODO: watch out, never tested
-  Future<Association> getAssociationFromReference(reference) async {
-    DocumentReference association = _service.doc(reference);
-    try {
-      DocumentSnapshot snapshot = await association.get();
-      Association result = Association(
-          snapshot.id,
-          snapshot.get("name"),
-          snapshot.get("description"),
-          snapshot.get("mail"),
-          snapshot.get("address"),
-          snapshot.get("city"),
-          snapshot.get("postalCode"),
-          snapshot.get("phone"),
-          snapshot.get("banner"),
-          snapshot.get("president"),
-          snapshot.get("approved"),
-          snapshot.get("type"), [], [], []);
-      return result;
-    } on FirebaseException catch (e) {
-      print(e.message);
-      return Future.error("Error while retrieving association from reference");
-    }
-  }
-
   @override
   Future addAssociationToDb(Association association) async {
     CollectionReference assos = _service.collection("associations");
@@ -188,7 +163,7 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
-  Future<List<AssociationAction>> getAllUserRegisteredActions() async {
+  Future<List<AssociationAction>> getActionsByAssociations() async {
     DocumentReference user = _service
         .collection("users")
         .doc('8DcvbXT3K9Y7rslyQ16bryiNoX52'); //TODO: change to connected user
@@ -198,6 +173,52 @@ class FireStoreService extends DatabaseInterface {
           .get('actions')
           .map((e) async => this.getActionByReference(e))
           .toList();
+      return actionList;
+    } on FirebaseException catch (e) {
+      print(e.message);
+      return Future.error("Error while retrieving all actions of user");
+    }
+  }
+
+  Future<List<AssociationAction>> getActionByAssociationReference(
+      DocumentReference reference) async {
+    Association association =
+        await this.getAssociationInfosFromDB(reference.id);
+    List<AssociationAction> actionList = [];
+    if (association.actions!.length == 0) {
+      return actionList;
+    }
+
+    association.actions?.forEach((e) => {
+          actionList.add(AssociationAction(
+              e.hashCode.toString(),
+              e['title'],
+              e['city'],
+              e['postalCode'],
+              e['address'],
+              e['description'],
+              e['type'],
+              e['startDate'],
+              e['endDate'],
+              association))
+        });
+    return actionList;
+  }
+
+  Future<List<AssociationAction>> getUserAssociationsByDate() async {
+    DocumentReference user = _service
+        .collection("users")
+        .doc('8DcvbXT3K9Y7rslyQ16bryiNoX52'); //TODO: change to connected user
+    try {
+      DocumentSnapshot snapshot = await user.get();
+      List associationList = snapshot.get('subscriptions').toList();
+      List<AssociationAction> actionList = [];
+      for (var reference in associationList) {
+        List<AssociationAction> newActionList =
+            await this.getActionByAssociationReference(reference);
+        actionList = actionList + newActionList;
+      }
+      actionList.sort((a, b) => a.startDate.compareTo(b.startDate));
       return actionList;
     } on FirebaseException catch (e) {
       print(e.message);
@@ -219,7 +240,8 @@ class FireStoreService extends DatabaseInterface {
 
   Future<AssociationAction> getActionByReference(
       DocumentReference reference) async {
-    DocumentReference associationAction = _service.doc(reference.toString());
+    DocumentReference associationAction =
+        _service.doc('actions/${reference.id.toString()}');
     try {
       DocumentSnapshot snapshot = await associationAction.get();
       return AssociationAction(
@@ -232,10 +254,9 @@ class FireStoreService extends DatabaseInterface {
           snapshot.get('type'),
           snapshot.get('startDate'),
           snapshot.get('endDate'),
-          await this.getAssociationFromReference(snapshot.get("association")));
+          await this.getAssociationInfosFromDB(snapshot.get("assosId")));
     } on FirebaseException catch (e) {
-      return Future.error(
-          "Error while resolving action"); //TODO: error with permission here
+      return Future.error("Error while resolving action");
     }
   }
 
@@ -247,7 +268,7 @@ class FireStoreService extends DatabaseInterface {
       List<AssociationAction> actionList = snapshot.docs
           .map((e) async => {
                 this
-                    .getAssociationFromReference(e.get("association"))
+                    .getAssociationInfosFromDB(e.get("association"))
                     .then((association) => {
                           AssociationAction(
                               e.id,

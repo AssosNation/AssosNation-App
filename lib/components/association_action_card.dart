@@ -1,5 +1,4 @@
-import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
-import 'package:assosnation_app/services/models/action.dart';
+import 'package:assosnation_app/services/models/associationAction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
