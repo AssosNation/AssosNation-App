@@ -72,7 +72,11 @@ class Profile extends StatelessWidget {
                                 elevation: 20,
                                 color: Theme.of(context).accentColor,
                                 child: ListTile(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                        "/associationDetails",
+                                        arguments: assosList[index]);
+                                  },
                                   title: Text(assosList[index].name),
                                   subtitle: Text(assosList[index].description),
                                 ),
