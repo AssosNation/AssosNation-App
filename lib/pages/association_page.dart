@@ -1,23 +1,15 @@
 import 'package:assosnation_app/components/an_bigTitle.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
-import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AssociationDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _user = context.watch<AnUser?>();
-
-    if (_user != null)
-      FireStoreService().getSubscribedAssociationsByUser(_user.uid);
-
-    return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+    return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       FutureBuilder(
-          future:
-              FireStoreService().getSubscribedAssociationsByUser(_user!.uid),
+          future: FireStoreService().getAllAssociations(),
           builder: (ctx, AsyncSnapshot<List<Association>> snapshot) {
             if (snapshot.hasData) {
               switch (snapshot.connectionState) {
@@ -26,10 +18,13 @@ class AssociationDetails extends StatelessWidget {
                 case ConnectionState.done:
                   return Column(
                     children: [
-                      SizedBox(height: 30),
+                      SizedBox(height: 20),
                       AnBigTitle(snapshot.data![0].name),
-                      SizedBox(height: 40),
-                      Image.network(snapshot.data![0].banner)
+                      SizedBox(height: 30),
+                      Image.network(
+                        snapshot.data![0].banner,
+                        width: MediaQuery.of(context).size.width,
+                      )
                     ],
                   );
                 case ConnectionState.none:
@@ -40,6 +35,35 @@ class AssociationDetails extends StatelessWidget {
             }
             return Container();
           }),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.add_box),
+            color: Colors.lightGreen,
+            iconSize: 30,
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.message_outlined),
+            color: Colors.lightGreen,
+            iconSize: 30,
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.date_range),
+            color: Colors.lightGreen,
+            iconSize: 30,
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.menu),
+            color: Colors.lightGreen,
+            iconSize: 30,
+            onPressed: () {},
+          ),
+        ],
+      )
     ]);
   }
 }
