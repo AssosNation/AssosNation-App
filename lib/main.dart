@@ -73,7 +73,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _diplayBottomNavBar() {
     return BottomNavigationBar(
         currentIndex: _selectedPage,
-        unselectedItemColor: Colors.teal,
+        unselectedItemColor: Colors.teal[400],
+        selectedItemColor: Colors.teal,
+        selectedFontSize: 16,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
