@@ -1,3 +1,4 @@
+import 'package:assosnation_app/components/DescriptionAsso.dart';
 import 'package:assosnation_app/components/an_bigTitle.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
@@ -42,34 +43,59 @@ class AssociationDetails extends StatelessWidget {
               return Container();
             }),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(CupertinoIcons.location),
+                    Text(assos.address),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Icon(Icons.location_city_rounded),
+                    Text(assos.city),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Icon(CupertinoIcons.phone),
+                    Text(assos.phone)
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Icon(CupertinoIcons.person_alt_circle),
+                    Text(assos.president)
+                  ],
+                ),
+              ],
+            ),
             IconButton(
               icon: const Icon(Icons.add_box),
-              color: Colors.lightGreen,
+              color: Colors.teal[200],
               iconSize: 30,
               onPressed: () {},
             ),
             IconButton(
               icon: const Icon(Icons.message_outlined),
-              color: Colors.lightGreen,
+              color: Colors.teal[200],
               iconSize: 30,
               onPressed: () {},
             ),
             IconButton(
               icon: const Icon(Icons.date_range),
-              color: Colors.lightGreen,
-              iconSize: 30,
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.menu),
-              color: Colors.lightGreen,
+              color: Colors.teal[200],
               iconSize: 30,
               onPressed: () {},
             ),
           ],
         ),
+        SizedBox(height: 40),
+        DescriptionAsso(assos.description),
       ]),
     );
   }
