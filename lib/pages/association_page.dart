@@ -48,35 +48,6 @@ class AssociationDetails extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(CupertinoIcons.location),
-                      Text(assos.address),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Icon(Icons.location_city_rounded),
-                      Text(assos.city),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Icon(CupertinoIcons.phone),
-                      Text(assos.phone)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Icon(CupertinoIcons.person_alt_circle),
-                      Text(assos.president)
-                    ],
-                  ),
-                ],
-              ),
               IconButton(
                 icon: const Icon(Icons.add_box),
                 color: Colors.white,
@@ -94,6 +65,39 @@ class AssociationDetails extends StatelessWidget {
                 color: Colors.white,
                 iconSize: 30,
                 onPressed: () {},
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 20),
+        Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(CupertinoIcons.location),
+                  Text(assos.address),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.location_city_rounded),
+                  Text(assos.city),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [const Icon(CupertinoIcons.phone), Text(assos.phone)],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(CupertinoIcons.person_alt_circle),
+                  Text(assos.president)
+                ],
               ),
             ],
           ),
