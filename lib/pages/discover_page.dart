@@ -38,13 +38,14 @@ class _DiscoverState extends State<Discover> {
                         return CarouselSlider.builder(
                           itemCount: assosList.length,
                           itemBuilder: (ctx, index, realIdx) {
-                            return Container(
-                              child: AssociationCard(assosList[index]),
-                            );
+                            return AssociationCard(assosList[index]);
                           },
                           options: CarouselOptions(
+                              autoPlay: true,
+                              autoPlayAnimationDuration: Duration(seconds: 2),
+                              autoPlayCurve: Curves.easeInOutBack,
                               height:
-                                  MediaQuery.of(context).size.height * 0.80),
+                                  MediaQuery.of(context).size.height * 0.95),
                         );
                       case ConnectionState.none:
                         return CircularProgressIndicator();
@@ -59,6 +60,10 @@ class _DiscoverState extends State<Discover> {
           Flexible(
             flex: 2,
             child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.horizontal(
+                      left: Radius.elliptical(15, 10),
+                      right: Radius.elliptical(10, 15))),
               margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
               child: Location(),
             ),
