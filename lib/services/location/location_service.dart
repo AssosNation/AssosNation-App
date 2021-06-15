@@ -1,6 +1,7 @@
 import 'package:assosnation_app/services/interfaces/location_interface.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart' as loc;
 
 class LocationService implements LocationInterface {
   late bool serviceEnabled;
@@ -11,14 +12,19 @@ class LocationService implements LocationInterface {
     zoom: 13,
   );
 
+  Future askOrCheckIfLocationServiceIsOn() async {
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    loc.Location location = loc.Location();
+    while (!serviceEnabled) {
+      Future.delayed(Duration(seconds: 5));
+      serviceEnabled = await location.requestService();
+    }
+    if (serviceEnabled) return Future.value(true);
+  }
+
   @override
   Future<CameraPosition> determinePosition() async {
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      Future.delayed(Duration(seconds: 5));
-      await Geolocator.openLocationSettings();
-      return Future.error('Location services are disabled.');
-    }
+    await askOrCheckIfLocationServiceIsOn();
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
@@ -34,7 +40,7 @@ class LocationService implements LocationInterface {
     }
 
     final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best);
+        desiredAccuracy: LocationAccuracy.low);
 
     return CameraPosition(
         target: LatLng(position.latitude, position.longitude), zoom: 15);
