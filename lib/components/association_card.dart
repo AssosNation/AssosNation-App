@@ -16,7 +16,8 @@ class AssociationCard extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.horizontal(
-                left: Radius.elliptical(2, 1), right: Radius.elliptical(1, 2))),
+                left: Radius.elliptical(15, 10),
+                right: Radius.elliptical(10, 15))),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
           child: Center(
