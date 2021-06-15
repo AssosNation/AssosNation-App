@@ -42,57 +42,61 @@ class AssociationDetails extends StatelessWidget {
               }
               return Container();
             }),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Icon(CupertinoIcons.location),
-                    Text(assos.address),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.location_city_rounded),
-                    Text(assos.city),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(CupertinoIcons.phone),
-                    Text(assos.phone)
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(CupertinoIcons.person_alt_circle),
-                    Text(assos.president)
-                  ],
-                ),
-              ],
-            ),
-            IconButton(
-              icon: const Icon(Icons.add_box),
-              color: Colors.teal[200],
-              iconSize: 30,
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.message_outlined),
-              color: Colors.teal[200],
-              iconSize: 30,
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.date_range),
-              color: Colors.teal[200],
-              iconSize: 30,
-              onPressed: () {},
-            ),
-          ],
+        SizedBox(height: 10),
+        Container(
+          color: Colors.teal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(CupertinoIcons.location),
+                      Text(assos.address),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Icon(Icons.location_city_rounded),
+                      Text(assos.city),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Icon(CupertinoIcons.phone),
+                      Text(assos.phone)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Icon(CupertinoIcons.person_alt_circle),
+                      Text(assos.president)
+                    ],
+                  ),
+                ],
+              ),
+              IconButton(
+                icon: const Icon(Icons.add_box),
+                color: Colors.white,
+                iconSize: 30,
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const Icon(Icons.message_outlined),
+                color: Colors.white,
+                iconSize: 30,
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const Icon(Icons.date_range),
+                color: Colors.white,
+                iconSize: 30,
+                onPressed: () {},
+              ),
+            ],
+          ),
         ),
         SizedBox(height: 40),
         DescriptionAsso(assos.description),
