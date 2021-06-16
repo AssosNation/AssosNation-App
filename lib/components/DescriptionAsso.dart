@@ -10,14 +10,10 @@ class DescriptionAsso extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(
-        child: Text(
-          _descriptionAsso,
-          style: GoogleFonts.varelaRound(
-              fontSize: 18.0,
-              color: Colors.black54,
-              fontWeight: FontWeight.w800),
-        ),
+      child: Text(
+        _descriptionAsso,
+        style: GoogleFonts.varelaRound(fontSize: 16.0, color: Colors.black),
+        textAlign: TextAlign.center,
       ),
     );
   }
