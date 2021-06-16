@@ -15,7 +15,7 @@ class LocationService implements LocationInterface {
   Future askOrCheckIfLocationServiceIsOn() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     loc.Location location = loc.Location();
-    while (!serviceEnabled) {
+    if (!serviceEnabled) {
       Future.delayed(Duration(seconds: 5));
       serviceEnabled = await location.requestService();
     }
@@ -30,6 +30,7 @@ class LocationService implements LocationInterface {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
+        print('Location permissions are denied');
         return Future.error('Location permissions are denied');
       }
     }
