@@ -1,14 +1,15 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/post.dart';
+import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'forms/form_main_title.dart';
 
 class NewsFeedCard extends StatefulWidget {
   Post _post;
-
   NewsFeedCard(this._post);
 
   @override
@@ -18,6 +19,7 @@ class NewsFeedCard extends StatefulWidget {
 class _NewsFeedCardState extends State<NewsFeedCard> {
   @override
   Widget build(BuildContext context) {
+    final _user = context.watch<AnUser?>();
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 10, 5, 10),
       child: Card(
@@ -107,14 +109,14 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                   children: [
                     TextButton.icon(
                         onPressed: () {
-                          if (widget._post.userLiked) {
-                            FireStoreService().removeUserToLikedList(
-                                widget._post.id,
-                                'test'); //TODO : get the real user id
-                          } else {
-                            FireStoreService().addUsersToLikedList(
-                                widget._post.id,
-                                'test'); //TODO : get the real user id
+                          if (_user != null) {
+                            if (widget._post.userLiked) {
+                              FireStoreService().removeUserToLikedList(
+                                  widget._post.id, _user.uid);
+                            } else {
+                              FireStoreService().addUsersToLikedList(
+                                  widget._post.id, _user.uid);
+                            }
                           }
                         },
                         icon: Icon(widget._post.userLiked
