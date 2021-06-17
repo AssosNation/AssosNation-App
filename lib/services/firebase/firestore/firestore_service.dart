@@ -163,23 +163,6 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
-  Future<List<AssociationAction>> getActionsByAssociations() async {
-    DocumentReference user = _service
-        .collection("users")
-        .doc('8DcvbXT3K9Y7rslyQ16bryiNoX52'); //TODO: change to connected user
-    try {
-      DocumentSnapshot snapshot = await user.get();
-      List<AssociationAction> actionList = snapshot
-          .get('actions')
-          .map((e) async => this.getActionByReference(e))
-          .toList();
-      return actionList;
-    } on FirebaseException catch (e) {
-      print(e.message);
-      return Future.error("Error while retrieving all actions of user");
-    }
-  }
-
   Future<List<AssociationAction>> getActionByAssociationReference(
       DocumentReference reference) async {
     Association association =
@@ -210,9 +193,9 @@ class FireStoreService extends DatabaseInterface {
       return actionList;
     }
 
-    association.actions?.forEach((e) => {
+    association.actions?.asMap().forEach((index, e) => {
           actionList.add(AssociationAction(
-              e.hashCode.toString(),
+              index,
               e['title'],
               e['city'],
               e['postalCode'],
@@ -221,7 +204,10 @@ class FireStoreService extends DatabaseInterface {
               e['type'],
               e['startDate'],
               e['endDate'],
-              association))
+              association,
+              e['usersRegistered'].length,
+              e['usersRegistered']
+                  .contains("test"))) //TODO: change with actual user
         });
     return actionList;
   }
@@ -259,60 +245,6 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
-  Future<AssociationAction> getActionByReference(
-      DocumentReference reference) async {
-    DocumentReference associationAction =
-        _service.doc('actions/${reference.id.toString()}');
-    try {
-      DocumentSnapshot snapshot = await associationAction.get();
-      return AssociationAction(
-          snapshot.id,
-          snapshot.get('title'),
-          snapshot.get('city'),
-          snapshot.get('postalCode'),
-          snapshot.get('address'),
-          snapshot.get('description'),
-          snapshot.get('type'),
-          snapshot.get('startDate'),
-          snapshot.get('endDate'),
-          await this.getAssociationInfosFromDB(snapshot.get("assosId")));
-    } on FirebaseException catch (e) {
-      return Future.error("Error while resolving action");
-    }
-  }
-
-  //TODO: Watch out, never tested
-  Future<List<AssociationAction>> getAllAssociationActions() async {
-    CollectionReference actions = _service.collection("actions");
-    try {
-      QuerySnapshot snapshot = await actions.get();
-      List<AssociationAction> actionList = snapshot.docs
-          .map((e) async => {
-                this
-                    .getAssociationInfosFromDB(e.get("association"))
-                    .then((association) => {
-                          AssociationAction(
-                              e.id,
-                              e.get("title"),
-                              e.get("city"),
-                              e.get("postalCode"),
-                              e.get("address"),
-                              e.get("description"),
-                              e.get("type"),
-                              e.get("startDate"),
-                              e.get("endDate"),
-                              association)
-                        })
-              })
-          .cast<AssociationAction>()
-          .toList();
-      return actionList;
-    } on FirebaseException catch (e) {
-      print(e.message);
-      return Future.error("Error while retrieving all actions of user");
-    }
-  }
-
   @override
   Future<List<Association>> getSubscribedAssociationsByUser(String uid) async {
     CollectionReference associations = _service.collection("associations");
@@ -342,5 +274,13 @@ class FireStoreService extends DatabaseInterface {
       print(e.message);
       return Future.error("Error while retrieving all associations");
     }
+  }
+
+  addUserToAction(association, action, user) {
+    _service.collection('associations').doc(association).update({
+      'actions'[action]: FieldValue.arrayUnion([
+        {'usersRegistered': user}
+      ])
+    });
   }
 }

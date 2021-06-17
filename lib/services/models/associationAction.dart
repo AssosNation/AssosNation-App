@@ -2,7 +2,7 @@ import 'package:assosnation_app/services/models/association.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AssociationAction {
-  final String id;
+  final int id;
   final String title;
   final String city;
   final String postalCode;
@@ -12,6 +12,8 @@ class AssociationAction {
   final Timestamp startDate;
   final Timestamp endDate;
   final Association association;
+  final int usersRegistered;
+  final bool isUserRegistered;
 
   AssociationAction(
       this.id,
@@ -23,5 +25,7 @@ class AssociationAction {
       this.type,
       this.startDate,
       this.endDate,
-      this.association);
+      this.association,
+      this.usersRegistered,
+      this.isUserRegistered);
 }

@@ -1,3 +1,4 @@
+import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/associationAction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,8 @@ class AssociationActionCard extends StatelessWidget {
                         color: Theme.of(context).accentColor,
                       ),
                     ),
-                    Text('### de participants'),
+                    Text(
+                        '${this.action.usersRegistered != 0 ? this.action.usersRegistered : 'pas'} de participants'),
                   ],
                 ),
                 Divider(),
@@ -84,7 +86,10 @@ class AssociationActionCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          FireStoreService().addUserToAction(
+                              action.association.uid, action.id, 'test');
+                        },
                         icon: Icon(Icons.add),
                         label: Text("Je participe")),
                   ],
