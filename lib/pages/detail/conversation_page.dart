@@ -59,7 +59,6 @@ class ConversationPage extends StatelessWidget {
                       );
                     case ConnectionState.none:
                       return Container();
-                      break;
                     case ConnectionState.active:
                       return CircularProgressIndicator();
                   }
