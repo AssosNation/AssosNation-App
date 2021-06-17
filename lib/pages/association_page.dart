@@ -165,6 +165,7 @@ class AssociationDetails extends StatelessWidget {
                     List<Post> postList = snapshot.data!;
                     return ListView.builder(
                       shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return NewsFeedCard(postList[index]);
                       },
