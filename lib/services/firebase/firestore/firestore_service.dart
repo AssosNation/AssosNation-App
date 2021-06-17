@@ -30,10 +30,11 @@ class FireStoreService extends DatabaseInterface {
               post.id,
               post.get('title'),
               post.get('assosId').toString(),
-              post.get('likesNumber'),
+              post.get('usersWhoLiked').length,
               post.get('content'),
               post.get('photo'),
-              post.get('timestamp').toDate()))
+              post.get('timestamp').toDate(),
+              post.get('usersWhoLiked').contains('test')))
           .toList();
       return postList;
     } on FirebaseException catch (e) {
@@ -175,5 +176,23 @@ class FireStoreService extends DatabaseInterface {
       print(e.message);
       return Future.error("Error while retrieving all associations");
     }
+  }
+
+  /**
+   * Ajoute l'utilisateur dans la liste des likes d'un post
+   */
+  addUsersToLikedList(post, user) {
+    _service.collection('posts').doc(post).update({
+      'usersWhoLiked': FieldValue.arrayUnion([user])
+    });
+  }
+
+  /**
+   * Enlève l'utilisateur de la liste des likes d'un post
+   */
+  removeUserToLikedList(post, user) {
+    _service.collection('posts').doc(post).update({
+      'usersWhoLiked': FieldValue.arrayRemove([user])
+    });
   }
 }

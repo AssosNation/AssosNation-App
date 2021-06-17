@@ -1,3 +1,4 @@
+import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,11 +6,16 @@ import 'package:flutter/material.dart';
 
 import 'forms/form_main_title.dart';
 
-class NewsFeedCard extends StatelessWidget {
-  final Post _post;
+class NewsFeedCard extends StatefulWidget {
+  Post _post;
 
   NewsFeedCard(this._post);
 
+  @override
+  _NewsFeedCardState createState() => _NewsFeedCardState();
+}
+
+class _NewsFeedCardState extends State<NewsFeedCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,7 +36,7 @@ class NewsFeedCard extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
                         child: CircleAvatar(),
                       ),
-                      Text(this._post.title)
+                      Text(this.widget._post.title)
                     ],
                   ),
                 )
@@ -39,7 +45,7 @@ class NewsFeedCard extends StatelessWidget {
             Column(
               children: [
                 FormMainTitle(
-                  this._post.title,
+                  this.widget._post.title,
                 ),
                 Row(
                   children: [
@@ -47,7 +53,7 @@ class NewsFeedCard extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
                         child: Text(
-                          this._post.content,
+                          this.widget._post.content,
                           maxLines: 5,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -59,7 +65,8 @@ class NewsFeedCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FutureBuilder(
-                        future: StorageService().getImageByPost(_post.id),
+                        future:
+                            StorageService().getImageByPost(widget._post.id),
                         builder: (ctx, AsyncSnapshot<String> snapshots) {
                           if (snapshots.hasData) {
                             switch (snapshots.connectionState) {
@@ -91,7 +98,7 @@ class NewsFeedCard extends StatelessWidget {
                         color: Theme.of(context).accentColor,
                       ),
                     ),
-                    Text(this._post.likesNumber.toString()),
+                    Text(this.widget._post.likesNumber.toString()),
                   ],
                 ),
                 Divider(),
@@ -99,8 +106,20 @@ class NewsFeedCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton.icon(
-                        onPressed: () {},
-                        icon: Icon(Icons.thumb_up_alt_outlined),
+                        onPressed: () {
+                          if (widget._post.userLiked) {
+                            FireStoreService().removeUserToLikedList(
+                                widget._post.id,
+                                'test'); //TODO : get the real user id
+                          } else {
+                            FireStoreService().addUsersToLikedList(
+                                widget._post.id,
+                                'test'); //TODO : get the real user id
+                          }
+                        },
+                        icon: Icon(widget._post.userLiked
+                            ? Icons.thumb_up_alt_rounded
+                            : Icons.thumb_up_alt_outlined),
                         label: Text("Like")),
                   ],
                 ),
