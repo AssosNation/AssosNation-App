@@ -152,7 +152,6 @@ class AssociationDetails extends StatelessWidget {
         FutureBuilder(
           future: FireStoreService().getAllPostsByAssociation(),
           builder: (context, AsyncSnapshot<List<Post>> snapshot) {
-            print(snapshot.data!.length);
             if (snapshot.hasData) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
