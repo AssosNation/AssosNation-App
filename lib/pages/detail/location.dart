@@ -15,7 +15,7 @@ class _LocationState extends State<Location> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: LocationService().determinePosition(),
+        future: LocationService().lastKnownCameraPos(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             switch (snapshot.connectionState) {
@@ -38,17 +38,7 @@ class _LocationState extends State<Location> {
                 print("none");
                 return CircularProgressIndicator();
               case ConnectionState.active:
-                return GoogleMap(
-                  initialCameraPosition: LocationService().defaultPos,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
-                  compassEnabled: true,
-                  onMapCreated: (controller) {
-                    _controller.complete(controller);
-                    controller.animateCamera(
-                        CameraUpdate.newCameraPosition(snapshot.data));
-                  },
-                );
+                return Container();
             }
           } else if (snapshot.hasError) {
             return Container(
@@ -63,7 +53,7 @@ class _LocationState extends State<Location> {
               ),
             );
           } else {
-            return CircularProgressIndicator();
+            return Container();
           }
         });
   }

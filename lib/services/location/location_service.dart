@@ -12,6 +12,8 @@ class LocationService implements LocationInterface {
     zoom: 13,
   );
 
+  late Position currentPos;
+
   Future askOrCheckIfLocationServiceIsOn() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     loc.Location location = loc.Location();
@@ -40,11 +42,11 @@ class LocationService implements LocationInterface {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    final position = await Geolocator.getCurrentPosition(
+    currentPos = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.low);
 
     return CameraPosition(
-        target: LatLng(position.latitude, position.longitude), zoom: 15);
+        target: LatLng(currentPos.latitude, currentPos.longitude), zoom: 15);
   }
 
   @override
@@ -64,10 +66,11 @@ class LocationService implements LocationInterface {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    final lastPos = await Geolocator.getLastKnownPosition();
+    final currentPos = await Geolocator.getLastKnownPosition();
 
-    if (lastPos == null) return defaultPos;
+    if (currentPos == null) return defaultPos;
 
-    return CameraPosition(target: LatLng(lastPos.latitude, lastPos.longitude));
+    return CameraPosition(
+        target: LatLng(currentPos.latitude, currentPos.longitude), zoom: 15);
   }
 }
