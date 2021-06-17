@@ -1,14 +1,17 @@
 import 'package:assosnation_app/components/DescriptionAsso.dart';
 import 'package:assosnation_app/components/an_bigTitle.dart';
 import 'package:assosnation_app/components/an_title.dart';
+import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/services/models/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AssociationDetails extends StatelessWidget {
   final Association assos;
   AssociationDetails(this.assos);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,35 +19,20 @@ class AssociationDetails extends StatelessWidget {
         title: Text("Page Association"),
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-        FutureBuilder(
-            future: FireStoreService().getAllAssociations(),
-            builder: (ctx, AsyncSnapshot<List<Association>> snapshot) {
-              if (snapshot.hasData) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return CircularProgressIndicator();
-                  case ConnectionState.done:
-                    return Column(
-                      children: [
-                        Container(
-                          color: Colors.teal,
-                          child: AnBigTitle(assos.name),
-                          height: 70,
-                        ),
-                        Image.network(
-                          assos.banner,
-                          width: MediaQuery.of(context).size.width,
-                        ),
-                      ],
-                    );
-                  case ConnectionState.none:
-                    return CircularProgressIndicator();
-                  case ConnectionState.active:
-                    return CircularProgressIndicator();
-                }
-              }
-              return Container();
-            }),
+        Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              color: Colors.teal,
+              child: AnBigTitle(assos.name),
+              height: 70,
+            ),
+            Image.network(
+              assos.banner,
+              width: MediaQuery.of(context).size.width,
+            ),
+          ],
+        ),
         Container(
           color: Colors.teal,
           child: Row(
@@ -72,6 +60,74 @@ class AssociationDetails extends StatelessWidget {
                 iconSize: 30,
                 onPressed: () {},
               ),
+              IconButton(
+                icon: const Icon(Icons.info_outline_rounded),
+                color: Colors.white,
+                iconSize: 30,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        elevation: 50,
+                        title: Icon(
+                          Icons.info_sharp,
+                          color: Colors.teal,
+                          size: 55,
+                        ),
+                        actions: [
+                          Row(
+                            children: [
+                              const Icon(
+                                CupertinoIcons.location,
+                                color: Colors.teal,
+                              ),
+                              Text(
+                                assos.address,
+                                style: TextStyle(color: Colors.teal),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.location_city_rounded,
+                                color: Colors.teal,
+                              ),
+                              Text(
+                                assos.city,
+                                style: TextStyle(color: Colors.teal),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Icon(
+                                CupertinoIcons.phone,
+                                color: Colors.teal,
+                              ),
+                              Text(
+                                assos.phone,
+                                style: TextStyle(color: Colors.teal),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Icon(CupertinoIcons.person_alt_circle,
+                                  color: Colors.teal),
+                              Text(
+                                assos.president,
+                                style: TextStyle(color: Colors.teal),
+                              )
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -82,52 +138,6 @@ class AssociationDetails extends StatelessWidget {
             children: [
               Container(child: DescriptionAsso(assos.description)),
               SizedBox(height: 10),
-              Row(
-                children: [
-                  const Icon(
-                    CupertinoIcons.location,
-                    color: Colors.teal,
-                  ),
-                  Text(
-                    assos.address,
-                    style: TextStyle(color: Colors.teal),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.location_city_rounded,
-                    color: Colors.teal,
-                  ),
-                  Text(
-                    assos.city,
-                    style: TextStyle(color: Colors.teal),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  const Icon(
-                    CupertinoIcons.phone,
-                    color: Colors.teal,
-                  ),
-                  Text(
-                    assos.phone,
-                    style: TextStyle(color: Colors.teal),
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  const Icon(CupertinoIcons.person_alt_circle,
-                      color: Colors.teal),
-                  Text(
-                    assos.president,
-                    style: TextStyle(color: Colors.teal),
-                  )
-                ],
-              ),
               Divider(
                 thickness: 3,
                 indent: 15,
@@ -138,6 +148,39 @@ class AssociationDetails extends StatelessWidget {
               AnTitle("Fil d'actualité"),
             ],
           ),
+        ),
+        FutureBuilder(
+          future: FireStoreService().getAllPostsByAssociation(),
+          builder: (context, AsyncSnapshot<List<Post>> snapshot) {
+            print(snapshot.data!.length);
+            if (snapshot.hasData) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return CircularProgressIndicator();
+                case ConnectionState.waiting:
+                  return CircularProgressIndicator();
+                case ConnectionState.active:
+                  break;
+                case ConnectionState.done:
+                  List<Post> postList = snapshot.data!;
+                  return Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return NewsFeedCard(postList[index]);
+                      },
+                      itemCount: postList.length,
+                      shrinkWrap: true,
+                    ),
+                  );
+              }
+            }
+            if (snapshot.hasError) {
+              return Container(
+                child: Text("Something wrong happened"),
+              );
+            }
+            return Container();
+          },
         ),
       ]),
     );

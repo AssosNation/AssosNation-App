@@ -13,7 +13,7 @@ class AnBigTitle extends StatelessWidget {
       child: Center(
         child: Text(
           _bigTitle,
-          style: GoogleFonts.chewy(fontSize: 35.0, color: Colors.white),
+          style: GoogleFonts.chewy(fontSize: 32.0, color: Colors.white),
         ),
       ),
     );

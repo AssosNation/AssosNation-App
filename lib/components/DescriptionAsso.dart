@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class DescriptionAsso extends StatelessWidget {
   final _descriptionAsso;
@@ -12,7 +11,7 @@ class DescriptionAsso extends StatelessWidget {
     return Container(
       child: Text(
         _descriptionAsso,
-        style: GoogleFonts.varelaRound(fontSize: 16.0, color: Colors.black),
+        style: TextStyle(fontSize: 16.0, color: Colors.black),
         textAlign: TextAlign.center,
       ),
     );
