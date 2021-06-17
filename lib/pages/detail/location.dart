@@ -32,18 +32,34 @@ class _LocationState extends State<Location> {
                   },
                 );
               case ConnectionState.waiting:
+                print("waiting");
                 return CircularProgressIndicator();
               case ConnectionState.none:
+                print("none");
                 return CircularProgressIndicator();
               case ConnectionState.active:
-                return CircularProgressIndicator();
+                return GoogleMap(
+                  initialCameraPosition: LocationService().defaultPos,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  compassEnabled: true,
+                  onMapCreated: (controller) {
+                    _controller.complete(controller);
+                    controller.animateCamera(
+                        CameraUpdate.newCameraPosition(snapshot.data));
+                  },
+                );
             }
           } else if (snapshot.hasError) {
             return Container(
               width: MediaQuery.of(context).size.width * 0.92,
               child: Center(
-                child:
-                    Text("Please activate the location service on your device"),
+                child: Text(
+                  "Please activate the location service on your device",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).accentColor),
+                ),
               ),
             );
           } else {

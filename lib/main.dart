@@ -1,4 +1,5 @@
 import 'package:assosnation_app/pages/authentication.dart';
+import 'package:assosnation_app/pages/calendar_page.dart';
 import 'package:assosnation_app/pages/discover_page.dart';
 import 'package:assosnation_app/pages/messaging_page.dart';
 import 'package:assosnation_app/pages/news_feed_page.dart';
@@ -65,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Widget> _pages = [
     NewsFeed(),
+    Calendar(),
     Discover(),
     MessagingPage(),
     Profile(),
@@ -81,6 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.dynamic_feed), label: "Feed"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today), label: "Calendar"),
           BottomNavigationBarItem(
               icon: Icon(Icons.saved_search), label: "Discover"),
           BottomNavigationBarItem(

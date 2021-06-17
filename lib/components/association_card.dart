@@ -1,3 +1,4 @@
+import 'package:assosnation_app/components/association_card_infos.dart';
 import 'package:assosnation_app/components/association_card_title.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,50 +19,58 @@ class AssociationCard extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.horizontal(
-                left: Radius.elliptical(2, 1), right: Radius.elliptical(1, 2))),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
-          child: Center(
-            child: Stack(
+                left: Radius.elliptical(15, 10),
+                right: Radius.elliptical(10, 15))),
+        child: Stack(
+          children: [
+            Image.network(
+              association.banner,
+              width: double.infinity,
+              height: double.infinity,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null)
+                  return child;
+                else
+                  return Center(child: CircularProgressIndicator());
+              },
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.network(
-                  association.banner,
-                  height: double.infinity,
-                  width: double.infinity,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null)
-                      return child;
-                    else
-                      return Center(child: CircularProgressIndicator());
-                  },
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+                Opacity(
+                  opacity: 0.8,
+                  child: Container(
+                    color: Colors.grey[200],
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        AssociationCardTitle(association),
+                        AssociationCardTitle(association.name),
                       ],
                     ),
-                    Row(
+                  ),
+                ),
+                Opacity(
+                  opacity: 0.8,
+                  child: Container(
+                    color: Colors.grey[200],
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Padding(
                           padding: const EdgeInsets.fromLTRB(5, 5, 0, 5),
-                          child: Text(association.city),
+                          child: AssociationCardInfos(association.city),
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(5, 5, 15, 5),
-                          child: Text(association.postalCode),
+                          child: AssociationCardInfos(association.postalCode),
                         )
                       ],
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                )
               ],
             ),
-          ),
+          ],
         ),
       ),
     );
