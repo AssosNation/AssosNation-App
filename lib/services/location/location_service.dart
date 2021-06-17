@@ -49,7 +49,7 @@ class LocationService implements LocationInterface {
 
   @override
   Future<CameraPosition> lastKnownCameraPos() async {
-    askOrCheckIfLocationServiceIsOn();
+    await askOrCheckIfLocationServiceIsOn();
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
