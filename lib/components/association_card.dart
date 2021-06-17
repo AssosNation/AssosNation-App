@@ -13,7 +13,9 @@ class AssociationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Colors.teal,
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed("/associationDetails", arguments: association);
+      },
       child: Card(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.horizontal(

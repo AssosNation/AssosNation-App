@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AnBigTitle extends StatelessWidget {
   final _bigTitle;
@@ -12,8 +13,7 @@ class AnBigTitle extends StatelessWidget {
       child: Center(
         child: Text(
           _bigTitle,
-          style: TextStyle(
-              fontSize: 28.0, color: Colors.teal, fontWeight: FontWeight.w800),
+          style: GoogleFonts.chewy(fontSize: 32.0, color: Colors.white),
         ),
       ),
     );
