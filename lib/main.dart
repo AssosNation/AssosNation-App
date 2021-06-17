@@ -62,14 +62,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedPage = 1;
+  int _selectedPage = 2;
 
   final List<Widget> _pages = [
     NewsFeed(),
-    Calendar(),
-    Discover(),
     MessagingPage(),
+    Discover(),
     Profile(),
+    Calendar(),
   ];
 
   Widget _diplayBottomNavBar() {
@@ -84,13 +84,13 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.dynamic_feed), label: "Feed"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today), label: "Calendar"),
+              icon: Icon(Icons.message), label: "Messaging"),
           BottomNavigationBarItem(
               icon: Icon(Icons.saved_search), label: "Discover"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.message), label: "Messaging"),
-          BottomNavigationBarItem(
               icon: Icon(Icons.account_circle), label: "Profile"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today), label: "Calendar")
         ],
         onTap: (index) {
           setState(() {
