@@ -16,13 +16,13 @@ class AssociationDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Page Association"),
+        title: Text("Association Page"),
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         Column(
           children: [
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
               color: Colors.teal,
               child: AnBigTitle(assos.name),
               height: 70,
@@ -132,7 +132,7 @@ class AssociationDetails extends StatelessWidget {
           ),
         ),
         Container(
-          padding: const EdgeInsets.fromLTRB(10, 15, 10, 10),
+          padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -145,7 +145,7 @@ class AssociationDetails extends StatelessWidget {
                 color: Colors.teal,
                 height: 40,
               ),
-              AnTitle("Fil d'actualité"),
+              AnTitle("News Feed"),
             ],
           ),
         ),
@@ -169,7 +169,6 @@ class AssociationDetails extends StatelessWidget {
                         return NewsFeedCard(postList[index]);
                       },
                       itemCount: postList.length,
-                      shrinkWrap: true,
                     ),
                   );
               }
