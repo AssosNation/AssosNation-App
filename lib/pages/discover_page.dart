@@ -94,6 +94,7 @@ class _DiscoverState extends State<Discover> {
                   color: Colors.white,
                   elevation: 4.0,
                   child: ListView.builder(
+                    shrinkWrap: true,
                     itemCount: 2,
                     itemBuilder: (context, index) => Text("$index"),
                   ),
