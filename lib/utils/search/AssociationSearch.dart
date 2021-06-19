@@ -1,10 +1,22 @@
+import 'dart:math';
+
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AssociationSearch extends SearchDelegate {
   final List<Association> associations;
+  final _textColor = Colors.teal;
 
-  AssociationSearch(this.associations);
+  @override
+  String? get searchFieldLabel => "Search an association";
+  @override
+  TextStyle? get searchFieldStyle =>
+      TextStyle(fontStyle: FontStyle.italic, fontSize: 16);
+
+  AssociationSearch(this.associations) {
+    associations.shuffle(Random(Timestamp.now().microsecondsSinceEpoch));
+  }
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -30,8 +42,8 @@ class AssociationSearch extends SearchDelegate {
     return ListView(
       children: results
           .map<ListTile>((a) => ListTile(
-                title: Text(a.name),
-                leading: Icon(Icons.book),
+                title: Text(a.name, style: TextStyle(color: _textColor)),
+                leading: Icon(Icons.subdirectory_arrow_right_sharp),
                 onTap: () {
                   close(context, a);
                 },
@@ -42,18 +54,15 @@ class AssociationSearch extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    /// TODO Ajouter la liste des recherches précédentes
-    if (query.isNotEmpty) {
-      final results = associations
-          .where((a) => a.name.toUpperCase().contains(query.toLowerCase()));
-      return ListView(
-          children: results
-              .map((a) => ListTile(
-                    title: Text(a.name),
-                    onTap: () => close(context, a),
-                  ))
-              .toList());
-    }
-    return Container();
+    final associationReduced = associations.getRange(0, 4);
+
+    return ListView(
+        children: associationReduced
+            .map((a) => ListTile(
+                  leading: Icon(Icons.arrow_forward_ios),
+                  title: Text(a.name),
+                  onTap: () => close(context, a),
+                ))
+            .toList());
   }
 }
