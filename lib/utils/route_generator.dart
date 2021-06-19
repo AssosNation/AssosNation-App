@@ -1,4 +1,4 @@
-import 'package:assosnation_app/pages/association_page.dart';
+import 'package:assosnation_app/pages/association_details.dart';
 import 'package:assosnation_app/pages/authentication.dart';
 import 'package:assosnation_app/pages/detail/association_apply_form.dart';
 import 'package:assosnation_app/pages/detail/conversation_page.dart';

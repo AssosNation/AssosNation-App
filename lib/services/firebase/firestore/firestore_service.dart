@@ -1,6 +1,6 @@
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
-import 'package:assosnation_app/services/models/associationAction.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/services/models/associationAction.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -283,7 +283,8 @@ class FireStoreService extends DatabaseInterface {
         {'usersRegistered': user}
       ])
     });
-   }
+  }
+
   /**
    * Ajoute l'utilisateur dans la liste des likes d'un post
    */
@@ -300,5 +301,16 @@ class FireStoreService extends DatabaseInterface {
     _service.collection('posts').doc(post).update({
       'usersWhoLiked': FieldValue.arrayRemove([user])
     });
+  }
+
+  @override
+  Future<bool> checkIfUserIsAssos(String uid) async {
+    DocumentReference assosRef = _service.collection("associations").doc(uid);
+    try {
+      final assos = await assosRef.get();
+      return assos.exists;
+    } on FirebaseException catch (e) {
+      return Future.error("Error while retrieving an association");
+    }
   }
 }
