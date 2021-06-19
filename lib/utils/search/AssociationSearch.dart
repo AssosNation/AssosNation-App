@@ -34,8 +34,6 @@ class AssociationSearch extends SearchDelegate {
                 leading: Icon(Icons.book),
                 onTap: () {
                   close(context, a);
-                  Navigator.of(context)
-                      .pushNamed("/associationDetails", arguments: a);
                 },
               ))
           .toList(),
