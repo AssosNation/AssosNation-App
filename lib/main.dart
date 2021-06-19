@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
               initialData: null,
               builder: (context, child) => MaterialApp(
                     title: appName,
-                    darkTheme: ThemeData.dark(),
                     theme: ThemeData(
                       primarySwatch: Colors.teal,
                       textTheme: GoogleFonts.montserratTextTheme(
