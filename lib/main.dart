@@ -5,10 +5,14 @@ import 'package:assosnation_app/pages/messaging_page.dart';
 import 'package:assosnation_app/pages/news_feed_page.dart';
 import 'package:assosnation_app/pages/profile_page.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/route_generator.dart';
+import 'package:assosnation_app/utils/search/AssociationSearch.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +24,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     return FutureBuilder(
       future: Firebase.initializeApp(),
       builder: (context, snapshot) {
@@ -32,6 +38,7 @@ class MyApp extends StatelessWidget {
               initialData: null,
               builder: (context, child) => MaterialApp(
                     title: appName,
+                    darkTheme: ThemeData.dark(),
                     theme: ThemeData(
                       primarySwatch: Colors.teal,
                       textTheme: GoogleFonts.montserratTextTheme(
@@ -121,7 +128,28 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         leading: _profileImageIfConnected(_user),
         title: Text(widget.title),
-        actions: [],
+        actions: [
+          StreamBuilder<List<Association>>(
+              stream: FireStoreService().getAllAssociations().asStream(),
+              builder: (context, AsyncSnapshot<List<Association>> snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: () async {
+                          final result = await showSearch(
+                              context: context,
+                              delegate: AssociationSearch(snapshot.data!));
+                          if (result != null)
+                            Navigator.of(context).pushNamed(
+                                "/associationDetails",
+                                arguments: result);
+                        });
+                  }
+                }
+                return Container();
+              })
+        ],
       ),
       body: Center(
           child: _user != null ? _pages[_selectedPage] : Authentication()),

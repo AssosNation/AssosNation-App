@@ -27,16 +27,15 @@ class AssociationSearch extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     var results = associations
         .where((a) => a.name.toLowerCase().contains(query.toLowerCase()));
-
     return ListView(
       children: results
           .map<ListTile>((a) => ListTile(
                 title: Text(a.name),
                 leading: Icon(Icons.book),
                 onTap: () {
-                  Navigator.of(context)
-                      .pushNamed('/associationDetail', arguments: a);
                   close(context, a);
+                  Navigator.of(context)
+                      .pushNamed("/associationDetails", arguments: a);
                 },
               ))
           .toList(),
@@ -45,14 +44,18 @@ class AssociationSearch extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final results = associations
-        .where((a) => a.name.toUpperCase().contains(query.toLowerCase()));
-    return ListView(
-        children: results
-            .map((a) => ListTile(
-                  title: Text(a.name),
-                  onTap: () => close(context, a),
-                ))
-            .toList());
+    /// TODO Ajouter la liste des recherches précédentes
+    if (query.isNotEmpty) {
+      final results = associations
+          .where((a) => a.name.toUpperCase().contains(query.toLowerCase()));
+      return ListView(
+          children: results
+              .map((a) => ListTile(
+                    title: Text(a.name),
+                    onTap: () => close(context, a),
+                  ))
+              .toList());
+    }
+    return Container();
   }
 }
