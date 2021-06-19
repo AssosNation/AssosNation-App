@@ -64,9 +64,7 @@ class MessagingPage extends StatelessWidget {
                   );
                 case ConnectionState.none:
                   return Container();
-                  break;
                 case ConnectionState.active:
-                  // TODO: Handle this case.
                   break;
               }
             }
