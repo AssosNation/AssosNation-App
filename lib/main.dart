@@ -126,7 +126,17 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         centerTitle: true,
         leading: _profileImageIfConnected(_user),
-        title: Text(widget.title),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/icon/logo_an.png",
+              height: 40,
+            ),
+            Container(
+                padding: const EdgeInsets.all(8.0), child: Text(widget.title)),
+          ],
+        ),
         actions: [
           StreamBuilder<List<Association>>(
               stream: FireStoreService().getAllAssociations().asStream(),
