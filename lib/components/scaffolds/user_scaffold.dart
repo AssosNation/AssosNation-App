@@ -42,7 +42,7 @@ class _UserScaffoldState extends State<UserScaffold> {
     return Container();
   }
 
-  Widget _UserNavBar() {
+  Widget _userNavBar() {
     return BottomNavigationBar(
         currentIndex: _selectedPage,
         unselectedItemColor: Colors.teal[400],
@@ -81,7 +81,7 @@ class _UserScaffoldState extends State<UserScaffold> {
     final _user = context.watch<AnUser?>();
 
     return Scaffold(
-      bottomNavigationBar: _user != null ? _UserNavBar() : null,
+      bottomNavigationBar: _user != null ? _userNavBar() : null,
       appBar: AppBar(
         centerTitle: true,
         leading: _profileImageIfConnected(_user),

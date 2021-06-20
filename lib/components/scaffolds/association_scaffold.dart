@@ -16,7 +16,7 @@ class AssociationScaffold extends StatefulWidget {
 }
 
 class _AssociationScaffoldState extends State<AssociationScaffold> {
-  int _selectedPage = 2;
+  int _selectedPage = 0;
 
   final List<Widget> _pages = [
     PostManagement(),
@@ -25,7 +25,7 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
     AssociationMessagingPage(),
   ];
 
-  Widget _AssociationNavBar() {
+  Widget _associationNavBar() {
     return BottomNavigationBar(
         currentIndex: _selectedPage,
         unselectedItemColor: Colors.teal[400],
@@ -53,7 +53,7 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
     final _association = context.watch<Association?>();
 
     return Scaffold(
-      bottomNavigationBar: _association != null ? _AssociationNavBar() : null,
+      bottomNavigationBar: _association != null ? _associationNavBar() : null,
       appBar: AppBar(
         centerTitle: true,
         title: Text(Constants.appName),
