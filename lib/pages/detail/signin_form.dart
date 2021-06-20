@@ -55,6 +55,13 @@ class _SignInFormState extends State<SignInForm> {
               key: _formKey,
               child: Column(
                 children: [
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    child: Image.asset(
+                      "assets/icon/logo_an.png",
+                      height: 120,
+                    ),
+                  ),
                   FormMainTitle("Login"),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
@@ -64,7 +71,8 @@ class _SignInFormState extends State<SignInForm> {
                             decoration: InputDecoration(
                                 labelText: "Enter your email address"),
                             keyboardType: TextInputType.emailAddress,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             validator: (email) {
                               if (_isEmailValidated(email!)) {
                                 _mail = email;
