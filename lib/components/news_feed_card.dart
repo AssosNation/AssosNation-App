@@ -22,7 +22,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 10, 5, 10),
       child: Card(
-        elevation: 10.0,
+        elevation: 5.0,
         child: Column(
           children: [
             Column(
@@ -55,8 +55,9 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                         padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
                         child: Text(
                           this.widget._post.content,
-                          maxLines: 5,
+                          maxLines: 7,
                           overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.justify,
                         ),
                       ),
                     ),

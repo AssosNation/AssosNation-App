@@ -1,9 +1,9 @@
 import 'package:assosnation_app/pages/authentication.dart';
-import 'package:assosnation_app/pages/calendar_page.dart';
-import 'package:assosnation_app/pages/discover_page.dart';
-import 'package:assosnation_app/pages/messaging_page.dart';
-import 'package:assosnation_app/pages/news_feed_page.dart';
-import 'package:assosnation_app/pages/profile_page.dart';
+import 'package:assosnation_app/pages/user/calendar_page.dart';
+import 'package:assosnation_app/pages/user/discover_page.dart';
+import 'package:assosnation_app/pages/user/messaging_page.dart';
+import 'package:assosnation_app/pages/user/news_feed_page.dart';
+import 'package:assosnation_app/pages/user/profile_page.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
