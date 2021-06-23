@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'dialog/delete_confirmation_dialog.dart';
+import 'dialog/edit_post_dialog.dart';
 import 'forms/form_main_title.dart';
 
 class AssociationPostCard extends StatefulWidget {
@@ -32,10 +34,18 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
-                          icon: Icon(Icons.edit), onPressed: () async {}),
+                          icon: Icon(Icons.edit),
+                          onPressed: () => showDialog(
+                                context: context,
+                                builder: (context) => EditPostDialog(),
+                              )),
                       IconButton(
                           icon: Icon(Icons.delete_forever_outlined),
-                          onPressed: () {}),
+                          onPressed: () => showDialog(
+                                context: context,
+                                builder: (context) => DeleteConfirmationDialog(
+                                    "Are you sure to delete this post ?"),
+                              )),
                     ],
                   ),
                 )

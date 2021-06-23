@@ -11,8 +11,10 @@ class PostService implements PostsInterface {
     DocumentReference assosRef =
         _service.collection("associations").doc(association.uid);
     CollectionReference posts = _service.collection("posts");
+
     try {
       final post = await posts.where("assosId", isEqualTo: assosRef).get();
+      throw UnimplementedError();
     } on FirebaseException catch (e) {
       Future.error("Cannot create post for association ${association.name}");
     }
@@ -25,7 +27,8 @@ class PostService implements PostsInterface {
   }
 
   @override
-  Future retrieveAllPostsForAssociation(Association association) async {
+  Future<List<Post>> retrieveAllPostsForAssociation(
+      Association association) async {
     DocumentReference assosRef =
         _service.collection("associations").doc(association.uid);
     CollectionReference postsRef = _service.collection("posts");
@@ -36,7 +39,7 @@ class PostService implements PostsInterface {
           .map((e) => Post(
               e.id,
               e.get("title"),
-              e.get("assosId").toString(),
+              e.get("assosId"),
               e.get("content"),
               e.get("photo"),
               e.get("timestamp"),
@@ -44,7 +47,7 @@ class PostService implements PostsInterface {
           .toList();
       return postList;
     } on FirebaseException catch (e) {
-      Future.error(
+      return Future.error(
           "Cannot retrieve all post for association ${association.name}");
     }
   }

@@ -18,12 +18,11 @@ class FireStoreService extends DatabaseInterface {
           .map((post) => Post(
               post.id,
               post.get('title'),
-              post.get('assosId').toString(),
-              post.get('usersWhoLiked').length,
+              post.get('assosId'),
               post.get('content'),
               post.get('photo'),
-              post.get('timestamp').toDate(),
-              post.get('usersWhoLiked').contains('test')))
+              post.get('timestamp'),
+              post.get('usersWhoLiked')))
           .toList();
       return postList;
     } on FirebaseException catch (e) {
