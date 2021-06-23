@@ -1,6 +1,7 @@
 import 'package:assosnation_app/services/interfaces/location_interface.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart' as loc;
 
 class LocationService implements LocationInterface {
   late bool serviceEnabled;
@@ -11,19 +12,27 @@ class LocationService implements LocationInterface {
     zoom: 13,
   );
 
-  @override
-  Future<CameraPosition> determinePosition() async {
+  late Position currentPos;
+
+  Future askOrCheckIfLocationServiceIsOn() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    loc.Location location = loc.Location();
     if (!serviceEnabled) {
       Future.delayed(Duration(seconds: 5));
-      await Geolocator.openLocationSettings();
-      return Future.error('Location services are disabled.');
+      serviceEnabled = await location.requestService();
     }
+    if (serviceEnabled) return Future.value(true);
+  }
+
+  @override
+  Future<CameraPosition> determinePosition() async {
+    await askOrCheckIfLocationServiceIsOn();
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
+        print('Location permissions are denied');
         return Future.error('Location permissions are denied');
       }
     }
@@ -33,19 +42,16 @@ class LocationService implements LocationInterface {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best);
+    currentPos = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
 
     return CameraPosition(
-        target: LatLng(position.latitude, position.longitude), zoom: 15);
+        target: LatLng(currentPos.latitude, currentPos.longitude), zoom: 15);
   }
 
   @override
   Future<CameraPosition> lastKnownCameraPos() async {
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
+    await askOrCheckIfLocationServiceIsOn();
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
@@ -60,10 +66,11 @@ class LocationService implements LocationInterface {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    final lastPos = await Geolocator.getLastKnownPosition();
+    final currentPos = await Geolocator.getLastKnownPosition();
 
-    if (lastPos == null) return defaultPos;
+    if (currentPos == null) return defaultPos;
 
-    return CameraPosition(target: LatLng(lastPos.latitude, lastPos.longitude));
+    return CameraPosition(
+        target: LatLng(currentPos.latitude, currentPos.longitude), zoom: 15);
   }
 }

@@ -14,10 +14,44 @@ class AuthService extends AuthenticationInterface {
         userInfos.lastName, userInfos.subscriptions);
   }
 
+  Future<Association?> _associationFromUser(User _user) async {
+    final isAssociation =
+        await FireStoreService().checkIfUserIsAssos(_user.uid);
+    if (isAssociation) {
+      final assosInfos =
+          await FireStoreService().getAssociationInfosFromDB(_user.uid);
+      return Association(
+          _user.uid,
+          assosInfos.name,
+          assosInfos.description,
+          assosInfos.mail,
+          assosInfos.address,
+          assosInfos.city,
+          assosInfos.postalCode,
+          assosInfos.phone,
+          assosInfos.banner,
+          assosInfos.president,
+          assosInfos.approved,
+          assosInfos.type,
+          assosInfos.posts,
+          assosInfos.actions,
+          assosInfos.subscribers);
+    }
+  }
+
   Stream<AnUser?> get user {
     return _auth.authStateChanges().asyncMap((_user) async {
       if (_user != null) {
         return await _userFromFirebaseUser(_user);
+      } else
+        return null;
+    });
+  }
+
+  Stream<Association?> get association {
+    return _auth.authStateChanges().asyncMap((_user) async {
+      if (_user != null) {
+        return await _associationFromUser(_user);
       } else
         return null;
     });
@@ -51,15 +85,14 @@ class AuthService extends AuthenticationInterface {
             userCredential.user!.email!, firstName, lastName, []);
 
         await FireStoreService().addUserToDB(newUser);
+        return true;
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        Future.error('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        Future.error('The account already exists for that email.');
       }
-    } catch (e) {
-      print(e);
     }
   }
 

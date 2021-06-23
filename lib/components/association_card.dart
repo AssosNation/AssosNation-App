@@ -1,3 +1,4 @@
+import 'package:assosnation_app/components/association_card_infos.dart';
 import 'package:assosnation_app/components/association_card_title.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,39 +11,67 @@ class AssociationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Stack(
-        children: [
-          Image.network(
-            association.banner,
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.8,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  AssociationCardTitle(association),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 5, 0, 5),
-                    child: Text(association.city),
+    return InkWell(
+      splashColor: Colors.teal,
+      onTap: () {
+        Navigator.of(context).pushNamed("/associationDetails", arguments: association);
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.horizontal(
+                left: Radius.elliptical(15, 10),
+                right: Radius.elliptical(10, 15))),
+        child: Stack(
+          children: [
+            Image.network(
+              association.banner,
+              width: double.infinity,
+              height: double.infinity,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null)
+                  return child;
+                else
+                  return Center(child: CircularProgressIndicator());
+              },
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Opacity(
+                  opacity: 0.8,
+                  child: Container(
+                    color: Colors.grey[200],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        AssociationCardTitle(association.name),
+                      ],
+                    ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 5, 15, 5),
-                    child: Text(association.postalCode),
-                  )
-                ],
-              )
-            ],
-          ),
-        ],
+                ),
+                Opacity(
+                  opacity: 0.8,
+                  child: Container(
+                    color: Colors.grey[200],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 5, 0, 5),
+                          child: AssociationCardInfos(association.city),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 5, 15, 5),
+                          child: AssociationCardInfos(association.postalCode),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

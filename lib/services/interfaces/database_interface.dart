@@ -9,6 +9,7 @@ abstract class DatabaseInterface {
   Future<AnUser?> getUserInfosFromDB(String uid);
   Future removeUserFromDB(String uid);
   Future addAssociationToDb(Association association);
-  Future<List<Association>> getSubscribedAssociationByUser(String uid);
+  Future<List<Association>> getSubscribedAssociationsByUser(String uid);
   Future<Association> getAssociationInfosFromDB(String assosId);
+  Future<bool> checkIfUserIsAssos(String uid);
 }

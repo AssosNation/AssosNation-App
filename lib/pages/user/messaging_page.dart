@@ -1,4 +1,4 @@
-import 'package:assosnation_app/services/messaging/messaging_service.dart';
+import 'package:assosnation_app/services/messaging_service.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,9 +64,7 @@ class MessagingPage extends StatelessWidget {
                   );
                 case ConnectionState.none:
                   return Container();
-                  break;
                 case ConnectionState.active:
-                  // TODO: Handle this case.
                   break;
               }
             }

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:assosnation_app/services/location/location_service.dart';
+import 'package:assosnation_app/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -15,7 +15,7 @@ class _LocationState extends State<Location> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: LocationService().determinePosition(),
+        future: LocationService().lastKnownCameraPos(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             switch (snapshot.connectionState) {
@@ -32,22 +32,28 @@ class _LocationState extends State<Location> {
                   },
                 );
               case ConnectionState.waiting:
+                print("waiting");
                 return CircularProgressIndicator();
               case ConnectionState.none:
+                print("none");
                 return CircularProgressIndicator();
               case ConnectionState.active:
-                return CircularProgressIndicator();
+                return Container();
             }
           } else if (snapshot.hasError) {
             return Container(
               width: MediaQuery.of(context).size.width * 0.92,
               child: Center(
-                child:
-                    Text("Please activate the location service on your device"),
+                child: Text(
+                  "Please activate the location service on your device",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).accentColor),
+                ),
               ),
             );
           } else {
-            return CircularProgressIndicator();
+            return Container();
           }
         });
   }

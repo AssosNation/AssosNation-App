@@ -1,25 +1,31 @@
+import 'package:assosnation_app/components/an_bigTitle.dart';
 import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //TODO : change this list with the associations of the user connected
-    final List<String> associations = <String>['1', '2', '3'];
-    final List<int> colorCodes = <int>[600, 500, 100];
-
     final _user = context.watch<AnUser?>();
 
     if (_user != null)
-      FireStoreService().getSubscribedAssociationByUser(_user.uid);
+      FireStoreService().getSubscribedAssociationsByUser(_user.uid);
 
-    return Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+      SizedBox(
+        height: 10,
+      ),
+      AnBigTitle("My profile"),
+      SizedBox(
+        height: 40,
+      ),
       Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           CircleAvatar(
             //TODO : add a Image in the DB for the user to display it here
@@ -38,11 +44,18 @@ class Profile extends StatelessWidget {
           )
         ],
       ),
-      AnTitle("Mes associations"),
+      Divider(
+        thickness: 3,
+        indent: 15,
+        endIndent: 15,
+        color: Colors.teal,
+        height: 100,
+      ),
+      AnTitle("My associations"),
       Expanded(
         child: FutureBuilder(
             future:
-                FireStoreService().getSubscribedAssociationByUser(_user.uid),
+                FireStoreService().getSubscribedAssociationsByUser(_user.uid),
             builder: (ctx, AsyncSnapshot<List<Association>> snapshot) {
               if (snapshot.hasData) {
                 switch (snapshot.connectionState) {
@@ -52,13 +65,18 @@ class Profile extends StatelessWidget {
                     List<Association> assosList = snapshot.data!;
                     return Container(
                         child: ListView.builder(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(2),
                             itemCount: assosList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Card(
+                                elevation: 20,
                                 color: Theme.of(context).accentColor,
                                 child: ListTile(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                        "/associationDetails",
+                                        arguments: assosList[index]);
+                                  },
                                   title: Text(assosList[index].name),
                                   subtitle: Text(assosList[index].description),
                                 ),
@@ -73,6 +91,48 @@ class Profile extends StatelessWidget {
               return Container();
             }),
       ),
+      CupertinoButton(
+          color: Colors.redAccent,
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  elevation: 50,
+                  title: Icon(
+                    Icons.info_outline_rounded,
+                    color: Colors.redAccent,
+                    size: 55,
+                  ),
+                  content: Text("Are you sure ?"),
+                  actions: [
+                    CupertinoButton(
+                      child: Text("Yes"),
+                      onPressed: () {
+                        final _auth = FirebaseAuth.instance;
+                        _auth.signOut();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    CupertinoButton(
+                      child: Text(
+                        "No",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              },
+            );
+          },
+          child: Text(
+            "Sign Out",
+            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+          )),
+      SizedBox(height: 20)
     ]);
   }
 }

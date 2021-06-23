@@ -1,6 +1,8 @@
 import 'package:assosnation_app/pages/authentication.dart';
 import 'package:assosnation_app/pages/detail/association_apply_form.dart';
+import 'package:assosnation_app/pages/detail/association_details.dart';
 import 'package:assosnation_app/pages/detail/conversation_page.dart';
+import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +21,12 @@ class RouteGenerator {
               builder: (_) => ConversationPage(
                     conversation: args,
                   ));
+        }
+        return _errorRoute();
+      case "/associationDetails":
+        if (args is Association) {
+          return MaterialPageRoute(
+              builder: (context) => AssociationDetails(args));
         }
         return _errorRoute();
       default:
