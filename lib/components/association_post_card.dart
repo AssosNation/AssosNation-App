@@ -35,13 +35,14 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
                     children: [
                       IconButton(
                           icon: Icon(Icons.edit),
-                          onPressed: () => showDialog(
+                          onPressed: () => showModalBottomSheet(
                                 context: context,
-                                builder: (context) => EditPostDialog(),
+                                builder: (context) =>
+                                    EditPostDialog(widget._post),
                               )),
                       IconButton(
                           icon: Icon(Icons.delete_forever_outlined),
-                          onPressed: () => showDialog(
+                          onPressed: () => showModalBottomSheet(
                                 context: context,
                                 builder: (context) => DeleteConfirmationDialog(
                                     "Are you sure to delete this post ?"),
