@@ -46,6 +46,7 @@ class _NewsFeedState extends State<NewsFeed> {
                       }
                     }
                     if (snapshot.hasError) {
+                      print(snapshot.error);
                       return Container(
                         child: Text("Something wrong happened"),
                       );

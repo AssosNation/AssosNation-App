@@ -11,4 +11,5 @@ abstract class DatabaseInterface {
   Future addAssociationToDb(Association association);
   Future<List<Association>> getSubscribedAssociationsByUser(String uid);
   Future<Association> getAssociationInfosFromDB(String assosId);
+  Future<bool> checkIfUserIsAssos(String uid);
 }

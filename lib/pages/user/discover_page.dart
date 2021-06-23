@@ -30,11 +30,11 @@ class _DiscoverState extends State<Discover> {
                     case ConnectionState.waiting:
                       return CircularProgressIndicator();
                     case ConnectionState.done:
-                      List<Association> assosList = snapshot.data!;
+                      List<Association> _assosList = snapshot.data!;
                       return CarouselSlider.builder(
-                        itemCount: assosList.length,
+                        itemCount: _assosList.length,
                         itemBuilder: (ctx, index, realIdx) {
-                          return AssociationCard(assosList[index]);
+                          return AssociationCard(_assosList[index]);
                         },
                         options: CarouselOptions(
                             autoPlay: true,

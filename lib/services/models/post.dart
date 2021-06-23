@@ -1,13 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Post {
   final String id;
   final String title;
-  final String assosId;
-  final int likesNumber;
+  final DocumentReference assosId;
   final String content;
   final String photo;
-  final DateTime timestamp;
-  final bool userLiked;
+  final Timestamp timestamp;
+  List usersWhoLiked;
 
-  Post(this.id, this.title, this.assosId, this.likesNumber, this.content,
-      this.photo, this.timestamp, this.userLiked);
+  Post(this.id, this.title, this.assosId, this.content, this.photo,
+      this.timestamp, this.usersWhoLiked);
+
+  didUserLikeThePost(String uid) {
+    return usersWhoLiked.contains(uid);
+  }
 }
