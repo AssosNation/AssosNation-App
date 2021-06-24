@@ -11,19 +11,30 @@ class PostService implements PostsInterface {
     DocumentReference assosRef =
         _service.collection("associations").doc(association.uid);
     CollectionReference posts = _service.collection("posts");
-
     try {
-      final post = await posts.where("assosId", isEqualTo: assosRef).get();
-      throw UnimplementedError();
+      await posts.add({
+        "assosId": assosRef,
+        "title": post.title,
+        "content": post.content,
+        "photo": "",
+        "timestamp": Timestamp.now(),
+        "usersWhoLiked": []
+      });
+      return Future.value(true);
     } on FirebaseException catch (e) {
       Future.error("Cannot create post for association ${association.name}");
     }
   }
 
   @override
-  Future removePostForAssociation(Post post, Association association) {
-    // TODO: implement removePostForAssociation
-    throw UnimplementedError();
+  Future removePost(String postId) async {
+    DocumentReference postRef = _service.collection("posts").doc(postId);
+    try {
+      await postRef.delete();
+      return Future.value(true);
+    } on FirebaseException catch (e) {
+      return Future.error("Cannot update post with id $postId");
+    }
   }
 
   @override
@@ -53,8 +64,16 @@ class PostService implements PostsInterface {
   }
 
   @override
-  Future updatePostForAssociation(Post post, Association association) {
-    // TODO: implement updatePostForAssociation
-    throw UnimplementedError();
+  Future updatePost(Post post, String title, String content) async {
+    DocumentReference postRef = _service.collection("posts").doc(post.id);
+    try {
+      await postRef.update({
+        "title": title,
+        "content": content,
+      });
+      return Future.value(true);
+    } on FirebaseException catch (e) {
+      return Future.error("Cannot update post with id ${post.id}");
+    }
   }
 }
