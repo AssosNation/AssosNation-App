@@ -66,7 +66,18 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
           : Container(),
       appBar: AppBar(
         centerTitle: true,
-        title: Text(Constants.appName),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/icon/logo_an.png",
+              height: 40,
+            ),
+            Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(Constants.appName)),
+          ],
+        ),
         actions: [
           IconButton(
               icon: Icon(Icons.logout),
