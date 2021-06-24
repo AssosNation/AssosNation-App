@@ -1,14 +1,15 @@
+import 'package:assosnation_app/components/dialog/delete_confirmation_dialog.dart';
+import 'package:assosnation_app/components/dialog/edit_post_dialog.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/services/models/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'dialog/delete_confirmation_dialog.dart';
-import 'dialog/edit_post_dialog.dart';
 import 'forms/form_main_title.dart';
 
 class AssociationPostCard extends StatefulWidget {
-  final _post;
+  final Post _post;
   AssociationPostCard(this._post);
 
   @override
@@ -23,70 +24,65 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
       padding: EdgeInsets.fromLTRB(10, 10, 5, 10),
       child: Card(
         elevation: 5.0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.horizontal(
+                left: Radius.elliptical(15, 10),
+                right: Radius.elliptical(10, 15))),
         child: Column(
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            FormMainTitle(
+              this.widget._post.title,
+            ),
+            Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () => showModalBottomSheet(
-                                context: context,
-                                builder: (context) =>
-                                    EditPostDialog(widget._post),
-                              )),
-                      IconButton(
-                          icon: Icon(Icons.delete_forever_outlined),
-                          onPressed: () => showModalBottomSheet(
-                                context: context,
-                                builder: (context) => DeleteConfirmationDialog(
-                                    "Are you sure to delete this post ?"),
-                              )),
-                    ],
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
+                    child: Text(
+                      this.widget._post.content,
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.justify,
+                    ),
                   ),
-                )
-              ],
-            ),
-            Column(
-              children: [
-                FormMainTitle(
-                  this.widget._post.title,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
-                        child: Text(
-                          this.widget._post.content,
-                          maxLines: 5,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.justify,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                      child: Icon(
-                        Icons.thumb_up,
-                        color: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    Text(this.widget._post.usersWhoLiked.length.toString()),
-                  ],
                 ),
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    OutlinedButton.icon(
+                      icon: Icon(
+                        Icons.delete_forever_outlined,
+                        color: Colors.red,
+                      ),
+                      onPressed: () => showModalBottomSheet(
+                        context: context,
+                        builder: (context) => DeletePostConfirmationDialog(
+                            "Are you sure to delete this post ?",
+                            widget._post.id),
+                      ),
+                      label: Text(
+                        "Delete",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    OutlinedButton.icon(
+                      icon: Icon(Icons.edit),
+                      onPressed: () => showModalBottomSheet(
+                        context: context,
+                        builder: (context) => EditPostDialog(widget._post),
+                      ),
+                      label: Text("Edit"),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

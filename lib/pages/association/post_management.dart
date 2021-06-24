@@ -12,23 +12,30 @@ class PostManagement extends StatelessWidget {
   Widget build(BuildContext context) {
     final _association = context.watch<Association?>();
 
-    return Container(
+    return Column(children: [
+      Expanded(
         child: FutureBuilder(
-      future: PostService().retrieveAllPostsForAssociation(_association!),
-      builder: (context, AsyncSnapshot<List<Post>> snapshot) {
-        if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AssociationPostCard(snapshot.data![index]),
-              );
-            },
-          );
-        } else
-          return Container();
-      },
-    ));
+          future: PostService().retrieveAllPostsForAssociation(_association!),
+          builder: (context, AsyncSnapshot<List<Post>> snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: AssociationPostCard(snapshot.data![index]),
+                    );
+                  },
+                );
+              } else {
+                return CircularProgressIndicator();
+              }
+            } else
+              return Container();
+          },
+        ),
+      ),
+    ]);
   }
 }
