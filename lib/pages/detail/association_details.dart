@@ -3,10 +3,13 @@ import 'package:assosnation_app/components/an_bigTitle.dart';
 import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/posts/posts_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/post.dart';
+import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AssociationDetails extends StatelessWidget {
   final Association assos;
@@ -14,6 +17,8 @@ class AssociationDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _user = context.watch<AnUser?>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Association Page"),
@@ -45,7 +50,12 @@ class AssociationDetails extends StatelessWidget {
                       icon: const Icon(Icons.add_box),
                       color: Colors.white,
                       iconSize: 30,
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_user != null) {
+                          FireStoreService()
+                              .subscribeToAssociation(assos.uid, _user.uid);
+                        }
+                      },
                     ),
                   ],
                 ),
@@ -151,7 +161,7 @@ class AssociationDetails extends StatelessWidget {
             ),
           ),
           FutureBuilder(
-            future: FireStoreService().getAllPostsByAssociation(),
+            future: PostService().retrieveAllPostsForAssociation(assos),
             builder: (context, AsyncSnapshot<List<Post>> snapshot) {
               if (snapshot.hasData) {
                 switch (snapshot.connectionState) {

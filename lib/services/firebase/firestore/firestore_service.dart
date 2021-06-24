@@ -302,6 +302,16 @@ class FireStoreService extends DatabaseInterface {
     });
   }
 
+  subscribeToAssociation(associationId, userId) {
+    _service.collection('users').doc(userId).update({
+      'subscriptions': FieldValue.arrayUnion([associationId])
+    });
+
+    _service.collection('associations').doc(associationId).update({
+      'subscribers': FieldValue.arrayUnion([userId])
+    });
+  }
+
   @override
   Future<bool> checkIfUserIsAssos(String uid) async {
     DocumentReference assosRef = _service.collection("associations").doc(uid);
