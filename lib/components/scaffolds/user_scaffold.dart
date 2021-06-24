@@ -85,7 +85,18 @@ class _UserScaffoldState extends State<UserScaffold> {
       appBar: AppBar(
         centerTitle: true,
         leading: _profileImageIfConnected(_user),
-        title: Text(Constants.appName),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/icon/logo_an.png",
+              height: 40,
+            ),
+            Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(Constants.appName)),
+          ],
+        ),
         actions: [
           StreamBuilder<List<Association>>(
               stream: FireStoreService().getAllAssociations().asStream(),
