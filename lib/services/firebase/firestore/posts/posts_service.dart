@@ -7,9 +7,9 @@ class PostService implements PostsInterface {
   final FirebaseFirestore _service = FirebaseFirestore.instance;
 
   @override
-  Future createPostForAssociation(Post post, Association association) async {
+  Future createPostForAssociation(Post post, String assosId) async {
     DocumentReference assosRef =
-        _service.collection("associations").doc(association.uid);
+        _service.collection("associations").doc(assosId);
     CollectionReference posts = _service.collection("posts");
     try {
       await posts.add({
@@ -22,7 +22,7 @@ class PostService implements PostsInterface {
       });
       return Future.value(true);
     } on FirebaseException catch (e) {
-      Future.error("Cannot create post for association ${association.name}");
+      Future.error("Cannot create post for association $assosRef");
     }
   }
 
@@ -48,9 +48,9 @@ class PostService implements PostsInterface {
 
       List<Post> postList = posts.docs
           .map((e) => Post(
-              e.id,
+          e.id,
               e.get("title"),
-              e.get("assosId"),
+              e.get("assosId").id,
               e.get("content"),
               e.get("photo"),
               e.get("timestamp"),
