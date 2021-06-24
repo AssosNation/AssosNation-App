@@ -42,18 +42,23 @@ class _CalendarState extends State<Calendar> {
                       AsyncSnapshot<List<AssociationAction>> snapshot) {
                     if (snapshot.hasData) {
                       List<AssociationAction> actionList = snapshot.data!;
-                      return Expanded(
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            return AssociationActionCard(actionList[index]);
-                          },
-                          itemCount: actionList.length,
-                          shrinkWrap: true,
-                        ),
-                      );
-                    } else {
+                      if (snapshot.connectionState == ConnectionState.waiting)
+                        return CircularProgressIndicator();
+                      else {
+                        return Expanded(
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return AssociationActionCard(actionList[index]);
+                            },
+                            itemCount: actionList.length,
+                            shrinkWrap: true,
+                          ),
+                        );
+                      }
+                    } else if (snapshot.hasError) {
                       return Text("Pas d'actions pour toi l'ami");
-                    }
+                    } else
+                      return Container();
                   },
                 ),
               ],

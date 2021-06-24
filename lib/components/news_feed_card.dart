@@ -1,6 +1,5 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
-import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'forms/form_main_title.dart';
 
 class NewsFeedCard extends StatefulWidget {
-  Post _post;
+  final _post;
   NewsFeedCard(this._post);
 
   @override
@@ -23,7 +22,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 10, 5, 10),
       child: Card(
-        elevation: 10.0,
+        elevation: 5.0,
         child: Column(
           children: [
             Column(
@@ -56,8 +55,9 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                         padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
                         child: Text(
                           this.widget._post.content,
-                          maxLines: 5,
+                          maxLines: 7,
                           overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.justify,
                         ),
                       ),
                     ),
@@ -100,7 +100,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                         color: Theme.of(context).accentColor,
                       ),
                     ),
-                    Text(this.widget._post.likesNumber.toString()),
+                    Text(this.widget._post.usersWhoLiked.length.toString()),
                   ],
                 ),
                 Divider(),
@@ -110,7 +110,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                     TextButton.icon(
                         onPressed: () {
                           if (_user != null) {
-                            if (widget._post.userLiked) {
+                            if (widget._post.didUserLikeThePost(_user.uid)) {
                               FireStoreService().removeUserToLikedList(
                                   widget._post.id, _user.uid);
                             } else {
@@ -119,7 +119,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                             }
                           }
                         },
-                        icon: Icon(widget._post.userLiked
+                        icon: Icon(widget._post.didUserLikeThePost(_user!.uid)
                             ? Icons.thumb_up_alt_rounded
                             : Icons.thumb_up_alt_outlined),
                         label: Text("Like")),
