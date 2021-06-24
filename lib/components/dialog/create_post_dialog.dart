@@ -1,6 +1,10 @@
 import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/components/forms/form_subtitle.dart';
+import 'package:assosnation_app/services/firebase/firestore/posts/posts_service.dart';
+import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/services/models/post.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CreatePostDialog extends StatefulWidget {
   @override
@@ -13,12 +17,12 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
   String _title = "";
   String _content = "";
 
-  _verifyAndValidateForm() async {
+  _verifyAndValidateForm(assosId) async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        /*dynamic res =
-            await PostService().createPostForAssociation(widget._post, _title, _content);*/
-        final res = false;
+        final postToCreate = Post.creation(_title, assosId, _content, "");
+        final res =
+            await PostService().createPostForAssociation(postToCreate, assosId);
         if (res == true) {
           Navigator.pop(context);
           setState(() {
@@ -47,6 +51,7 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final _assos = context.watch<Association?>();
     return Dialog(
       insetPadding: EdgeInsets.fromLTRB(0, 50, 0, 50),
       child: SizedBox(
@@ -78,6 +83,7 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                   ],
                 ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     FormSubTitle("Content : "),
                     Expanded(
@@ -104,7 +110,9 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                         child: Text("Cancel",
                             style: TextStyle(color: Colors.red))),
                     OutlinedButton(
-                        onPressed: _verifyAndValidateForm,
+                        onPressed: () async {
+                          _verifyAndValidateForm(_assos!.uid);
+                        },
                         child: Text(
                           "Confirm",
                           style: TextStyle(color: Colors.teal),
