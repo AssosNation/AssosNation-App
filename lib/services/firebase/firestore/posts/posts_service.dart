@@ -48,7 +48,7 @@ class PostService implements PostsInterface {
 
       List<Post> postList = posts.docs
           .map((e) => Post(
-          e.id,
+              e.id,
               e.get("title"),
               e.get("assosId").id,
               e.get("content"),
