@@ -281,12 +281,14 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
-  addUserToAction(association, action, user) {
-    _service.collection('associations').doc(association).update({
-      'actions'[action]: FieldValue.arrayUnion([
-        {'usersRegistered': user}
-      ])
-    });
+  addUserToAction(associationId, action, user) async {
+    Association association =
+        await this.getAssociationInfosFromDB('/associations/$associationId');
+    association.actions![action]['usersRegistered'].add(user);
+    _service
+        .collection('associations')
+        .doc(associationId)
+        .update({"actions": FieldValue.arrayUnion(association.actions!)});
   }
 
   /**
