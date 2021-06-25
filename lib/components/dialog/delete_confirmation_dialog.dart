@@ -30,17 +30,17 @@ class DeletePostConfirmationDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               OutlinedButton(
-                  onPressed: () async {
-                    await PostService().removePost(postId);
-                    Navigator.pop(context);
-                  },
-                  child: Text("Delete", style: TextStyle(color: Colors.red))),
-              OutlinedButton(
                   onPressed: () => Navigator.pop(context),
                   child: Text(
                     "Cancel",
                     style: TextStyle(color: Colors.teal),
                   )),
+              OutlinedButton(
+                  onPressed: () async {
+                    await PostService().removePost(postId);
+                    Navigator.pop(context);
+                  },
+                  child: Text("Delete", style: TextStyle(color: Colors.red))),
             ],
           )
         ],

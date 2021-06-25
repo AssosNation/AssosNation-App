@@ -88,6 +88,8 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                     FormSubTitle("Content : "),
                     Expanded(
                       child: TextFormField(
+                        maxLength: 150,
+                        autocorrect: true,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (content) {
                           if (content!.isNotEmpty) {
@@ -96,7 +98,7 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                           } else
                             return "This field cannot be empty nor the same value as before";
                         },
-                        maxLines: 10,
+                        maxLines: 2,
                         style: TextStyle(color: Colors.black),
                       ),
                     ),

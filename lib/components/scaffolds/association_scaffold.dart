@@ -1,4 +1,4 @@
-import 'package:assosnation_app/components/dialog/create_post_dialog.dart';
+import 'package:assosnation_app/components/posts/create_post_dialog.dart';
 import 'package:assosnation_app/pages/association/action_management.dart';
 import 'package:assosnation_app/pages/association/association_messaging_page.dart';
 import 'package:assosnation_app/pages/association/association_page.dart';

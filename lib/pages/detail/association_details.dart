@@ -1,6 +1,6 @@
-import 'package:assosnation_app/components/DescriptionAsso.dart';
-import 'package:assosnation_app/components/an_bigTitle.dart';
+import 'package:assosnation_app/components/an_big_title.dart';
 import 'package:assosnation_app/components/an_title.dart';
+import 'package:assosnation_app/components/description_asso.dart';
 import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
