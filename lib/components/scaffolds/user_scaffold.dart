@@ -30,18 +30,6 @@ class _UserScaffoldState extends State<UserScaffold> {
     Calendar(),
   ];
 
-  Widget _profileImageIfConnected(AnUser? _user) {
-    if (_user != null) {
-      return Padding(
-        padding: const EdgeInsets.all(3),
-        child: CircleAvatar(
-          child: Text(_user.mail.substring(0, 2).toUpperCase()),
-        ),
-      );
-    }
-    return Container();
-  }
-
   Widget _userNavBar() {
     return BottomNavigationBar(
         currentIndex: _selectedPage,
@@ -84,7 +72,6 @@ class _UserScaffoldState extends State<UserScaffold> {
       bottomNavigationBar: _user != null ? _userNavBar() : null,
       appBar: AppBar(
         centerTitle: true,
-        leading: _profileImageIfConnected(_user),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
