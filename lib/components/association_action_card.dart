@@ -19,34 +19,39 @@ class AssociationActionCard extends StatelessWidget {
         elevation: 10.0,
         child: Column(
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
-                        child: CircleAvatar(),
-                      ),
-                      Text(this.action.association.name),
-                    ],
+            GestureDetector(
+              onTap: () => Navigator.of(context).pushNamed(
+                  "/associationDetails",
+                  arguments: this.action.association),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
+                          child: CircleAvatar(),
+                        ),
+                        Text(this.action.association.name),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(DateFormat('dd-MM-yyyy').add_Hm().format(
-                          DateTime.parse(
-                              this.action.startDate.toDate().toString())))
-                    ],
-                  ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(DateFormat('dd-MM-yyyy').add_Hm().format(
+                            DateTime.parse(
+                                this.action.startDate.toDate().toString())))
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
             Column(
               children: [
