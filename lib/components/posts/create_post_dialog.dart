@@ -55,7 +55,7 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
     return Dialog(
       insetPadding: EdgeInsets.fromLTRB(0, 50, 0, 50),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.98,
+        width: MediaQuery.of(context).size.width * 0.9,
         child: Form(
           key: _formKey,
           child: Padding(
@@ -68,6 +68,8 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                     FormSubTitle("Title : "),
                     Expanded(
                       child: TextFormField(
+                        maxLength: 30,
+                        autocorrect: true,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (title) {
                           if (title!.isNotEmpty) {
@@ -98,7 +100,7 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                           } else
                             return "This field cannot be empty nor the same value as before";
                         },
-                        maxLines: 2,
+                        maxLines: 3,
                         style: TextStyle(color: Colors.black),
                       ),
                     ),

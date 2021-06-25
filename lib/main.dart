@@ -7,7 +7,7 @@ import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/constants.dart';
 import 'package:assosnation_app/utils/route_generator.dart';
-import 'package:assosnation_app/utils/search/AssociationSearch.dart';
+import 'package:assosnation_app/utils/search/association_search.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
