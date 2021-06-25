@@ -1,6 +1,6 @@
 import 'package:assosnation_app/components/association_action_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
-import 'package:assosnation_app/services/models/associationAction.dart';
+import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:flutter/material.dart';
 
 class Calendar extends StatefulWidget {

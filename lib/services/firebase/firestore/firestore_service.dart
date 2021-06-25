@@ -1,6 +1,6 @@
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
-import 'package:assosnation_app/services/models/associationAction.dart';
+import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,7 +18,7 @@ class FireStoreService extends DatabaseInterface {
           .map((post) => Post(
               post.id,
               post.get('title'),
-              post.get('assosId'),
+              post.get('assosId').toString(),
               post.get('content'),
               post.get('photo'),
               post.get('timestamp'),
