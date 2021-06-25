@@ -37,6 +37,14 @@ class PostService implements PostsInterface {
     }
   }
 
+  Stream<QuerySnapshot> retrieveAllPostsForAssociationStream(
+      Association assos) {
+    DocumentReference assosRef =
+        _service.collection("associations").doc(assos.uid);
+    CollectionReference postsRef = _service.collection("posts");
+    return postsRef.where("assosId", isEqualTo: assosRef).snapshots();
+  }
+
   @override
   Future<List<Post>> retrieveAllPostsForAssociation(
       Association association) async {

@@ -26,12 +26,13 @@ class _EditPostDialogState extends State<EditPostDialog> {
             await PostService().updatePost(widget._post, _title, _content);
         if (res == true) {
           Navigator.pop(context);
-          setState(() {
+          _displaySnackBarWithMessage(
+              "Your post has been updated", Colors.green);
+          /*setState(() {
             _title = "";
             _content = "";
-            _displaySnackBarWithMessage(
-                "Your post has been updated", Colors.green);
-          });
+
+          });*/
         } else {
           Navigator.pop(context);
           _displaySnackBarWithMessage(
