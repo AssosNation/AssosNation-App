@@ -63,7 +63,9 @@ class AssociationDetails extends StatelessWidget {
                   icon: const Icon(Icons.message_outlined),
                   color: Colors.white,
                   iconSize: 30,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("/messagingPage");
+                  },
                 ),
                 IconButton(
                   icon: const Icon(Icons.date_range),
