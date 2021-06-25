@@ -18,7 +18,7 @@ class FireStoreService extends DatabaseInterface {
           .map((post) => Post(
               post.id,
               post.get('title'),
-              post.get('assosId'),
+              post.get('assosId').toString(),
               post.get('content'),
               post.get('photo'),
               post.get('timestamp'),
