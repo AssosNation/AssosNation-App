@@ -185,14 +185,18 @@ class AssociationDetails extends StatelessWidget {
                     break;
                   case ConnectionState.done:
                     List<Post> postList = snapshot.data!;
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return NewsFeedCard(postList[index]);
-                      },
-                      itemCount: postList.length,
-                    );
+                    if (postList.isNotEmpty) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return NewsFeedCard(postList[index]);
+                        },
+                        itemCount: postList.length,
+                      );
+                    } else
+                      return Text(
+                          "${assos.name} n'a pas encore publié son premier post ! ");
                 }
               }
               if (snapshot.hasError) {
