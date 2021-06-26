@@ -78,7 +78,10 @@ class AssociationDetails extends StatelessWidget {
                   icon: const Icon(Icons.date_range),
                   color: Colors.white,
                   iconSize: 30,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("/associationCalendarPage",
+                        arguments: assos);
+                  },
                 ),
                 IconButton(
                   icon: const Icon(Icons.info_outline_rounded),

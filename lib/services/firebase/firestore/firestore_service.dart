@@ -192,7 +192,6 @@ class FireStoreService extends DatabaseInterface {
     if (association.actions!.length == 0) {
       return actionList;
     }
-
     association.actions?.asMap().forEach((index, e) => {
           actionList.add(AssociationAction(
               index,
@@ -331,5 +330,28 @@ class FireStoreService extends DatabaseInterface {
     } on FirebaseException catch (e) {
       return Future.error("Error while retrieving an association");
     }
+  }
+
+  @override
+  Future<List<AssociationAction>> getAllActionsByAssociation(
+      Association assos, AnUser user) async {
+    List<AssociationAction> actionsList = [];
+
+    assos.actions?.asMap().forEach((index, e) => {
+          actionsList.add(AssociationAction(
+              index,
+              e['title'],
+              e['city'],
+              e['postalCode'],
+              e['address'],
+              e['description'],
+              e['type'],
+              e['startDate'],
+              e['endDate'],
+              assos,
+              e['usersRegistered'].length,
+              e['usersRegistered'].contains(user.uid)))
+        });
+    return actionsList;
   }
 }
