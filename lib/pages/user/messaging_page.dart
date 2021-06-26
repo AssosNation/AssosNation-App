@@ -1,4 +1,4 @@
-import 'package:assosnation_app/services/messaging_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';

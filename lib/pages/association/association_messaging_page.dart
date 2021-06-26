@@ -1,4 +1,4 @@
-import 'package:assosnation_app/services/messaging_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,8 +15,8 @@ class AssociationMessagingPage extends StatelessWidget {
       children: [
         Expanded(
             child: FutureBuilder(
-          future:
-              MessagingService().getAllConversationsByUser(_association!.uid),
+          future: MessagingService()
+              .getAllConversationsByAssociation(_association!.uid),
           builder: (BuildContext build,
               AsyncSnapshot<List<Conversation>> snapshots) {
             if (snapshots.hasData) {
