@@ -72,6 +72,11 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
+  Future<Association> getAssociationInfosFromDBWithReference(
+      DocumentReference association) async {
+    return this.getAssociationInfosFromDB(association.id);
+  }
+
   Future<Association> getAssociationInfosFromDB(String assosId) async {
     CollectionReference associations = _service.collection("associations");
     try {
