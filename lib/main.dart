@@ -78,7 +78,18 @@ class _MyHomePageState extends State<MyHomePage> {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(Constants.appName),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/icon/logo_an.png",
+                height: 40,
+              ),
+              Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(Constants.appName)),
+            ],
+          ),
           actions: [
             StreamBuilder<List<Association>>(
                 stream: FireStoreService().getAllAssociations().asStream(),
