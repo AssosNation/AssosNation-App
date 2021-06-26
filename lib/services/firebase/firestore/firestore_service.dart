@@ -283,7 +283,7 @@ class FireStoreService extends DatabaseInterface {
 
   addUserToAction(associationId, action, user) async {
     Association association =
-        await this.getAssociationInfosFromDB('/associations/$associationId');
+        await this.getAssociationInfosFromDB(associationId);
     association.actions![action]['usersRegistered'].add(user);
     _service
         .collection('associations')
