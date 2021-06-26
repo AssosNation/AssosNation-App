@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/services/models/associationAction.dart';
 import 'package:assosnation_app/services/models/user.dart';
 
 abstract class DatabaseInterface {
@@ -12,4 +13,6 @@ abstract class DatabaseInterface {
   Future<List<Association>> getSubscribedAssociationsByUser(String uid);
   Future<Association> getAssociationInfosFromDB(String assosId);
   Future<bool> checkIfUserIsAssos(String uid);
+  Future<List<AssociationAction>> getAllActionsByAssociation(
+      Association assos, AnUser user);
 }
