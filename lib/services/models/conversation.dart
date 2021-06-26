@@ -1,5 +1,5 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
-import 'package:assosnation_app/services/messaging_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Conversation {

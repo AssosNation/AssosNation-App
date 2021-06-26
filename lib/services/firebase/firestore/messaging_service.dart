@@ -26,6 +26,26 @@ class MessagingService extends MessagingInterface {
     }
   }
 
+  Future<List<Conversation>> getAllConversationsByAssociation(String id) async {
+    CollectionReference _conversations = _service.collection("conversations");
+
+    DocumentReference assosRef = _service.doc("associations/$id");
+    try {
+      QuerySnapshot snapshot = await _conversations
+          .where("participants", arrayContains: assosRef)
+          .get();
+
+      List<Conversation> _conversationList = snapshot.docs.map((e) {
+        return Conversation(
+            e.id, e.get("title"), e.get("messages"), e.get("participants"));
+      }).toList();
+
+      return _conversationList;
+    } on FirebaseException catch (e) {
+      return Future.error("Error when getting Conversations by User");
+    }
+  }
+
   @override
   Future<List<dynamic>> getAllMessagesByConversation(String convId) async {
     try {
