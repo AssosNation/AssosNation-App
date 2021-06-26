@@ -9,6 +9,7 @@ import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class AssociationDetails extends StatelessWidget {
@@ -54,20 +55,38 @@ class AssociationDetails extends StatelessWidget {
                           if (assos.didUserSubscribed(_user.uid)) {
                             FireStoreService()
                                 .unsubscribeToAssociation(assos.uid, _user.uid);
+                            Fluttertoast.showToast(
+                                msg:
+                                    "Vous n'êtes plus abonné à cette association ! ",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
                           } else {
                             FireStoreService()
                                 .subscribeToAssociation(assos.uid, _user.uid);
+                            Fluttertoast.showToast(
+                                msg:
+                                    "Vous êtes désormais abonné à cette association ! ",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
                           }
                         }
                       },
                       icon: Icon(assos.didUserSubscribed(_user!.uid)
-                          ? Icons.add_circle
-                          : Icons.remove_circle),
+                          ? Icons.remove_circle
+                          : Icons.add_circle),
                     ),
                   ],
                 ),
                 IconButton(
-                  icon: const Icon(Icons.message_outlined),
+                  icon: Icon(Icons.message_outlined),
                   color: Colors.white,
                   iconSize: 30,
                   onPressed: () {
@@ -75,7 +94,7 @@ class AssociationDetails extends StatelessWidget {
                   },
                 ),
                 IconButton(
-                  icon: const Icon(Icons.date_range),
+                  icon: Icon(Icons.date_range),
                   color: Colors.white,
                   iconSize: 30,
                   onPressed: () {
@@ -84,7 +103,7 @@ class AssociationDetails extends StatelessWidget {
                   },
                 ),
                 IconButton(
-                  icon: const Icon(Icons.info_outline_rounded),
+                  icon: Icon(Icons.info_outline_rounded),
                   color: Colors.white,
                   iconSize: 30,
                   onPressed: () {
@@ -101,7 +120,7 @@ class AssociationDetails extends StatelessWidget {
                           actions: [
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   CupertinoIcons.location,
                                   color: Colors.teal,
                                 ),
@@ -113,7 +132,7 @@ class AssociationDetails extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.location_city_rounded,
                                   color: Colors.teal,
                                 ),
@@ -125,7 +144,7 @@ class AssociationDetails extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   CupertinoIcons.phone,
                                   color: Colors.teal,
                                 ),
@@ -137,7 +156,7 @@ class AssociationDetails extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                const Icon(CupertinoIcons.person_alt_circle,
+                                Icon(CupertinoIcons.person_alt_circle,
                                     color: Colors.teal),
                                 Text(
                                   assos.president,
