@@ -47,21 +47,23 @@ class AssociationCalendar extends StatelessWidget {
                         if (snapshot.connectionState == ConnectionState.waiting)
                           return CircularProgressIndicator();
                         else {
-                          return Expanded(
-                            child: ListView.builder(
-                              itemBuilder: (context, index) {
-                                if (actionList.isNotEmpty) {
+                          if (actionList.isNotEmpty) {
+                            return Expanded(
+                              child: ListView.builder(
+                                itemBuilder: (context, index) {
                                   return AssociationActionCard(
                                       actionList[index]);
-                                } else {
-                                  return Text(
-                                      "Aucune action à venir pour cette association ! ");
-                                }
-                              },
-                              itemCount: actionList.length,
-                              shrinkWrap: true,
-                            ),
-                          );
+                                },
+                                itemCount: actionList.length,
+                                shrinkWrap: true,
+                              ),
+                            );
+                          } else
+                            return Container(
+                              alignment: AlignmentDirectional.center,
+                              child: Text(
+                                  "${assos.name} n'a pas d'actions à venir ! "),
+                            );
                         }
                       } else if (snapshot.hasError) {
                         return Text("Pas d'actions pour toi l'ami");
