@@ -47,15 +47,22 @@ class AssociationDetails extends StatelessWidget {
                 Column(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.add_box),
                       color: Colors.white,
                       iconSize: 30,
                       onPressed: () {
                         if (_user != null) {
-                          FireStoreService()
-                              .subscribeToAssociation(assos.uid, _user.uid);
+                          if (assos.didUserSubscribed(_user.uid)) {
+                            FireStoreService()
+                                .unsubscribeToAssociation(assos.uid, _user.uid);
+                          } else {
+                            FireStoreService()
+                                .subscribeToAssociation(assos.uid, _user.uid);
+                          }
                         }
                       },
+                      icon: Icon(assos.didUserSubscribed(_user!.uid)
+                          ? Icons.add_circle
+                          : Icons.remove_circle),
                     ),
                   ],
                 ),
