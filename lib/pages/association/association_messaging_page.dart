@@ -1,6 +1,8 @@
 import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
+import 'package:assosnation_app/utils/converters.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,65 +16,77 @@ class AssociationMessagingPage extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-            child: FutureBuilder(
-          future: MessagingService()
-              .getAllConversationsByAssociation(_association!.uid),
-          builder: (BuildContext build,
-              AsyncSnapshot<List<Conversation>> snapshots) {
-            if (snapshots.hasData) {
-              switch (snapshots.connectionState) {
-                case ConnectionState.waiting:
-                  return CircularProgressIndicator();
-                case ConnectionState.done:
-                  return ListView.builder(
-                    itemCount: snapshots.data!.length,
-                    itemBuilder: (context, index) {
-                      return Card(
+          child: StreamBuilder(
+            stream:
+                MessagingService().watchAllConversationsByAssos(_association!),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                final List<Conversation> convs =
+                    Converters.convertDocSnapshotsToConvList(
+                        snapshot.data!.docs);
+                return ListView.builder(
+                  itemCount: convs.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.horizontal(
+                                left: Radius.elliptical(15, 10),
+                                right: Radius.elliptical(10, 15))),
                         child: ListTile(
-                          leading: CircleAvatar(
-                            child: Text(
-                                "${snapshots.data![index].title.substring(0, 1)}"),
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                                "/convAsAssociation",
+                                arguments: convs[index]);
+                          },
+                          trailing: Text(
+                              "${convs[index].getDiffTimeBetweenNowAndLastMessage()}"),
+                          title: FutureBuilder(
+                            future:
+                                convs[index].getReceiverName(_association.uid),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done)
+                                  return Text(snapshot.data);
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting)
+                                  return LinearProgressIndicator();
+                              }
+                              return Text("Une erreur est survenue");
+                            },
                           ),
-                          title: Text(snapshots.data![index].title),
                           subtitle: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               FutureBuilder(
-                                future: snapshots.data![index]
-                                    .getLastMessageSenderAsync(),
+                                future:
+                                    convs[index].getLastMessageSenderAsync(),
                                 initialData: "",
                                 builder: (context, snapshot) =>
                                     Text("${snapshot.data} : "),
                               ),
                               Expanded(
                                 child: Text(
-                                  snapshots.data![index].getLastMessageSent(),
+                                  convs[index].getLastMessageSent(),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
+                              )
                             ],
                           ),
-                          trailing: Text(
-                              "${snapshots.data![index].getDiffTimeBetweenNowAndLastMessage()} h"),
-                          onTap: () {
-                            Navigator.of(context).pushNamed("/conversation",
-                                arguments: snapshots.data![index]);
-                          },
                         ),
-                      );
-                    },
-                  );
-                case ConnectionState.none:
-                  return Container();
-                case ConnectionState.active:
-                  break;
+                      ),
+                    );
+                  },
+                );
               }
-            }
-            if (snapshots.hasError) return Container();
-            return Container();
-          },
-        ))
+              return Container();
+            },
+          ),
+        )
       ],
     );
   }

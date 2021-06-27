@@ -7,8 +7,8 @@ import 'package:assosnation_app/pages/user/profile_page.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/association_search.dart';
 import 'package:assosnation_app/utils/constants.dart';
-import 'package:assosnation_app/utils/search/association_search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

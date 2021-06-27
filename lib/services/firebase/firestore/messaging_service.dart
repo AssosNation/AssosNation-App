@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/interfaces/messaging_interface.dart';
+import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,8 +17,7 @@ class MessagingService extends MessagingInterface {
           .get();
 
       List<Conversation> _conversationList = snapshot.docs.map((e) {
-        return Conversation(
-            e.id, e.get("title"), e.get("messages"), e.get("participants"));
+        return Conversation(e.id, e.get("messages"), e.get("participants"));
       }).toList();
 
       return _conversationList;
@@ -26,6 +26,7 @@ class MessagingService extends MessagingInterface {
     }
   }
 
+  @override
   Future<List<Conversation>> getAllConversationsByAssociation(String id) async {
     CollectionReference _conversations = _service.collection("conversations");
 
@@ -36,8 +37,7 @@ class MessagingService extends MessagingInterface {
           .get();
 
       List<Conversation> _conversationList = snapshot.docs.map((e) {
-        return Conversation(
-            e.id, e.get("title"), e.get("messages"), e.get("participants"));
+        return Conversation(e.id, e.get("messages"), e.get("participants"));
       }).toList();
 
       return _conversationList;
@@ -63,6 +63,7 @@ class MessagingService extends MessagingInterface {
     }
   }
 
+  @override
   Future<String> getParticipantName(DocumentReference ref) async {
     try {
       DocumentSnapshot snapshot = await ref.get();
@@ -70,6 +71,40 @@ class MessagingService extends MessagingInterface {
         return "${snapshot.get("firstName")} ${snapshot.get("lastName")}";
       else
         return snapshot.get("name");
+    } on FirebaseException catch (e) {
+      return Future.error("Error when retrieving participant's name");
+    }
+  }
+
+  @override
+  Stream<QuerySnapshot> watchAllConversationsByAssos(Association assos) {
+    DocumentReference assosRef =
+        _service.collection("associations").doc(assos.uid);
+    CollectionReference conversationRef = _service.collection("conversations");
+    return conversationRef
+        .where("participants", arrayContains: assosRef)
+        .snapshots();
+  }
+
+  @override
+  Stream<DocumentSnapshot> watchConversationById(String convId) {
+    CollectionReference conversationRef = _service.collection("conversations");
+    return conversationRef.doc(convId).snapshots();
+  }
+
+  @override
+  Future sendMessageToConversation(
+      String convId, DocumentReference senderRef, String msg) async {
+    try {
+      DocumentReference convRef =
+          _service.collection("conversations").doc(convId);
+
+      await convRef.update({
+        "messages": FieldValue.arrayUnion([
+          {"content": msg, "sender": senderRef.id, "timestamp": Timestamp.now()}
+        ])
+      });
+      return Future.value(true);
     } on FirebaseException catch (e) {
       return Future.error("Error when retrieving participant's name");
     }
