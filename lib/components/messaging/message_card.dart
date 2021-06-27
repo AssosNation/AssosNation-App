@@ -7,7 +7,8 @@ class MessageCard extends StatelessWidget {
   final timestamp;
   final bool senderIsLocalUser;
 
-  MessageCard(this.sender, this.content, this.timestamp, this.senderIsLocalUser);
+  MessageCard(
+      this.sender, this.content, this.timestamp, this.senderIsLocalUser);
 
   _converTimestampToDateTime() {
     final DateTime time = timestamp.toDate();

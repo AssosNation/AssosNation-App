@@ -51,8 +51,8 @@ class Conversation {
     return Future.error("something happenened");
   }
 
-  getDocRefWithId(String id) {
-    return (participants.where((docRef) => docRef.id == id));
+  DocumentReference getDocRefWithId(String id) {
+    return participants.firstWhere((docRef) => docRef.id == id);
   }
 
   Future<String> getReceiverName(String id) async {
