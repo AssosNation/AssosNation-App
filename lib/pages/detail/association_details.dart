@@ -3,7 +3,7 @@ import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/components/description_asso.dart';
 import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
-import 'package:assosnation_app/services/firebase/firestore/posts/posts_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
