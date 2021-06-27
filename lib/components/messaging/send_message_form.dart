@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,7 @@ class SendMessageForm extends StatefulWidget {
   SendMessageForm(this.convId, this.sender);
 
   final String convId;
-  final sender;
+  final DocumentReference sender;
 
   @override
   _SendMessageFormState createState() => _SendMessageFormState();

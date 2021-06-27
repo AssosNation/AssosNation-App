@@ -101,7 +101,7 @@ class MessagingService extends MessagingInterface {
 
       await convRef.update({
         "messages": FieldValue.arrayUnion([
-          {"content": msg, "sender": senderRef.id, "timestamp": Timestamp.now()}
+          {"content": msg, "sender": senderRef, "timestamp": Timestamp.now()}
         ])
       });
       return Future.value(true);
