@@ -1,18 +1,27 @@
-import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SendMessageForm extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
-  final _service = FireStoreService();
+class SendMessageForm extends StatefulWidget {
+  SendMessageForm(this.convId, this.sender);
 
-  String _msgToSend = "";
+  final String convId;
+  final DocumentReference sender;
+
+  @override
+  _SendMessageFormState createState() => _SendMessageFormState();
+}
+
+class _SendMessageFormState extends State<SendMessageForm> {
+  final _formKey = GlobalKey<FormState>();
+  late String _msgToSend;
 
   _verifyAndValidateForm() async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        //dynamic res = await _auth.send
-        print(_msgToSend);
+        await MessagingService().sendMessageToConversation(
+            widget.convId, widget.sender, _msgToSend);
       }
     }
   }
@@ -20,9 +29,9 @@ class SendMessageForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(2, 5, 5, 10),
+      padding: const EdgeInsets.all(10),
       child: Card(
-        elevation: 5.0,
+        elevation: 4,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Row(
@@ -46,7 +55,8 @@ class SendMessageForm extends StatelessWidget {
                     ))),
             IconButton(
                 icon: Icon(
-                  Icons.send,
+                  Icons.send_sharp,
+                  color: Theme.of(context).accentColor,
                 ),
                 onPressed: _verifyAndValidateForm),
           ],

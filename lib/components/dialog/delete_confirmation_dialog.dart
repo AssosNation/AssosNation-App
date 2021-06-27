@@ -1,4 +1,4 @@
-import 'package:assosnation_app/services/firebase/firestore/posts/posts_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:flutter/material.dart';
 
 class DeletePostConfirmationDialog extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:assosnation_app/components/posts/association_post_card.dart';
-import 'package:assosnation_app/services/firebase/firestore/posts/posts_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/utils/converters.dart';
