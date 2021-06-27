@@ -23,7 +23,7 @@ class _SendMessageFormState extends State<SendMessageForm> {
       if (_formKey.currentState!.validate()) {
         final res = await MessagingService().sendMessageToConversation(
             widget.convId, widget.sender, _msgToSend);
-        if (res)
+        if (!res)
           Utils.displaySnackBarWithMessage(
               context, "Couldn't send your message", Colors.deepOrange);
       }
