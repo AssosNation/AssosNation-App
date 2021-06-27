@@ -1,6 +1,7 @@
 import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/components/forms/form_subtitle.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
+import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,9 +26,11 @@ class _SignUpFormState extends State<SignUpForm> {
         dynamic res = await _auth.signUpUserWithAllInfos(
             _mail, _pwd, _firstName, _lastName);
         if (res == null) {
-          _displaySnackBarWithMessage("Failed to connect, try again", Colors.green);
+          Utils.displaySnackBarWithMessage(
+              context, "Failed to connect, try again", Colors.green);
         } else {
-          _displaySnackBarWithMessage("Succesfully connected ! Welcome", Colors.deepOrange);
+          Utils.displaySnackBarWithMessage(
+              context, "Succesfully connected ! Welcome", Colors.deepOrange);
         }
       }
     }
@@ -70,7 +73,8 @@ class _SignUpFormState extends State<SignUpForm> {
                             decoration: InputDecoration(
                                 labelText: "Enter your First Name"),
                             keyboardType: TextInputType.name,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             validator: (firstName) {
                               if (firstName!.isNotEmpty) {
                                 _firstName = firstName;
@@ -83,7 +87,8 @@ class _SignUpFormState extends State<SignUpForm> {
                             decoration: InputDecoration(
                                 labelText: "Enter your Last Name"),
                             keyboardType: TextInputType.name,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             validator: (lastName) {
                               if (lastName!.isNotEmpty) {
                                 _lastName = lastName;
@@ -116,10 +121,11 @@ class _SignUpFormState extends State<SignUpForm> {
                                   return "This email address is not valid";
                               }),
                           TextFormField(
-                            decoration:
-                                InputDecoration(labelText: "Enter your password"),
+                            decoration: InputDecoration(
+                                labelText: "Enter your password"),
                             obscureText: true,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             validator: (pwd) {
                               if (pwd!.isNotEmpty) {
                                 _pwd = pwd;
@@ -132,7 +138,8 @@ class _SignUpFormState extends State<SignUpForm> {
                             decoration: InputDecoration(
                                 labelText: "Confirm your password"),
                             obscureText: true,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             validator: (pwd2) {
                               if (pwd2!.isNotEmpty && pwd2 == _pwd) {
                                 _pwd2 = pwd2;
@@ -154,8 +161,8 @@ class _SignUpFormState extends State<SignUpForm> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                       child: ElevatedButton(
-                        onPressed: () =>
-                            Navigator.of(context).pushNamed("/applyAssociation"),
+                        onPressed: () => Navigator.of(context)
+                            .pushNamed("/applyAssociation"),
                         child: Text("You are an association ? Apply here"),
                       ),
                     )

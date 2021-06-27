@@ -1,5 +1,6 @@
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
+import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class MessagingInterface {
@@ -17,4 +18,6 @@ abstract class MessagingInterface {
 
   Future sendMessageToConversation(
       String convId, DocumentReference senderRef, String msg);
+
+  Stream<QuerySnapshot> watchAllConversationsByUser(AnUser user);
 }
