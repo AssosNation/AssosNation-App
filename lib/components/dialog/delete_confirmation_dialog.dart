@@ -1,9 +1,11 @@
+import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:flutter/material.dart';
 
-class DeleteConfirmationDialog extends StatelessWidget {
-  const DeleteConfirmationDialog(this.confirmationMessage);
+class DeletePostConfirmationDialog extends StatelessWidget {
+  const DeletePostConfirmationDialog(this.confirmationMessage, this.postId);
 
   final String? confirmationMessage;
+  final String postId;
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +30,17 @@ class DeleteConfirmationDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               OutlinedButton(
-                  onPressed: () {},
-                  child: Text("Validate", style: TextStyle(color: Colors.red))),
-              OutlinedButton(
                   onPressed: () => Navigator.pop(context),
                   child: Text(
                     "Cancel",
                     style: TextStyle(color: Colors.teal),
                   )),
+              OutlinedButton(
+                  onPressed: () async {
+                    await PostService().removePost(postId);
+                    Navigator.pop(context);
+                  },
+                  child: Text("Delete", style: TextStyle(color: Colors.red))),
             ],
           )
         ],

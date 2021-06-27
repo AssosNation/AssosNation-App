@@ -9,9 +9,13 @@ class AuthService extends AuthenticationInterface {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<AnUser?> _userFromFirebaseUser(User _user) async {
-    final userInfos = await FireStoreService().getUserInfosFromDB(_user.uid);
-    return AnUser.withData(_user.uid, _user.email!, userInfos.firstName,
-        userInfos.lastName, userInfos.subscriptions);
+    final isAssociation =
+        await FireStoreService().checkIfUserIsAssos(_user.uid);
+    if (!isAssociation) {
+      final userInfos = await FireStoreService().getUserInfosFromDB(_user.uid);
+      return AnUser.withData(_user.uid, _user.email!, userInfos.firstName,
+          userInfos.lastName, userInfos.subscriptions);
+    }
   }
 
   Future<Association?> _associationFromUser(User _user) async {

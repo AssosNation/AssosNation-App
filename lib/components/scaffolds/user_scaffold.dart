@@ -7,8 +7,8 @@ import 'package:assosnation_app/pages/user/profile_page.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/association_search.dart';
 import 'package:assosnation_app/utils/constants.dart';
-import 'package:assosnation_app/utils/search/AssociationSearch.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +20,7 @@ class UserScaffold extends StatefulWidget {
 }
 
 class _UserScaffoldState extends State<UserScaffold> {
-  int _selectedPage = 2;
+  int _selectedPage = 1;
 
   final List<Widget> _pages = [
     NewsFeed(),
@@ -29,18 +29,6 @@ class _UserScaffoldState extends State<UserScaffold> {
     Profile(),
     Calendar(),
   ];
-
-  Widget _profileImageIfConnected(AnUser? _user) {
-    if (_user != null) {
-      return Padding(
-        padding: const EdgeInsets.all(3),
-        child: CircleAvatar(
-          child: Text(_user.mail.substring(0, 2).toUpperCase()),
-        ),
-      );
-    }
-    return Container();
-  }
 
   Widget _userNavBar() {
     return BottomNavigationBar(
@@ -84,8 +72,18 @@ class _UserScaffoldState extends State<UserScaffold> {
       bottomNavigationBar: _user != null ? _userNavBar() : null,
       appBar: AppBar(
         centerTitle: true,
-        leading: _profileImageIfConnected(_user),
-        title: Text(Constants.appName),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/icon/logo_an.png",
+              height: 40,
+            ),
+            Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(Constants.appName)),
+          ],
+        ),
         actions: [
           StreamBuilder<List<Association>>(
               stream: FireStoreService().getAllAssociations().asStream(),

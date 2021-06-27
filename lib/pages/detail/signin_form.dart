@@ -1,5 +1,6 @@
 import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
+import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class SignInForm extends StatefulWidget {
@@ -18,11 +19,11 @@ class _SignInFormState extends State<SignInForm> {
       if (_formKey.currentState!.validate()) {
         dynamic res = await _auth.signIn(_mail, _pwd);
         if (res == null) {
-          _displaySnackBarWithMessage(
-              "Failed to connect, try again", Colors.red);
+          Utils.displaySnackBarWithMessage(
+              context, "Failed to connect, try again", Colors.red);
         } else {
-          _displaySnackBarWithMessage(
-              "Succesfully connected ! Welcome", Colors.green);
+          Utils.displaySnackBarWithMessage(
+              context, "Succesfully connected ! Welcome", Colors.green);
         }
       }
     }
@@ -55,6 +56,13 @@ class _SignInFormState extends State<SignInForm> {
               key: _formKey,
               child: Column(
                 children: [
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    child: Image.asset(
+                      "assets/icon/logo_an.png",
+                      height: 120,
+                    ),
+                  ),
                   FormMainTitle("Login"),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
@@ -64,7 +72,8 @@ class _SignInFormState extends State<SignInForm> {
                             decoration: InputDecoration(
                                 labelText: "Enter your email address"),
                             keyboardType: TextInputType.emailAddress,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             validator: (email) {
                               if (_isEmailValidated(email!)) {
                                 _mail = email;

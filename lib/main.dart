@@ -5,9 +5,9 @@ import 'package:assosnation_app/services/firebase/authentication/auth_service.da
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/association_search.dart';
 import 'package:assosnation_app/utils/constants.dart';
 import 'package:assosnation_app/utils/route_generator.dart';
-import 'package:assosnation_app/utils/search/AssociationSearch.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -78,7 +78,18 @@ class _MyHomePageState extends State<MyHomePage> {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(Constants.appName),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/icon/logo_an.png",
+                height: 40,
+              ),
+              Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(Constants.appName)),
+            ],
+          ),
           actions: [
             StreamBuilder<List<Association>>(
                 stream: FireStoreService().getAllAssociations().asStream(),

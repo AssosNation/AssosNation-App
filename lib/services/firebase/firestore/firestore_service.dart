@@ -1,6 +1,6 @@
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
-import 'package:assosnation_app/services/models/associationAction.dart';
+import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,7 +18,7 @@ class FireStoreService extends DatabaseInterface {
           .map((post) => Post(
               post.id,
               post.get('title'),
-              post.get('assosId'),
+              post.get('assosId').toString(),
               post.get('content'),
               post.get('photo'),
               post.get('timestamp'),
@@ -70,6 +70,11 @@ class FireStoreService extends DatabaseInterface {
       print(e.message);
       return Future.error("Error while retrieving all user data");
     }
+  }
+
+  Future<Association> getAssociationInfosFromDBWithReference(
+      DocumentReference association) async {
+    return this.getAssociationInfosFromDB(association.id);
   }
 
   Future<Association> getAssociationInfosFromDB(String assosId) async {
@@ -192,7 +197,6 @@ class FireStoreService extends DatabaseInterface {
     if (association.actions!.length == 0) {
       return actionList;
     }
-
     association.actions?.asMap().forEach((index, e) => {
           actionList.add(AssociationAction(
               index,
@@ -302,6 +306,26 @@ class FireStoreService extends DatabaseInterface {
     });
   }
 
+  subscribeToAssociation(associationId, userId) {
+    _service.collection('users').doc(userId).update({
+      'subscriptions': FieldValue.arrayUnion([associationId])
+    });
+
+    _service.collection('associations').doc(associationId).update({
+      'subscribers': FieldValue.arrayUnion([userId])
+    });
+  }
+
+  unsubscribeToAssociation(associationId, userId) {
+    _service.collection('users').doc(userId).update({
+      'subscriptions': FieldValue.arrayRemove([associationId])
+    });
+
+    _service.collection('associations').doc(associationId).update({
+      'subscribers': FieldValue.arrayRemove([userId])
+    });
+  }
+
   @override
   Future<bool> checkIfUserIsAssos(String uid) async {
     DocumentReference assosRef = _service.collection("associations").doc(uid);
@@ -311,5 +335,28 @@ class FireStoreService extends DatabaseInterface {
     } on FirebaseException catch (e) {
       return Future.error("Error while retrieving an association");
     }
+  }
+
+  @override
+  Future<List<AssociationAction>> getAllActionsByAssociation(
+      Association assos, AnUser user) async {
+    List<AssociationAction> actionsList = [];
+
+    assos.actions?.asMap().forEach((index, e) => {
+          actionsList.add(AssociationAction(
+              index,
+              e['title'],
+              e['city'],
+              e['postalCode'],
+              e['address'],
+              e['description'],
+              e['type'],
+              e['startDate'],
+              e['endDate'],
+              assos,
+              e['usersRegistered'].length,
+              e['usersRegistered'].contains(user.uid)))
+        });
+    return actionsList;
   }
 }

@@ -48,4 +48,8 @@ class Association {
       this.posts,
       this.actions,
       this.subscribers);
+
+  didUserSubscribed(String uid) {
+    return subscribers.contains(uid);
+  }
 }
