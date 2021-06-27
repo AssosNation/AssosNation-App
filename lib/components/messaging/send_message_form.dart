@@ -25,7 +25,7 @@ class _SendMessageFormState extends State<SendMessageForm> {
             widget.convId, widget.sender, _msgToSend);
         if (res)
           Utils.displaySnackBarWithMessage(
-              context, "Couldn't send your message", Colors.red);
+              context, "Couldn't send your message", Colors.deepOrange);
       }
     }
   }
