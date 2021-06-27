@@ -28,11 +28,22 @@ class MessagingPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return Card(
                         child: ListTile(
-                          leading: CircleAvatar(
-                            child: Text(
-                                "${snapshots.data![index].title.substring(0, 1)}"),
+                          title: FutureBuilder(
+                            future: snapshots.data![index]
+                                .getReceiverName(_user.uid),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done)
+                                  return Text(snapshot.data);
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting)
+                                  return LinearProgressIndicator();
+                              }
+                              return Text("Une erreur est survenue");
+                            },
                           ),
-                          title: Text(snapshots.data![index].title),
                           subtitle: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -53,9 +64,9 @@ class MessagingPage extends StatelessWidget {
                             ],
                           ),
                           trailing: Text(
-                              "${snapshots.data![index].getDiffTimeBetweenNowAndLastMessage()} h"),
+                              "${snapshots.data![index].getDiffTimeBetweenNowAndLastMessage()}"),
                           onTap: () {
-                            Navigator.of(context).pushNamed("/conversation",
+                            Navigator.of(context).pushNamed("/convAsUser",
                                 arguments: snapshots.data![index]);
                           },
                         ),

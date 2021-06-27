@@ -1,8 +1,9 @@
 import 'package:assosnation_app/pages/authentication.dart';
 import 'package:assosnation_app/pages/detail/association_apply_form.dart';
 import 'package:assosnation_app/pages/detail/association_calendar.dart';
+import 'package:assosnation_app/pages/detail/association_conversation_page.dart';
 import 'package:assosnation_app/pages/detail/association_details.dart';
-import 'package:assosnation_app/pages/detail/conversation_page.dart';
+import 'package:assosnation_app/pages/detail/user_conversation_page.dart';
 import 'package:assosnation_app/pages/user/messaging_page.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
@@ -17,10 +18,18 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Authentication());
       case "/applyAssociation":
         return MaterialPageRoute(builder: (_) => AssociationApplyForm());
-      case "/conversation":
+      case "/convAsUser":
         if (args is Conversation) {
           return MaterialPageRoute(
-              builder: (_) => ConversationPage(
+              builder: (_) => UserConvPage(
+                    conversation: args,
+                  ));
+        }
+        return _errorRoute();
+      case "/convAsAssociation":
+        if (args is Conversation) {
+          return MaterialPageRoute(
+              builder: (_) => AssociationConvPage(
                     conversation: args,
                   ));
         }

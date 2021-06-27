@@ -6,9 +6,10 @@ import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ConversationPage extends StatelessWidget {
+class UserConvPage extends StatelessWidget {
   final Conversation conversation;
-  ConversationPage({
+
+  UserConvPage({
     Key? key,
     required this.conversation,
   }) : super(key: key);
@@ -18,7 +19,18 @@ class ConversationPage extends StatelessWidget {
     final _user = context.watch<AnUser?>();
     return Scaffold(
       appBar: AppBar(
-        title: Text(conversation.title),
+        title: FutureBuilder(
+          future: conversation.getReceiverName(_user!.uid),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.connectionState == ConnectionState.done)
+                return Text(snapshot.data);
+              if (snapshot.connectionState == ConnectionState.waiting)
+                return LinearProgressIndicator();
+            }
+            return Text("Une erreur est survenue");
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -40,7 +52,7 @@ class ConversationPage extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                               child: snapshots.data![index].sender.id ==
-                                      _user!.uid
+                                      _user.uid
                                   ? MessageCard(
                                       "${_user.firstName} ${_user.lastName}",
                                       snapshots.data![index].content,
@@ -68,7 +80,11 @@ class ConversationPage extends StatelessWidget {
               },
             ),
           ),
-          Expanded(flex: 1, child: SendMessageForm()),
+          Expanded(
+            flex: 1,
+            child: SendMessageForm(
+                conversation.uid, conversation.getDocRefWithId(_user.uid)),
+          )
         ],
       ),
     );
