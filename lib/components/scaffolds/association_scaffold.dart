@@ -17,7 +17,7 @@ class AssociationScaffold extends StatefulWidget {
 }
 
 class _AssociationScaffoldState extends State<AssociationScaffold> {
-  int _selectedPage = 3;
+  int _selectedPage = 2;
 
   final List<Widget> _pages = [
     PostManagement(),
