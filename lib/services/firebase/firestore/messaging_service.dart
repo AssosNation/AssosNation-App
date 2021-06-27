@@ -2,6 +2,7 @@ import 'package:assosnation_app/services/interfaces/messaging_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/message.dart';
+import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MessagingService extends MessagingInterface {
@@ -47,7 +48,7 @@ class MessagingService extends MessagingInterface {
   }
 
   @override
-  Future<List<dynamic>> getAllMessagesByConversation(String convId) async {
+  Future<List> getAllMessagesByConversation(String convId) async {
     try {
       DocumentSnapshot snapshot =
           await _service.collection("conversations").doc(convId).get();
@@ -108,5 +109,14 @@ class MessagingService extends MessagingInterface {
     } on FirebaseException catch (e) {
       return Future.error("Error when retrieving participant's name");
     }
+  }
+
+  @override
+  Stream<QuerySnapshot> watchAllConversationsByUser(AnUser user) {
+    DocumentReference userRef = _service.collection("users").doc(user.uid);
+    CollectionReference conversationRef = _service.collection("conversations");
+    return conversationRef
+        .where("participants", arrayContains: userRef)
+        .snapshots();
   }
 }

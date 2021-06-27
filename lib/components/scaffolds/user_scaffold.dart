@@ -20,7 +20,7 @@ class UserScaffold extends StatefulWidget {
 }
 
 class _UserScaffoldState extends State<UserScaffold> {
-  int _selectedPage = 2;
+  int _selectedPage = 1;
 
   final List<Widget> _pages = [
     NewsFeed(),

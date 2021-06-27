@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
+import 'package:assosnation_app/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,11 @@ class _SendMessageFormState extends State<SendMessageForm> {
   _verifyAndValidateForm() async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        await MessagingService().sendMessageToConversation(
+        final res = await MessagingService().sendMessageToConversation(
             widget.convId, widget.sender, _msgToSend);
+        if (res)
+          Utils.displaySnackBarWithMessage(
+              context, "Couldn't send your message", Colors.red);
       }
     }
   }
