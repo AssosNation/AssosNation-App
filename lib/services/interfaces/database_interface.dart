@@ -1,5 +1,5 @@
 import 'package:assosnation_app/services/models/association.dart';
-import 'package:assosnation_app/services/models/associationAction.dart';
+import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/services/models/user.dart';
 
 abstract class DatabaseInterface {
