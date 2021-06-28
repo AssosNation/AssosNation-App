@@ -119,4 +119,30 @@ class MessagingService extends MessagingInterface {
         .where("participants", arrayContains: userRef)
         .snapshots();
   }
+
+  @override
+  Future initConversationIfNotFound(String userId, String assosId) async {
+    try {
+      DocumentReference userRef = _service.collection("users").doc(userId);
+      DocumentReference assosRef =
+          _service.collection("associations").doc(assosId);
+      CollectionReference convRef = _service.collection("conversations");
+
+      final convExist = await convRef
+          .where("participants", isEqualTo: [userRef, assosRef]).get();
+      if (convExist.docs.length == 0) {
+        final result = await convRef.add({
+          "messages": [],
+          "participants": [userRef, assosRef],
+        });
+        return Conversation(result.id, [], [userRef, assosRef]);
+      }
+      return Conversation(
+          convExist.docs.single.id,
+          convExist.docs.single.get("messages"),
+          convExist.docs.single.get("participants"));
+    } on FirebaseException catch (e) {
+      Future.error("Cannot init or find any conversations, something happened");
+    }
+  }
 }
