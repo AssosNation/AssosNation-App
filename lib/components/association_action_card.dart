@@ -1,106 +1,86 @@
-import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/components/dialog/delete_confirmation_dialog.dart';
+import 'package:assosnation_app/components/posts/edit_post_dialog.dart';
+import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
+import 'package:assosnation_app/services/models/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-import 'forms/form_main_title.dart';
+class AssociationActionCard extends StatefulWidget {
+  final AssociationAction _action;
 
-class AssociationActionCard extends StatelessWidget {
-  final AssociationAction action;
+  AssociationActionCard(this._action);
 
-  AssociationActionCard(this.action);
+  @override
+  _AsociationActionCardState createState() => _AsociationActionCardState();
+}
 
+class _AsociationActionCardState extends State<AssociationActionCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 10, 5, 10),
       child: Card(
-        elevation: 10.0,
+        elevation: 5.0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.horizontal(
+                left: Radius.elliptical(15, 10),
+                right: Radius.elliptical(10, 15))),
         child: Column(
           children: [
-            GestureDetector(
-              onTap: () => Navigator.of(context).pushNamed(
-                  "/associationDetails",
-                  arguments: this.action.association),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
-                          child: CircleAvatar(),
-                        ),
-                        Text(this.action.association.name),
-                      ],
+            PostMainTitle(
+              this.widget._action.title,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
+                    child: Text(
+                      this.widget._action.content,
+                      maxLines: 7,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.justify,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(DateFormat('dd-MM-yyyy').add_Hm().format(
-                            DateTime.parse(
-                                this.action.startDate.toDate().toString())))
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Column(
-              children: [
-                FormMainTitle(
-                  this.action.title,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
-                        child: Text(
-                          this.action.description,
-                          maxLines: 5,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                      child: Icon(
-                        Icons.people,
-                        color: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    Text(
-                        '${this.action.usersRegistered != 0 ? this.action.usersRegistered : 'pas'} de participants'),
-                  ],
-                ),
-                Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton.icon(
-                        onPressed: () {
-                          FireStoreService().addUserToAction(
-                              action.association.uid, action.id, 'test');
-                        },
-                        icon: Icon(Icons.add),
-                        label: Text("Je participe")),
-                  ],
                 ),
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    OutlinedButton.icon(
+                      icon: Icon(Icons.edit),
+                      onPressed: () => showModalBottomSheet(
+                        context: context,
+                        builder: (context) => EditPostDialog(widget._action),
+                      ),
+                      label: Text("Edit"),
+                    ),
+                    OutlinedButton.icon(
+                      icon: Icon(
+                        Icons.delete_forever_outlined,
+                        color: Colors.red,
+                      ),
+                      onPressed: () => showModalBottomSheet(
+                        context: context,
+                        builder: (context) => DeletePostConfirmationDialog(
+                            "Are you sure to delete this post ?",
+                            widget._action.id.toString()),
+                      ),
+                      label: Text(
+                        "Delete",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
