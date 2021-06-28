@@ -1,4 +1,4 @@
-import 'package:assosnation_app/components/an_bigTitle.dart';
+import 'package:assosnation_app/components/an_big_title.dart';
 import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';

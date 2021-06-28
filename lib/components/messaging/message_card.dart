@@ -1,3 +1,4 @@
+import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class MessageCard extends StatelessWidget {
@@ -20,15 +21,27 @@ class MessageCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10))),
       color: senderIsLocalUser ? Theme.of(context).accentColor : Colors.grey,
-      child: ListTile(
-        title: Text(
-          sender,
-          style: TextStyle(color: Colors.white),
-        ),
-        subtitle: Text(content,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        trailing: Text(_converTimestampToDateTime(),
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ListTile(
+            title: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: Text(
+                sender,
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            subtitle: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Text(content,
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(color: Colors.white)),
+            ),
+            trailing: Text(Utils.getDiffTimeBetweenNowAndTimestamp(timestamp),
+                style: TextStyle(color: Colors.white)),
+          )
+        ],
       ),
     );
   }

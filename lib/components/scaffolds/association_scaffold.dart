@@ -1,3 +1,4 @@
+import 'package:assosnation_app/components/posts/create_post_dialog.dart';
 import 'package:assosnation_app/pages/association/action_management.dart';
 import 'package:assosnation_app/pages/association/association_messaging_page.dart';
 import 'package:assosnation_app/pages/association/association_page.dart';
@@ -16,7 +17,7 @@ class AssociationScaffold extends StatefulWidget {
 }
 
 class _AssociationScaffoldState extends State<AssociationScaffold> {
-  int _selectedPage = 0;
+  int _selectedPage = 2;
 
   final List<Widget> _pages = [
     PostManagement(),
@@ -54,9 +55,29 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
 
     return Scaffold(
       bottomNavigationBar: _association != null ? _associationNavBar() : null,
+      floatingActionButton: _selectedPage == 0
+          ? FloatingActionButton(
+              elevation: 2,
+              child: Icon(Icons.add),
+              onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) => CreatePostDialog(),
+                  ))
+          : Container(),
       appBar: AppBar(
         centerTitle: true,
-        title: Text(Constants.appName),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/icon/logo_an.png",
+              height: 40,
+            ),
+            Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(Constants.appName)),
+          ],
+        ),
         actions: [
           IconButton(
               icon: Icon(Icons.logout),
