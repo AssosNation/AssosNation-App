@@ -1,3 +1,4 @@
+import 'package:assosnation_app/components/news_feed_like_component.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
@@ -16,23 +17,9 @@ class NewsFeedCard extends StatefulWidget {
 }
 
 class _NewsFeedCardState extends State<NewsFeedCard> {
-  int likesNumber = 0;
-  bool userLiked = false;
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
-    this.likesNumber = this.widget._post.usersWhoLiked.length;
-    if (_user != null) {
-      this.userLiked = widget._post.didUserLikeThePost(_user.uid);
-    }
-
-    updateState(likeAction) {
-      setState(() {
-        likesNumber = likesNumber + (likeAction ? 1 : -1);
-        userLiked = likeAction;
-      });
-    }
-
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 10, 5, 10),
       child: Card(
@@ -104,43 +91,10 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                         }),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                      child: Icon(
-                        Icons.thumb_up,
-                        color: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    Text(likesNumber.toString()),
-                  ],
-                ),
-                Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton.icon(
-                        onPressed: () {
-                          if (_user != null) {
-                            if (userLiked) {
-                              FireStoreService().removeUserToLikedList(
-                                  widget._post.id, _user.uid);
-                              updateState(false);
-                            } else {
-                              FireStoreService().addUsersToLikedList(
-                                  widget._post.id, _user.uid);
-                              updateState(true);
-                            }
-                          }
-                        },
-                        icon: Icon(userLiked
-                            ? Icons.thumb_up_alt_rounded
-                            : Icons.thumb_up_alt_outlined),
-                        label: Text(userLiked ? "Liked !" : "Like")),
-                  ],
-                ),
+                NewsFeedLikeComponent(
+                    this.widget._post.usersWhoLiked.length,
+                    this.widget._post.didUserLikeThePost(_user!.uid),
+                    this.widget._post.id)
               ],
             ),
           ],
