@@ -1,7 +1,9 @@
 import 'package:assosnation_app/components/an_big_title.dart';
+import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/components/description_asso.dart';
 import 'package:assosnation_app/components/edit_asso_dialog.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,15 +31,37 @@ class AssociationPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
               ),
               Container(
-                  padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: AnTitle("My association's informations")),
+              Divider(
+                thickness: 3,
+                indent: 15,
+                endIndent: 15,
+                color: Colors.teal,
+                height: 30,
+              ),
+              Container(
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 5),
                   child: DescriptionAsso(_association.description)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.edit, color: Colors.teal),
+                    onPressed: () => showModalBottomSheet(
+                      context: context,
+                      builder: (context) =>
+                          EditAssoDialog(_association, "description"),
+                    ),
+                  )
+                ],
+              ),
               Container(
                 padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
                 child: Row(
                   children: [
                     Icon(Icons.home_filled, color: Colors.teal),
-                    Text(
-                        "Nom de l'association : ${context.watch<Association?>()!.name}"),
+                    Text("Name : ${context.watch<Association?>()!.name}"),
                     IconButton(
                       icon: Icon(Icons.edit, color: Colors.teal),
                       onPressed: () => showModalBottomSheet(
@@ -54,7 +78,7 @@ class AssociationPage extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.phone, color: Colors.teal),
-                    Text("Numéro de téléphone : ${_association.phone}"),
+                    Text("Phone number : ${_association.phone}"),
                     IconButton(
                         icon: Icon(Icons.edit, color: Colors.teal),
                         onPressed: () => showModalBottomSheet(
@@ -70,10 +94,14 @@ class AssociationPage extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.home_filled, color: Colors.teal),
-                    Text("Adresse : ${_association.address}"),
+                    Text("Adress : ${_association.address}"),
                     IconButton(
                         icon: Icon(Icons.edit, color: Colors.teal),
-                        onPressed: () {})
+                        onPressed: () => showModalBottomSheet(
+                              context: context,
+                              builder: (context) =>
+                                  EditAssoDialog(_association, "address"),
+                            ))
                   ],
                 ),
               ),
@@ -82,10 +110,14 @@ class AssociationPage extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.location_city, color: Colors.teal),
-                    Text("Ville : ${_association.city}"),
+                    Text("City : ${_association.city}"),
                     IconButton(
                         icon: Icon(Icons.edit, color: Colors.teal),
-                        onPressed: () {})
+                        onPressed: () => showModalBottomSheet(
+                              context: context,
+                              builder: (context) =>
+                                  EditAssoDialog(_association, "city"),
+                            ))
                   ],
                 ),
               ),
@@ -94,7 +126,33 @@ class AssociationPage extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.mail, color: Colors.teal),
-                    Text("Mail : ${_association.mail}"),
+                    Text("E-Mail : ${_association.mail}"),
+                    IconButton(
+                        icon: Icon(Icons.edit, color: Colors.grey),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  elevation: 50,
+                                  title: Icon(
+                                    Icons.info_outline_rounded,
+                                    color: Colors.teal,
+                                    size: 55,
+                                  ),
+                                  content: Text(
+                                      "If you want to change this information, please contact the support."),
+                                  actions: [
+                                    CupertinoButton(
+                                      child: Text("Ok"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
+                        })
                   ],
                 ),
               ),
@@ -103,8 +161,33 @@ class AssociationPage extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.person, color: Colors.teal),
-                    Text(
-                        "Président de l'association : ${_association.president}"),
+                    Text("Director : ${_association.president}"),
+                    IconButton(
+                        icon: Icon(Icons.edit, color: Colors.grey),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  elevation: 50,
+                                  title: Icon(
+                                    Icons.info_outline_rounded,
+                                    color: Colors.teal,
+                                    size: 55,
+                                  ),
+                                  content: Text(
+                                      "If you want to change this information, please contact the support."),
+                                  actions: [
+                                    CupertinoButton(
+                                      child: Text("Ok"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
+                        })
                   ],
                 ),
               ),

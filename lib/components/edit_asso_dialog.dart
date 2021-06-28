@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 
 class EditAssoDialog extends StatefulWidget {
   final Association _association;
-  final String _toto;
+  final String _field;
 
-  EditAssoDialog(this._association, this._toto);
+  EditAssoDialog(this._association, this._field);
 
   @override
   _EditAssoDetailsState createState() => _EditAssoDetailsState();
@@ -23,12 +23,21 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         dynamic res;
-        if (widget._toto == "name") {
+        if (widget._field == "name") {
           res = await AssoDetailsService()
               .updateName(widget._association, _content);
-        } else if (widget._toto == "phone") {
+        } else if (widget._field == "phone") {
           res = await AssoDetailsService()
               .updatePhone(widget._association, _content);
+        } else if (widget._field == "address") {
+          res = await AssoDetailsService()
+              .updateAddress(widget._association, _content);
+        } else if (widget._field == "city") {
+          res = await AssoDetailsService()
+              .updateCity(widget._association, _content);
+        } else if (widget._field == "description") {
+          res = await AssoDetailsService()
+              .updateDescription(widget._association, _content);
         }
         if (res == true) {
           Navigator.pop(context);
@@ -40,6 +49,30 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
               "Something wrong happened, please try again", Colors.red);
         }
       }
+    }
+  }
+
+  _displayCurrentContent() {
+    if (widget._field == "name") {
+      return widget._association.name;
+    } else if (widget._field == "phone") {
+      return widget._association.phone;
+    } else if (widget._field == "address") {
+      return widget._association.address;
+    } else if (widget._field == "city") {
+      return widget._association.city;
+    } else if (widget._field == "description") {
+      return widget._association.description;
+    } else {
+      return "";
+    }
+  }
+
+  _chooseMaxLines() {
+    if (widget._field == "description") {
+      return 4;
+    } else {
+      return 1;
     }
   }
 
@@ -60,49 +93,48 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    PostMainSubtitle("Content : "),
-                    Expanded(
-                      child: TextFormField(
-                        maxLength: 50,
-                        autocorrect: true,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (content) {
-                          if (content!.isNotEmpty) {
-                            _content = content;
-                            return null;
-                          } else
-                            return "This field cannot be empty nor the same value as before";
-                        },
-                        maxLines: 1,
-                        style: TextStyle(color: Colors.black),
-                      ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  PostMainSubtitle("Content : "),
+                  Expanded(
+                    child: TextFormField(
+                      maxLength: 50,
+                      autocorrect: true,
+                      initialValue: _displayCurrentContent(),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (content) {
+                        if (content!.isNotEmpty) {
+                          _content = content;
+                          return null;
+                        } else
+                          return "This field cannot be empty nor the same value as before";
+                      },
+                      maxLines: _chooseMaxLines(),
+                      style: TextStyle(color: Colors.black),
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OutlinedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text("Cancel",
-                            style: TextStyle(color: Colors.red))),
-                    OutlinedButton(
-                        onPressed: _verifyAndValidateForm,
-                        child: Text(
-                          "Confirm",
-                          style: TextStyle(color: Colors.teal),
-                        )),
-                  ],
-                )
-              ],
-            ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child:
+                          Text("Cancel", style: TextStyle(color: Colors.red))),
+                  OutlinedButton(
+                      onPressed: _verifyAndValidateForm,
+                      child: Text(
+                        "Confirm",
+                        style: TextStyle(color: Colors.teal),
+                      )),
+                ],
+              )
+            ],
           ),
         ),
       ),
