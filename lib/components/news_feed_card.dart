@@ -1,4 +1,3 @@
-import 'package:assosnation_app/components/association_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
@@ -17,40 +16,46 @@ class NewsFeedCard extends StatefulWidget {
 }
 
 class _NewsFeedCardState extends State<NewsFeedCard> {
+  int likesNumber = 0;
+  bool userLiked = false;
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
+    this.likesNumber = this.widget._post.usersWhoLiked.length;
+    if (_user != null) {
+      this.userLiked = widget._post.didUserLikeThePost(_user.uid);
+    }
+
+    updateState(likeAction) {
+      setState(() {
+        likesNumber = likesNumber + (likeAction ? 1 : -1);
+        userLiked = likeAction;
+      });
+    }
+
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 10, 5, 10),
       child: Card(
         elevation: 5.0,
         child: Column(
           children: [
-            GestureDetector(
-              onTap: () => FireStoreService()
-                  .getAssociationInfosFromDBWithReference(
-                      this.widget._post.assosId)
-                  .then((association) => Navigator.of(context).pushNamed(
-                      "/associationDetails",
-                      arguments: association)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
-                          child: CircleAvatar(),
-                        ),
-                        //Text(this.widget._post.title)
-                      ],
-                    ),
-                  )
-                ],
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
+                        child: CircleAvatar(),
+                      ),
+                      Text(this.widget._post.title)
+                    ],
+                  ),
+                )
+              ],
             ),
             Column(
               children: [
@@ -109,7 +114,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                         color: Theme.of(context).accentColor,
                       ),
                     ),
-                    Text(this.widget._post.usersWhoLiked.length.toString()),
+                    Text(likesNumber.toString()),
                   ],
                 ),
                 Divider(),
@@ -119,21 +124,21 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                     TextButton.icon(
                         onPressed: () {
                           if (_user != null) {
-                            if (widget._post.didUserLikeThePost(_user.uid)) {
+                            if (userLiked) {
                               FireStoreService().removeUserToLikedList(
                                   widget._post.id, _user.uid);
+                              updateState(false);
                             } else {
                               FireStoreService().addUsersToLikedList(
                                   widget._post.id, _user.uid);
+                              updateState(true);
                             }
                           }
                         },
-                        icon: Icon(widget._post.didUserLikeThePost(_user!.uid)
+                        icon: Icon(userLiked
                             ? Icons.thumb_up_alt_rounded
                             : Icons.thumb_up_alt_outlined),
-                        label: Text(widget._post.didUserLikeThePost(_user.uid)
-                            ? "Liked !"
-                            : "Like")),
+                        label: Text(userLiked ? "Liked !" : "Like")),
                   ],
                 ),
               ],
