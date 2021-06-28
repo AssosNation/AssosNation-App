@@ -3,8 +3,10 @@ import 'package:assosnation_app/components/description_asso.dart';
 import 'package:assosnation_app/components/dialog/association_informations_dialog.dart';
 import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/utils.dart';
@@ -16,6 +18,18 @@ class AssociationDetails extends StatelessWidget {
   final Association assos;
 
   AssociationDetails(this.assos);
+
+  _navigateToConversation(BuildContext context, String userId) async {
+    final result =
+        await MessagingService().initConversationIfNotFound(userId, assos.uid);
+    if (result is Conversation) {
+      print("RESULT => $result");
+      Navigator.pop(context);
+      Navigator.of(context).pushNamed("/convAsUser", arguments: result);
+    } else
+      Utils.displaySnackBarWithMessage(
+          context, result.toString(), Colors.deepOrange);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +88,7 @@ class AssociationDetails extends StatelessWidget {
                     icon: Icon(Icons.message_outlined),
                     color: Colors.white,
                     iconSize: 30,
-                    onPressed: () =>
-                        Navigator.of(context).pushNamed("/messagingPage")),
+                    onPressed: _navigateToConversation(context, "_user.uid")),
                 IconButton(
                     icon: Icon(Icons.date_range),
                     color: Colors.white,
