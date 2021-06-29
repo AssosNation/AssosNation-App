@@ -11,11 +11,11 @@ class AssociationService extends AssociationServiceInterface {
       DocumentReference assosRef =
           _service.collection("associations").doc(associationId);
       DocumentReference userRef = _service.collection("users").doc(userId);
-      _service.collection('users').doc(userId).update({
+      await _service.collection('users').doc(userId).update({
         'subscriptions': FieldValue.arrayUnion([assosRef])
       });
 
-      _service.collection('associations').doc(associationId).update({
+      await _service.collection('associations').doc(associationId).update({
         'subscribers': FieldValue.arrayUnion([userRef])
       });
       return Future.value(true);
@@ -30,11 +30,11 @@ class AssociationService extends AssociationServiceInterface {
       DocumentReference assosRef =
           _service.collection("associations").doc(associationId);
       DocumentReference userRef = _service.collection("users").doc(userId);
-      _service.collection('users').doc(userId).update({
+      await _service.collection('users').doc(userId).update({
         'subscriptions': FieldValue.arrayRemove([assosRef])
       });
 
-      _service.collection('associations').doc(associationId).update({
+      await _service.collection('associations').doc(associationId).update({
         'subscribers': FieldValue.arrayRemove([userRef])
       });
       return Future.value(true);
