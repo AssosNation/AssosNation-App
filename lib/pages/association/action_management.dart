@@ -1,9 +1,8 @@
-import 'package:assosnation_app/components/posts/association_post_card.dart';
-import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
+import 'package:assosnation_app/components/association_action_card.dart';
+import 'package:assosnation_app/components/create_action_dialog.dart';
+import 'package:assosnation_app/services/firebase/firestore/association_actions_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
-import 'package:assosnation_app/services/models/post.dart';
-import 'package:assosnation_app/utils/converters.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,29 +12,29 @@ class ActionManagement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _association = context.watch<Association?>();
-    return Column(children: [
-      Expanded(
-        child: StreamBuilder<QuerySnapshot>(
-            stream: PostService()
-                .retrieveAllPostsForAssociationStream(_association!),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final List<Post> docs =
-                    Converters.convertDocSnapshotsToListPost(
-                        snapshot.data!.docs);
-                return ListView.builder(
-                  itemCount: docs.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: AssociationPostCard(docs[index]),
-                    );
-                  },
-                );
-              }
-              return Container();
-            }),
-      ),
-    ]);
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          elevation: 2,
+          child: Icon(Icons.add),
+          onPressed: () => showDialog(
+                context: context,
+                builder: (context) => CreateActionDialog(_association),
+              )),
+      body: Column(children: [
+        Expanded(
+            child: ListView.builder(
+                itemCount: _association!.actions!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  AssociationAction? action = AssociationActionsService()
+                      .getAssociationActionFromAssociationInfos(
+                          _association, index);
+                  if (action != null) {
+                    return AssociationActionCard(action);
+                  } else {
+                    return Text("Vous n'avez pas encore créé d'actions");
+                  }
+                })),
+      ]),
+    );
   }
 }

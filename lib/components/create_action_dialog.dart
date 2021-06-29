@@ -7,16 +7,15 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class EditActionDialog extends StatefulWidget {
-  final AssociationAction _action;
-
-  EditActionDialog(this._action);
+class CreateActionDialog extends StatefulWidget {
+  final association;
+  CreateActionDialog(this.association);
 
   @override
-  _EditActionDialogState createState() => _EditActionDialogState();
+  _CreateActionDialogState createState() => _CreateActionDialogState();
 }
 
-class _EditActionDialogState extends State<EditActionDialog> {
+class _CreateActionDialogState extends State<CreateActionDialog> {
   final _formKey = GlobalKey<FormState>();
 
   String _title = "";
@@ -31,8 +30,8 @@ class _EditActionDialogState extends State<EditActionDialog> {
   _verifyAndValidateForm() async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        AssociationAction newAction = AssociationAction(
-            0,
+        AssociationAction action = AssociationAction(
+            this.widget.association.actions.length,
             _title,
             _city,
             _postalCode,
@@ -41,13 +40,13 @@ class _EditActionDialogState extends State<EditActionDialog> {
             _type,
             _startDate,
             _endDate,
-            this.widget._action.association,
+            this.widget.association,
             0,
             false);
         AssociationActionsService()
-            .updateAssociationAction(widget._action, newAction);
+            .createAssociationActionForAssociation(action);
         Navigator.pop(context);
-        _displaySnackBarWithMessage("Your post has been updated", Colors.green);
+        _displaySnackBarWithMessage("Your post has been created", Colors.green);
       }
     }
   }
@@ -83,7 +82,7 @@ class _EditActionDialogState extends State<EditActionDialog> {
                       Expanded(
                         child: TextFormField(
                           maxLength: 30,
-                          initialValue: widget._action.title,
+                          initialValue: _title,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (title) {
                             if (title!.isNotEmpty) {
@@ -106,7 +105,7 @@ class _EditActionDialogState extends State<EditActionDialog> {
                         child: TextFormField(
                           maxLength: 30,
                           autocorrect: true,
-                          initialValue: widget._action.city,
+                          initialValue: _city,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (city) {
                             if (city!.isNotEmpty) {
@@ -129,7 +128,7 @@ class _EditActionDialogState extends State<EditActionDialog> {
                         child: TextFormField(
                           maxLength: 5,
                           autocorrect: true,
-                          initialValue: widget._action.postalCode,
+                          initialValue: _postalCode,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (postalCode) {
                             if (postalCode!.isNotEmpty) {
@@ -152,7 +151,7 @@ class _EditActionDialogState extends State<EditActionDialog> {
                         child: TextFormField(
                           maxLength: 50,
                           autocorrect: true,
-                          initialValue: widget._action.address,
+                          initialValue: _address,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (address) {
                             if (address!.isNotEmpty) {
@@ -175,7 +174,7 @@ class _EditActionDialogState extends State<EditActionDialog> {
                         child: TextFormField(
                           maxLength: 150,
                           autocorrect: true,
-                          initialValue: widget._action.description,
+                          initialValue: _description,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (description) {
                             if (description!.isNotEmpty) {

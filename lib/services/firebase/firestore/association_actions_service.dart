@@ -1,87 +1,71 @@
-import 'package:assosnation_app/services/interfaces/posts_interface.dart';
+import 'package:assosnation_app/services/interfaces/association_actions_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
-import 'package:assosnation_app/services/models/post.dart';
+import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class PostService implements PostsInterface {
+class AssociationActionsService implements AssociationActionsInterface {
   final FirebaseFirestore _service = FirebaseFirestore.instance;
 
   @override
-  Future createPostForAssociation(Post post, String assosId) async {
-    DocumentReference assosRef =
-        _service.collection("associations").doc(assosId);
-    CollectionReference posts = _service.collection("posts");
-    try {
-      await posts.add({
-        "assosId": assosRef,
-        "title": post.title,
-        "content": post.content,
-        "photo": "",
-        "timestamp": Timestamp.now(),
-        "usersWhoLiked": []
-      });
-      return Future.value(true);
-    } on FirebaseException catch (e) {
-      Future.error("Cannot create post for association $assosRef");
-    }
+  createAssociationActionForAssociation(AssociationAction action) async {
+    dynamic associationInfos = {
+      "address": action.address,
+      "city": action.city,
+      "description": action.description,
+      "endDate": action.endDate,
+      "startDate": action.startDate,
+      "title": action.title,
+      "type": action.type,
+      "postalCode": action.postalCode,
+      "usersRegistered": []
+    };
+    _service.collection('associations').doc(action.association.uid).update({
+      'actions': FieldValue.arrayUnion([associationInfos])
+    });
   }
 
   @override
-  Future removePost(String postId) async {
-    DocumentReference postRef = _service.collection("posts").doc(postId);
-    try {
-      await postRef.delete();
-      return Future.value(true);
-    } on FirebaseException catch (e) {
-      return Future.error("Cannot update post with id $postId");
-    }
+  Future removeAssociationAction(AssociationAction action) async {
+    action.association.actions!.removeAt(action.id);
+    await _service
+        .collection('associations')
+        .doc(action.association.uid)
+        .update({'actions': FieldValue.delete()});
   }
 
-  Stream<QuerySnapshot> retrieveAllPostsForAssociationStream(
+  @override
+  Future updateAssociationAction(
+      AssociationAction oldAction, AssociationAction newAction) async {
+    await this.removeAssociationAction(oldAction);
+    this.createAssociationActionForAssociation(newAction);
+  }
+
+  @override
+  Stream<QuerySnapshot> retrieveAllAssociationActionForAssociationStream(
       Association assos) {
-    DocumentReference assosRef =
-        _service.collection("associations").doc(assos.uid);
-    CollectionReference postsRef = _service.collection("posts");
-    return postsRef.where("assosId", isEqualTo: assosRef).snapshots();
+    // TODO: implement retrieveAllAssociationActionForAssociationStream
+    throw UnimplementedError();
   }
 
-  @override
-  Future<List<Post>> retrieveAllPostsForAssociation(
-      Association association) async {
-    DocumentReference assosRef =
-        _service.collection("associations").doc(association.uid);
-    CollectionReference postsRef = _service.collection("posts");
-    try {
-      final posts = await postsRef.where("assosId", isEqualTo: assosRef).get();
-
-      List<Post> postList = posts.docs
-          .map((e) => Post(
-              e.id,
-              e.get("title"),
-              e.get("assosId").id,
-              e.get("content"),
-              e.get("photo"),
-              e.get("timestamp"),
-              e.get("usersWhoLiked")))
-          .toList();
-      return postList;
-    } on FirebaseException catch (e) {
-      return Future.error(
-          "Cannot retrieve all post for association ${association.name}");
+  AssociationAction? getAssociationActionFromAssociationInfos(
+      Association association, int index) {
+    dynamic associationInfos = association.actions![index];
+    if (associationInfos == null) {
+      return null;
     }
-  }
 
-  @override
-  Future updatePost(Post post, String title, String content) async {
-    DocumentReference postRef = _service.collection("posts").doc(post.id);
-    try {
-      await postRef.update({
-        "title": title,
-        "content": content,
-      });
-      return Future.value(true);
-    } on FirebaseException catch (e) {
-      return Future.error("Cannot update post with id ${post.id}");
-    }
+    return AssociationAction(
+        index,
+        associationInfos['title'],
+        associationInfos['city'],
+        associationInfos['postalCode'],
+        associationInfos['address'],
+        associationInfos['description'],
+        associationInfos['type'],
+        associationInfos['startDate'],
+        associationInfos['endDate'],
+        association,
+        associationInfos['usersRegistered'].length,
+        true);
   }
 }

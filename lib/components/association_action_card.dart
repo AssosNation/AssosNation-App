@@ -56,7 +56,7 @@ class _AsociationActionCardState extends State<AssociationActionCard> {
                   children: [
                     OutlinedButton.icon(
                       icon: Icon(Icons.edit),
-                      onPressed: () => showModalBottomSheet(
+                      onPressed: () => showDialog(
                         context: context,
                         builder: (context) => EditActionDialog(widget._action),
                       ),
@@ -69,9 +69,10 @@ class _AsociationActionCardState extends State<AssociationActionCard> {
                       ),
                       onPressed: () => showModalBottomSheet(
                         context: context,
-                        builder: (context) => DeletePostConfirmationDialog(
-                            "Are you sure to delete this post ?",
-                            widget._action.id.toString()),
+                        builder: (context) => DeleteObjectConfirmationDialog(
+                            "Are you sure to delete this action ?",
+                            null,
+                            this.widget._action),
                       ),
                       label: Text(
                         "Delete",

@@ -67,9 +67,10 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
                       ),
                       onPressed: () => showModalBottomSheet(
                         context: context,
-                        builder: (context) => DeletePostConfirmationDialog(
+                        builder: (context) => DeleteObjectConfirmationDialog(
                             "Are you sure to delete this post ?",
-                            widget._post.id),
+                            widget._post.id,
+                            null),
                       ),
                       label: Text(
                         "Delete",
