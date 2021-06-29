@@ -1,6 +1,7 @@
 import 'package:assosnation_app/components/posts/post_main_subtitle.dart';
 import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -41,11 +42,11 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
         }
         if (res == true) {
           Navigator.pop(context);
-          _displaySnackBarWithMessage(
-              "Infos has been updated ! ", Colors.green);
+          Utils.displaySnackBarWithMessage(
+              context, "Infos has been updated ! ", Colors.green);
         } else {
           Navigator.pop(context);
-          _displaySnackBarWithMessage(
+          Utils.displaySnackBarWithMessage(context,
               "Something wrong happened, please try again", Colors.red);
         }
       }
@@ -76,19 +77,10 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
     }
   }
 
-  _displaySnackBarWithMessage(String msg, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      behavior: SnackBarBehavior.floating,
-      content: Text(msg),
-      backgroundColor: color,
-      duration: Duration(seconds: 3),
-    ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.4,
+      height: MediaQuery.of(context).size.height * 0.3,
       child: Form(
         key: _formKey,
         child: Padding(
