@@ -1,3 +1,4 @@
+import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
 import 'package:assosnation_app/services/interfaces/association_service_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -50,6 +51,13 @@ class AssociationService extends AssociationServiceInterface {
         _service.collection("associations").doc(assos.uid);
     try {
       await assoRef.update({"name": content});
+      var associationsConversations =
+          MessagingService().getAllConversationsByAssociation(assos.uid);
+      associationsConversations.then((conversations) {
+        conversations.forEach((conversation) {
+          conversation.names[1] = content;
+        });
+      });
       return Future.value(true);
     } on FirebaseException catch (e) {
       return Future.error("Cannot update name with id ${assos.uid}");
