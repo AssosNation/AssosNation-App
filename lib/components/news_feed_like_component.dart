@@ -50,12 +50,12 @@ class _NewsFeedLikeComponentState extends State<NewsFeedLikeComponent> {
         TextButton.icon(
             onPressed: () {
               if (this.widget._userLiked) {
-                FireStoreService().removeUserToLikedList(
-                    widget._postId, this.widget._userId.uid);
+                FireStoreService()
+                    .removeUserToLikedList(widget._postId, this.widget._userId);
                 updateState(false);
               } else {
-                FireStoreService().addUsersToLikedList(
-                    widget._postId, this.widget._userId.uid);
+                FireStoreService()
+                    .addUsersToLikedList(widget._postId, this.widget._userId);
                 updateState(true);
               }
             },
