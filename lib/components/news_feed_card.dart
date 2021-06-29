@@ -1,16 +1,17 @@
-import 'package:assosnation_app/components/association_card.dart';
+import 'package:assosnation_app/components/news_feed_like_component.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
-import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import 'forms/form_main_title.dart';
 
 class NewsFeedCard extends StatefulWidget {
   final _post;
-  NewsFeedCard(this._post);
+  final _assosName;
+  final _userId;
+  NewsFeedCard(this._post, this._assosName, this._userId);
 
   @override
   _NewsFeedCardState createState() => _NewsFeedCardState();
@@ -19,43 +20,49 @@ class NewsFeedCard extends StatefulWidget {
 class _NewsFeedCardState extends State<NewsFeedCard> {
   @override
   Widget build(BuildContext context) {
-    final _user = context.watch<AnUser?>();
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 10, 5, 10),
       child: Card(
         elevation: 5.0,
         child: Column(
           children: [
-            GestureDetector(
-              onTap: () => FireStoreService()
-                  .getAssociationInfosFromDBWithReference(
-                      this.widget._post.assosId)
-                  .then((association) => Navigator.of(context).pushNamed(
-                      "/associationDetails",
-                      arguments: association)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
-                          child: CircleAvatar(),
-                        ),
-                        //Text(this.widget._post.title)
-                      ],
-                    ),
-                  )
-                ],
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
+                        child: CircleAvatar(),
+                      ),
+                      Text(widget._assosName)
+                    ],
+                  ),
+                )
+              ],
             ),
             Column(
               children: [
                 FormMainTitle(
                   this.widget._post.title,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(DateFormat('dd-MM-yyyy').add_Hm().format(
+                          DateTime.parse(this
+                              .widget
+                              ._post
+                              .timestamp
+                              .toDate()
+                              .toString()))),
+                    ],
+                  ),
                 ),
                 Row(
                   children: [
@@ -99,43 +106,11 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                         }),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                      child: Icon(
-                        Icons.thumb_up,
-                        color: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    Text(this.widget._post.usersWhoLiked.length.toString()),
-                  ],
-                ),
-                Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton.icon(
-                        onPressed: () {
-                          if (_user != null) {
-                            if (widget._post.didUserLikeThePost(_user.uid)) {
-                              FireStoreService().removeUserToLikedList(
-                                  widget._post.id, _user.uid);
-                            } else {
-                              FireStoreService().addUsersToLikedList(
-                                  widget._post.id, _user.uid);
-                            }
-                          }
-                        },
-                        icon: Icon(widget._post.didUserLikeThePost(_user!.uid)
-                            ? Icons.thumb_up_alt_rounded
-                            : Icons.thumb_up_alt_outlined),
-                        label: Text(widget._post.didUserLikeThePost(_user.uid)
-                            ? "Liked !"
-                            : "Like")),
-                  ],
-                ),
+                NewsFeedLikeComponent(
+                    this.widget._post.usersWhoLiked.length,
+                    this.widget._post.didUserLikeThePost(this.widget._userId),
+                    this.widget._post.id,
+                    this.widget._userId)
               ],
             ),
           ],

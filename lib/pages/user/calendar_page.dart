@@ -1,7 +1,10 @@
 import 'package:assosnation_app/components/association_action_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
+import 'package:assosnation_app/services/models/user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Calendar extends StatefulWidget {
   @override
@@ -13,6 +16,7 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
+    final _user = context.watch<AnUser?>();
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,8 +40,8 @@ class _CalendarState extends State<Calendar> {
               children: [
                 FutureBuilder(
                   future: _isFirstPart
-                      ? FireStoreService().getUserAssociationsByDate()
-                      : FireStoreService().getAllActions(),
+                      ? FireStoreService().getUserAssociationsByDate(_user?.uid)
+                      : FireStoreService().getAllActions(_user?.uid),
                   builder: (context,
                       AsyncSnapshot<List<AssociationAction>> snapshot) {
                     if (snapshot.hasData) {
