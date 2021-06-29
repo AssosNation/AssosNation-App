@@ -18,7 +18,8 @@ class MessagingService extends MessagingInterface {
           .get();
 
       List<Conversation> _conversationList = snapshot.docs.map((e) {
-        return Conversation(e.id, e.get("messages"), e.get("participants"));
+        return Conversation(
+            e.id, e.get("messages"), e.get("participants"), e.get("names"));
       }).toList();
 
       return _conversationList;
@@ -38,7 +39,8 @@ class MessagingService extends MessagingInterface {
           .get();
 
       List<Conversation> _conversationList = snapshot.docs.map((e) {
-        return Conversation(e.id, e.get("messages"), e.get("participants"));
+        return Conversation(
+            e.id, e.get("messages"), e.get("participants"), e.get("names"));
       }).toList();
 
       return _conversationList;
@@ -118,5 +120,35 @@ class MessagingService extends MessagingInterface {
     return conversationRef
         .where("participants", arrayContains: userRef)
         .snapshots();
+  }
+
+  @override
+  Future initConversationIfNotFound(
+      String userId, String assosId, String userName, String assosName) async {
+    try {
+      DocumentReference userRef = _service.collection("users").doc(userId);
+      DocumentReference assosRef =
+          _service.collection("associations").doc(assosId);
+      CollectionReference convRef = _service.collection("conversations");
+
+      final convExist = await convRef
+          .where("participants", isEqualTo: [userRef, assosRef]).get();
+      if (convExist.docs.length == 0) {
+        final result = await convRef.add({
+          "messages": [],
+          "participants": [userRef, assosRef],
+          "names": [userName, assosName]
+        });
+        return Conversation(
+            result.id, [], [userRef, assosRef], [userName, assosName]);
+      }
+      return Conversation(
+          convExist.docs.single.id,
+          convExist.docs.single.get("messages"),
+          convExist.docs.single.get("participants"),
+          convExist.docs.single.get("names"));
+    } on FirebaseException catch (e) {
+      Future.error("Cannot init or find any conversations, something happened");
+    }
   }
 }
