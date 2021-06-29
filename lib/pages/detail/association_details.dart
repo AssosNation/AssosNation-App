@@ -2,7 +2,7 @@ import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/components/description_asso.dart';
 import 'package:assosnation_app/components/dialog/association_informations_dialog.dart';
 import 'package:assosnation_app/components/news_feed_card.dart';
-import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
@@ -57,10 +57,10 @@ class AssociationDetails extends StatelessWidget {
                     IconButton(
                       color: Colors.white,
                       iconSize: 30,
-                      onPressed: () {
+                      onPressed: () async {
                         if (_user != null) {
                           if (assos.didUserSubscribed(_user.uid)) {
-                            FireStoreService()
+                            await AssociationService()
                                 .unsubscribeToAssociation(assos.uid, _user.uid);
                             Utils.displaySnackBarWithMessage(
                                 context,
@@ -69,7 +69,7 @@ class AssociationDetails extends StatelessWidget {
                                 /// TODO I18N
                                 Colors.deepOrange);
                           } else {
-                            FireStoreService()
+                            await AssociationService()
                                 .subscribeToAssociation(assos.uid, _user.uid);
                             Utils.displaySnackBarWithMessage(
                                 context,

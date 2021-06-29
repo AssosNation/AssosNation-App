@@ -1,14 +1,53 @@
-import 'package:assosnation_app/services/interfaces/asso_details_interface.dart';
+import 'package:assosnation_app/services/interfaces/association_service_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AssociationService implements AssoDetailsInterface {
+class AssociationService extends AssociationServiceInterface {
   final FirebaseFirestore _service = FirebaseFirestore.instance;
+
+  @override
+  Future subscribeToAssociation(String associationId, String userId) async {
+    try {
+      DocumentReference assosRef =
+      _service.collection("associations").doc(associationId);
+      DocumentReference userRef = _service.collection("users").doc(userId);
+      _service.collection('users').doc(userId).update({
+        'subscriptions': FieldValue.arrayUnion([assosRef])
+      });
+
+      _service.collection('associations').doc(associationId).update({
+        'subscribers': FieldValue.arrayUnion([userRef])
+      });
+      return Future.value(true);
+    } on FirebaseException catch (e) {
+      return Future.error("Error while subscribing to assos => $associationId");
+    }
+  }
+
+  @override
+  Future unsubscribeToAssociation(String associationId, String userId) async {
+    try {
+      DocumentReference assosRef =
+      _service.collection("associations").doc(associationId);
+      DocumentReference userRef = _service.collection("users").doc(userId);
+      _service.collection('users').doc(userId).update({
+        'subscriptions': FieldValue.arrayRemove([assosRef])
+      });
+
+      _service.collection('associations').doc(associationId).update({
+        'subscribers': FieldValue.arrayRemove([userRef])
+      });
+      return Future.value(true);
+    } on FirebaseException catch (e) {
+      return Future.error(
+          "Error while unsubscribing to assos => $associationId");
+    }
+  }
 
   @override
   Future updateName(Association assos, String content) async {
     DocumentReference assoRef =
-        _service.collection("associations").doc(assos.uid);
+    _service.collection("associations").doc(assos.uid);
     try {
       await assoRef.update({"name": content});
       return Future.value(true);
@@ -20,7 +59,7 @@ class AssociationService implements AssoDetailsInterface {
   @override
   Future updatePhone(Association assos, String content) async {
     DocumentReference assoRef =
-        _service.collection("associations").doc(assos.uid);
+    _service.collection("associations").doc(assos.uid);
     try {
       await assoRef.update({"phone": content});
       return Future.value(true);
@@ -32,7 +71,7 @@ class AssociationService implements AssoDetailsInterface {
   @override
   Future updateAddress(Association assos, String content) async {
     DocumentReference assoRef =
-        _service.collection("associations").doc(assos.uid);
+    _service.collection("associations").doc(assos.uid);
     try {
       await assoRef.update({"address": content});
       return Future.value(true);
@@ -44,7 +83,7 @@ class AssociationService implements AssoDetailsInterface {
   @override
   Future updateCity(Association assos, String content) async {
     DocumentReference assoRef =
-        _service.collection("associations").doc(assos.uid);
+    _service.collection("associations").doc(assos.uid);
     try {
       await assoRef.update({"city": content});
       return Future.value(true);
@@ -56,7 +95,7 @@ class AssociationService implements AssoDetailsInterface {
   @override
   Future updateDescription(Association assos, String content) async {
     DocumentReference assoRef =
-        _service.collection("associations").doc(assos.uid);
+    _service.collection("associations").doc(assos.uid);
     try {
       await assoRef.update({"description": content});
       return Future.value(true);
