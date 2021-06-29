@@ -9,25 +9,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FireStoreService extends DatabaseInterface {
   final FirebaseFirestore _service = FirebaseFirestore.instance;
 
-  Future<List<Post>> getAllPostsByAssociationList(List? associationList) async {
+  Future<List<dynamic>> getAllPostsByAssociationList(
+      List? associationList) async {
     if (associationList == null) {
       return List.empty();
     }
 
+    Map<DocumentReference, String> associationNameList =
+        await getAssociationListNameMesCouilles(associationList);
+
     CollectionReference posts = _service.collection("posts");
     try {
       QuerySnapshot snapshot = await posts.get();
-      List<Post> postList = List.empty(growable: true);
-      snapshot.docs.forEach((post) {
+      List postList = List.empty(growable: true);
+      snapshot.docs.forEach((post) async {
         if (associationList.contains(post.get('assosId'))) {
-          postList.add(Post(
-              post.id,
-              post.get('title'),
-              post.get('assosId').toString(),
-              post.get('content'),
-              post.get('photo'),
-              post.get('timestamp'),
-              post.get('usersWhoLiked')));
+          postList.add({
+            "post": Post(
+                post.id,
+                post.get('title'),
+                post.get('assosId').toString(),
+                post.get('content'),
+                post.get('photo'),
+                post.get('timestamp'),
+                post.get('usersWhoLiked')),
+            "assosName": associationNameList[post.get('assosId')]
+          });
         }
       });
 
@@ -35,6 +42,16 @@ class FireStoreService extends DatabaseInterface {
     } on FirebaseException catch (e) {
       return Future.error("Error while retrieving all posts");
     }
+  }
+
+  getAssociationListNameMesCouilles(associationList) async {
+    Map<DocumentReference, String> associationNameList = {};
+    for (DocumentReference association in associationList) {
+      DocumentSnapshot assosRef = await association.get();
+      associationNameList[association] = assosRef.get('name');
+    }
+
+    return associationNameList;
   }
 
   @override

@@ -9,24 +9,15 @@ import 'forms/form_main_title.dart';
 
 class NewsFeedCard extends StatefulWidget {
   final _post;
+  final _assosName;
   final _userId;
-  NewsFeedCard(this._post, this._userId);
+  NewsFeedCard(this._post, this._assosName, this._userId);
 
   @override
   _NewsFeedCardState createState() => _NewsFeedCardState();
 }
 
 class _NewsFeedCardState extends State<NewsFeedCard> {
-  String associationName = '';
-  _NewsFeedCardState() {
-    setAssociationName();
-  }
-
-  setAssociationName() async {
-    associationName =
-        await FireStoreService().getAssociationNameById(widget._post.assosId);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -47,7 +38,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                         padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
                         child: CircleAvatar(),
                       ),
-                      Text(associationName)
+                      Text(widget._assosName)
                     ],
                   ),
                 )

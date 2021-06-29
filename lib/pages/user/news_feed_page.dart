@@ -24,7 +24,7 @@ class NewsFeed extends StatelessWidget {
                 FutureBuilder(
                   future: FireStoreService()
                       .getAllPostsByAssociationList(_user?.subscriptions),
-                  builder: (context, AsyncSnapshot<List<Post>> snapshot) {
+                  builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
                     if (snapshot.hasData) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.none:
@@ -34,12 +34,12 @@ class NewsFeed extends StatelessWidget {
                         case ConnectionState.active:
                           break;
                         case ConnectionState.done:
-                          List<Post> postList = snapshot.data!;
+                          List<dynamic> postList = snapshot.data!;
                           return Expanded(
                             child: ListView.builder(
                               itemBuilder: (context, index) {
-                                return NewsFeedCard(
-                                    postList[index], _user!.uid);
+                                return NewsFeedCard(postList[index]['post'],
+                                    postList[index]['assosName'], _user!.uid);
                               },
                               itemCount: postList.length,
                               shrinkWrap: true,
