@@ -8,8 +8,7 @@ class AssociationService extends AssociationServiceInterface {
   @override
   Future subscribeToAssociation(String associationId, String userId) async {
     try {
-      DocumentReference assosRef =
-      _service.collection("associations").doc(associationId);
+      DocumentReference assosRef = _service.collection("associations").doc(associationId);
       DocumentReference userRef = _service.collection("users").doc(userId);
       _service.collection('users').doc(userId).update({
         'subscriptions': FieldValue.arrayUnion([assosRef])
@@ -27,8 +26,7 @@ class AssociationService extends AssociationServiceInterface {
   @override
   Future unsubscribeToAssociation(String associationId, String userId) async {
     try {
-      DocumentReference assosRef =
-      _service.collection("associations").doc(associationId);
+      DocumentReference assosRef = _service.collection("associations").doc(associationId);
       DocumentReference userRef = _service.collection("users").doc(userId);
       _service.collection('users').doc(userId).update({
         'subscriptions': FieldValue.arrayRemove([assosRef])
