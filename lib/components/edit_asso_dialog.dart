@@ -1,5 +1,5 @@
 import 'package:assosnation_app/components/posts/post_main_subtitle.dart';
-import 'package:assosnation_app/services/firebase/firestore/asso_details_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,19 +24,19 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
       if (_formKey.currentState!.validate()) {
         dynamic res;
         if (widget._field == "name") {
-          res = await AssoDetailsService()
+          res = await AssociationService()
               .updateName(widget._association, _content);
         } else if (widget._field == "phone") {
-          res = await AssoDetailsService()
+          res = await AssociationService()
               .updatePhone(widget._association, _content);
         } else if (widget._field == "address") {
-          res = await AssoDetailsService()
+          res = await AssociationService()
               .updateAddress(widget._association, _content);
         } else if (widget._field == "city") {
-          res = await AssoDetailsService()
+          res = await AssociationService()
               .updateCity(widget._association, _content);
         } else if (widget._field == "description") {
-          res = await AssoDetailsService()
+          res = await AssociationService()
               .updateDescription(widget._association, _content);
         }
         if (res == true) {
