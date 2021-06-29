@@ -1,20 +1,33 @@
-import 'package:assosnation_app/components/an_big_title.dart';
 import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/components/description_asso.dart';
+import 'package:assosnation_app/components/dialog/association_informations_dialog.dart';
 import 'package:assosnation_app/components/news_feed_card.dart';
-import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class AssociationDetails extends StatelessWidget {
   final Association assos;
+
   AssociationDetails(this.assos);
+
+  _navigateToConversation(BuildContext context, String userId, userName) async {
+    final result = await MessagingService()
+        .initConversationIfNotFound(userId, assos.uid, userName, assos.name);
+    if (result is Conversation) {
+      Navigator.of(context).pushNamed("/convAsUser", arguments: result);
+    } else
+      Utils.displaySnackBarWithMessage(
+          context, result.toString(), Colors.deepOrange);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +35,12 @@ class AssociationDetails extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Association Page"),
+        title: Text(assos.name),
       ),
       body: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           Column(
             children: [
-              Container(
-                margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                color: Colors.teal,
-                child: AnBigTitle(assos.name),
-                height: 70,
-              ),
               Image.network(
                 assos.banner,
                 width: MediaQuery.of(context).size.width,
@@ -50,32 +57,26 @@ class AssociationDetails extends StatelessWidget {
                     IconButton(
                       color: Colors.white,
                       iconSize: 30,
-                      onPressed: () {
+                      onPressed: () async {
                         if (_user != null) {
                           if (assos.didUserSubscribed(_user.uid)) {
-                            FireStoreService()
+                            await AssociationService()
                                 .unsubscribeToAssociation(assos.uid, _user.uid);
-                            Fluttertoast.showToast(
-                                msg:
-                                    "Vous n'êtes plus abonné à cette association ! ",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.green,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
+                            Utils.displaySnackBarWithMessage(
+                                context,
+                                "Vous n'êtes plus abonné à cette association ! ",
+
+                                /// TODO I18N
+                                Colors.deepOrange);
                           } else {
-                            FireStoreService()
+                            await AssociationService()
                                 .subscribeToAssociation(assos.uid, _user.uid);
-                            Fluttertoast.showToast(
-                                msg:
-                                    "Vous êtes désormais abonné à cette association ! ",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
+                            Utils.displaySnackBarWithMessage(
+                                context,
+                                "Vous êtes désormais abonné à cette association !",
+
+                                /// TODO I18N
+                                Colors.green);
                           }
                         }
                       },
@@ -86,86 +87,27 @@ class AssociationDetails extends StatelessWidget {
                   ],
                 ),
                 IconButton(
-                  icon: Icon(Icons.message_outlined),
-                  color: Colors.white,
-                  iconSize: 30,
-                  onPressed: () {
-                    Navigator.of(context).pushNamed("/messagingPage");
-                  },
-                ),
+                    icon: Icon(Icons.message_outlined),
+                    color: Colors.white,
+                    iconSize: 30,
+                    onPressed: () => _navigateToConversation(context, _user.uid,
+                        "${_user.firstName} ${_user.lastName}")),
                 IconButton(
-                  icon: Icon(Icons.date_range),
-                  color: Colors.white,
-                  iconSize: 30,
-                  onPressed: () {
-                    Navigator.of(context).pushNamed("/associationCalendarPage",
-                        arguments: assos);
-                  },
-                ),
+                    icon: Icon(Icons.date_range),
+                    color: Colors.white,
+                    iconSize: 30,
+                    onPressed: () => Navigator.of(context).pushNamed(
+                        "/associationCalendarPage",
+                        arguments: assos)),
                 IconButton(
                   icon: Icon(Icons.info_outline_rounded),
                   color: Colors.white,
                   iconSize: 30,
                   onPressed: () {
-                    showDialog(
+                    showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                          elevation: 50,
-                          title: Icon(
-                            Icons.info_sharp,
-                            color: Colors.teal,
-                            size: 55,
-                          ),
-                          actions: [
-                            Row(
-                              children: [
-                                Icon(
-                                  CupertinoIcons.location,
-                                  color: Colors.teal,
-                                ),
-                                Text(
-                                  assos.address,
-                                  style: TextStyle(color: Colors.teal),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.location_city_rounded,
-                                  color: Colors.teal,
-                                ),
-                                Text(
-                                  assos.city,
-                                  style: TextStyle(color: Colors.teal),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  CupertinoIcons.phone,
-                                  color: Colors.teal,
-                                ),
-                                Text(
-                                  assos.phone,
-                                  style: TextStyle(color: Colors.teal),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Icon(CupertinoIcons.person_alt_circle,
-                                    color: Colors.teal),
-                                Text(
-                                  assos.president,
-                                  style: TextStyle(color: Colors.teal),
-                                )
-                              ],
-                            ),
-                          ],
-                        );
+                        return AssociationInformationsDialog(assos: assos);
                       },
                     );
                   },
@@ -216,11 +158,15 @@ class AssociationDetails extends StatelessWidget {
                     } else
                       return Text(
                           "${assos.name} n'a pas encore publié son premier post ! ");
+
+                  /// TODO I18N
                 }
               }
               if (snapshot.hasError) {
                 return Container(
                   child: Text("Something wrong happened"),
+
+                  /// TODO I18N
                 );
               }
               return Container();

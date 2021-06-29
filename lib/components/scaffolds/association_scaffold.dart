@@ -38,7 +38,7 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
           BottomNavigationBarItem(icon: Icon(Icons.post_add), label: "Posts"),
           BottomNavigationBarItem(
               icon: Icon(Icons.event_sharp), label: "Events"),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "HomePage"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "MyPage"),
           BottomNavigationBarItem(
               icon: Icon(Icons.message), label: "Messaging"),
         ],
