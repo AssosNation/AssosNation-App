@@ -2,7 +2,7 @@ import 'package:assosnation_app/services/interfaces/asso_details_interface.dart'
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AssoDetailsService implements AssoDetailsInterface {
+class AssociationService implements AssoDetailsInterface {
   final FirebaseFirestore _service = FirebaseFirestore.instance;
 
   @override
@@ -63,5 +63,9 @@ class AssoDetailsService implements AssoDetailsInterface {
     } on FirebaseException catch (e) {
       return Future.error("Cannot update phone with id ${assos.uid}");
     }
+  }
+
+  Stream<DocumentSnapshot> watchAssociationInfo(Association assos) {
+    return _service.collection("associations").doc(assos.uid).snapshots();
   }
 }
