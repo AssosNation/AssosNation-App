@@ -21,5 +21,6 @@ abstract class MessagingInterface {
 
   Stream<QuerySnapshot> watchAllConversationsByUser(AnUser user);
 
-  Future initConversationIfNotFound(String userId, String assosId);
+  Future initConversationIfNotFound(
+      String userId, String assosId, String userName, String assosName);
 }

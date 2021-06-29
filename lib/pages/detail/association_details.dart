@@ -19,12 +19,10 @@ class AssociationDetails extends StatelessWidget {
 
   AssociationDetails(this.assos);
 
-  _navigateToConversation(BuildContext context, String userId) async {
-    final result =
-        await MessagingService().initConversationIfNotFound(userId, assos.uid);
+  _navigateToConversation(BuildContext context, String userId, userName) async {
+    final result = await MessagingService()
+        .initConversationIfNotFound(userId, assos.uid, userName, assos.name);
     if (result is Conversation) {
-      print("RESULT => $result");
-      Navigator.pop(context);
       Navigator.of(context).pushNamed("/convAsUser", arguments: result);
     } else
       Utils.displaySnackBarWithMessage(
@@ -67,6 +65,8 @@ class AssociationDetails extends StatelessWidget {
                             Utils.displaySnackBarWithMessage(
                                 context,
                                 "Vous n'êtes plus abonné à cette association ! ",
+
+                                /// TODO I18N
                                 Colors.deepOrange);
                           } else {
                             FireStoreService()
@@ -74,6 +74,8 @@ class AssociationDetails extends StatelessWidget {
                             Utils.displaySnackBarWithMessage(
                                 context,
                                 "Vous êtes désormais abonné à cette association !",
+
+                                /// TODO I18N
                                 Colors.green);
                           }
                         }
@@ -88,7 +90,8 @@ class AssociationDetails extends StatelessWidget {
                     icon: Icon(Icons.message_outlined),
                     color: Colors.white,
                     iconSize: 30,
-                    onPressed: _navigateToConversation(context, "_user.uid")),
+                    onPressed: () => _navigateToConversation(context, _user.uid,
+                        "${_user.firstName} ${_user.lastName}")),
                 IconButton(
                     icon: Icon(Icons.date_range),
                     color: Colors.white,
@@ -155,11 +158,15 @@ class AssociationDetails extends StatelessWidget {
                     } else
                       return Text(
                           "${assos.name} n'a pas encore publié son premier post ! ");
+
+                  /// TODO I18N
                 }
               }
               if (snapshot.hasError) {
                 return Container(
                   child: Text("Something wrong happened"),
+
+                  /// TODO I18N
                 );
               }
               return Container();

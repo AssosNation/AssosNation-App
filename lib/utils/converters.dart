@@ -19,12 +19,13 @@ class Converters {
   static List<Conversation> convertDocSnapshotsToConvList(
       List<DocumentSnapshot> docs) {
     return docs
-        .map(
-            (e) => Conversation(e.id, e.get("messages"), e.get("participants")))
+        .map((e) => Conversation(
+            e.id, e.get("messages"), e.get("participants"), e.get("names")))
         .toList();
   }
 
   static Conversation convertDocSnapshotsToConv(DocumentSnapshot doc) {
-    return Conversation(doc.id, doc.get("messages"), doc.get("participants"));
+    return Conversation(
+        doc.id, doc.get("messages"), doc.get("participants"), doc.get("names"));
   }
 }
