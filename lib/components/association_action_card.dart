@@ -1,4 +1,5 @@
 import 'package:assosnation_app/components/dialog/delete_confirmation_dialog.dart';
+import 'package:assosnation_app/components/edit_action_dialog.dart';
 import 'package:assosnation_app/components/posts/edit_post_dialog.dart';
 import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
@@ -37,7 +38,7 @@ class _AsociationActionCardState extends State<AssociationActionCard> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
                     child: Text(
-                      this.widget._action.content,
+                      this.widget._action.description,
                       maxLines: 7,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.justify,
@@ -57,7 +58,7 @@ class _AsociationActionCardState extends State<AssociationActionCard> {
                       icon: Icon(Icons.edit),
                       onPressed: () => showModalBottomSheet(
                         context: context,
-                        builder: (context) => EditPostDialog(widget._action),
+                        builder: (context) => EditActionDialog(widget._action),
                       ),
                       label: Text("Edit"),
                     ),

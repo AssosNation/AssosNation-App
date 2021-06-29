@@ -1,12 +1,13 @@
 import 'package:assosnation_app/components/posts/post_main_subtitle.dart';
 import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
+import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class EditActionDialog extends StatefulWidget {
-  final Action _action;
+  final AssociationAction _action;
 
   EditActionDialog(this._action);
 
