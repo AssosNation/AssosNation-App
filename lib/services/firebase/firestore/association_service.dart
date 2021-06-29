@@ -56,7 +56,6 @@ class AssociationService extends AssociationServiceInterface {
       associationsConversations.then((conversations) {
         conversations.forEach((conversation) {
           conversation.names[1] = content;
-          print(conversation.names);
         });
       });
       return Future.value(true);
