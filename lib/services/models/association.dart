@@ -50,6 +50,6 @@ class Association {
       this.subscribers);
 
   didUserSubscribed(String uid) {
-    return subscribers.contains(uid);
+    return subscribers.any((element) => element.id == uid);
   }
 }
