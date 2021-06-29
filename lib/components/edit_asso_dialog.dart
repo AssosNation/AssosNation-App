@@ -69,7 +69,7 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
     }
   }
 
-  _chooseMaxLines() {
+  _selectMaxLines() {
     if (widget._field == "description") {
       return 4;
     } else {
@@ -105,7 +105,7 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
                         } else
                           return "This field cannot be empty nor the same value as before";
                       },
-                      maxLines: _chooseMaxLines(),
+                      maxLines: _selectMaxLines(),
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
