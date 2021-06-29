@@ -10,8 +10,10 @@ import 'forms/form_main_title.dart';
 class NewsFeedLikeComponent extends StatefulWidget {
   var _likesNumber;
   var _userLiked;
+  final _userId;
   final _postId;
-  NewsFeedLikeComponent(this._likesNumber, this._userLiked, this._postId);
+  NewsFeedLikeComponent(
+      this._likesNumber, this._userLiked, this._postId, this._userId);
 
   @override
   _NewsFeedLikeComponentState createState() => _NewsFeedLikeComponentState();
@@ -28,7 +30,6 @@ class _NewsFeedLikeComponentState extends State<NewsFeedLikeComponent> {
 
   @override
   Widget build(BuildContext context) {
-    final _user = context.watch<AnUser?>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -48,16 +49,14 @@ class _NewsFeedLikeComponentState extends State<NewsFeedLikeComponent> {
         ),
         TextButton.icon(
             onPressed: () {
-              if (_user != null) {
-                if (this.widget._userLiked) {
-                  FireStoreService()
-                      .removeUserToLikedList(widget._postId, _user.uid);
-                  updateState(false);
-                } else {
-                  FireStoreService()
-                      .addUsersToLikedList(widget._postId, _user.uid);
-                  updateState(true);
-                }
+              if (this.widget._userLiked) {
+                FireStoreService().removeUserToLikedList(
+                    widget._postId, this.widget._userId.uid);
+                updateState(false);
+              } else {
+                FireStoreService().addUsersToLikedList(
+                    widget._postId, this.widget._userId.uid);
+                updateState(true);
               }
             },
             icon: Icon(this.widget._userLiked

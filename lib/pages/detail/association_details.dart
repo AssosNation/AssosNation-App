@@ -209,7 +209,7 @@ class AssociationDetails extends StatelessWidget {
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          return NewsFeedCard(postList[index]);
+                          return NewsFeedCard(postList[index], _user.uid);
                         },
                         itemCount: postList.length,
                       );

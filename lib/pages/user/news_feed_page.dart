@@ -1,16 +1,16 @@
 import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/post.dart';
+import 'package:assosnation_app/services/models/user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class NewsFeed extends StatefulWidget {
-  @override
-  _NewsFeedState createState() => _NewsFeedState();
-}
-
-class _NewsFeedState extends State<NewsFeed> {
+class NewsFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _user = context.watch<AnUser?>();
+
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -22,7 +22,8 @@ class _NewsFeedState extends State<NewsFeed> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 FutureBuilder(
-                  future: FireStoreService().getAllPostsByAssociation(),
+                  future: FireStoreService()
+                      .getAllPostsByAssociationList(_user?.subscriptions),
                   builder: (context, AsyncSnapshot<List<Post>> snapshot) {
                     if (snapshot.hasData) {
                       switch (snapshot.connectionState) {
@@ -37,7 +38,8 @@ class _NewsFeedState extends State<NewsFeed> {
                           return Expanded(
                             child: ListView.builder(
                               itemBuilder: (context, index) {
-                                return NewsFeedCard(postList[index]);
+                                return NewsFeedCard(
+                                    postList[index], _user!.uid);
                               },
                               itemCount: postList.length,
                               shrinkWrap: true,

@@ -1,25 +1,34 @@
 import 'package:assosnation_app/components/news_feed_like_component.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
-import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import 'forms/form_main_title.dart';
 
 class NewsFeedCard extends StatefulWidget {
   final _post;
-  NewsFeedCard(this._post);
+  final _userId;
+  NewsFeedCard(this._post, this._userId);
 
   @override
   _NewsFeedCardState createState() => _NewsFeedCardState();
 }
 
 class _NewsFeedCardState extends State<NewsFeedCard> {
+  String associationName = '';
+  _NewsFeedCardState() {
+    setAssociationName();
+  }
+
+  setAssociationName() async {
+    associationName =
+        await FireStoreService().getAssociationNameById(widget._post.assosId);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _user = context.watch<AnUser?>();
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 10, 5, 10),
       child: Card(
@@ -38,7 +47,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                         padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
                         child: CircleAvatar(),
                       ),
-                      Text(this.widget._post.title)
+                      Text(associationName)
                     ],
                   ),
                 )
@@ -48,6 +57,21 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
               children: [
                 FormMainTitle(
                   this.widget._post.title,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(DateFormat('dd-MM-yyyy').add_Hm().format(
+                          DateTime.parse(this
+                              .widget
+                              ._post
+                              .timestamp
+                              .toDate()
+                              .toString()))),
+                    ],
+                  ),
                 ),
                 Row(
                   children: [
@@ -93,8 +117,9 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                 ),
                 NewsFeedLikeComponent(
                     this.widget._post.usersWhoLiked.length,
-                    this.widget._post.didUserLikeThePost(_user!.uid),
-                    this.widget._post.id)
+                    this.widget._post.didUserLikeThePost(this.widget._userId),
+                    this.widget._post.id,
+                    this.widget._userId)
               ],
             ),
           ],
