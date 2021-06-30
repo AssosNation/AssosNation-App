@@ -85,6 +85,10 @@ class Profile extends StatelessWidget {
                             itemCount: assosList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.horizontal(
+                                        left: Radius.elliptical(15, 10),
+                                        right: Radius.elliptical(10, 15))),
                                 elevation: 5,
                                 color: Theme.of(context).accentColor,
                                 child: ListTile(
