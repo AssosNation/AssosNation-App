@@ -56,6 +56,7 @@
   "association_apply_button": "You're an association ? Apply here !",
   "global_infos_label": "Global informations",
   "connection_infos_label": "Connection informations",
+  "postal_infos_label": "Postal informations",
   "edit_button": "Edit",
   "delete_button": "Delete",
   "title_label": "Title",
@@ -65,5 +66,7 @@
   "delete_alert_msg": "Are you sure you want to delete this post ?",
   "connect_button": "Connect",
   "failed_to_connect_snackbar": "Failed to connect, try again",
-  "succeed": "Succesfully connected ! Welcome !"
+  "succeed_to_connect_snackbar": "Succesfully connected ! Welcome !",
+  "send_application": "Send your application",
+  "association_application_from_title": "Association Application"
 }

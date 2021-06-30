@@ -2,6 +2,7 @@ import 'package:assosnation_app/components/dialog/delete_confirmation_dialog.dar
 import 'package:assosnation_app/components/posts/edit_post_dialog.dart';
 import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/models/post.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -58,7 +59,7 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
                         context: context,
                         builder: (context) => EditPostDialog(widget._post),
                       ),
-                      label: Text("Edit"),
+                      label: Text(AppLocalizations.of(context)!.edit_button),
                     ),
                     OutlinedButton.icon(
                       icon: Icon(
@@ -68,12 +69,12 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
                       onPressed: () => showModalBottomSheet(
                         context: context,
                         builder: (context) => DeleteObjectConfirmationDialog(
-                            "Are you sure to delete this post ?",
+                            AppLocalizations.of(context)!.delete_alert_msg,
                             widget._post.id,
                             null),
                       ),
                       label: Text(
-                        "Delete",
+                        AppLocalizations.of(context)!.delete_button,
                         style: TextStyle(color: Colors.red),
                       ),
                     ),

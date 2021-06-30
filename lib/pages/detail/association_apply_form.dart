@@ -1,6 +1,7 @@
 import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/components/forms/form_subtitle.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -70,12 +71,14 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    FormMainTitle("Association Application"),
+                    FormMainTitle(AppLocalizations.of(context)!
+                        .association_application_from_title),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                       child: Column(
                         children: [
-                          FormSubTitle("General Informations"),
+                          FormSubTitle(
+                              AppLocalizations.of(context)!.global_infos_label),
                           TextFormField(
                             decoration: InputDecoration(
                                 labelText: "Enter the association's Name"),
@@ -126,7 +129,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                       padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                       child: Column(
                         children: [
-                          FormSubTitle("Contact Informations"),
+                          FormSubTitle(AppLocalizations.of(context)!
+                              .connection_infos_label),
                           TextFormField(
                               decoration: InputDecoration(
                                   labelText:
@@ -164,7 +168,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                       padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                       child: Column(
                         children: [
-                          FormSubTitle("Postal Informations"),
+                          FormSubTitle(
+                              AppLocalizations.of(context)!.postal_infos_label),
                           TextFormField(
                             decoration: InputDecoration(
                                 labelText: "Enter the association's address"),
@@ -215,10 +220,12 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                       padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                       child: Column(
                         children: [
-                          FormSubTitle("Connection Informations"),
+                          FormSubTitle(AppLocalizations.of(context)!
+                              .connection_infos_label),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Enter your password"),
+                                labelText: AppLocalizations.of(context)!
+                                    .pwd_input_placeholder),
                             obscureText: true,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -232,7 +239,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                           ),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Confirm your password"),
+                                labelText: AppLocalizations.of(context)!
+                                    .pwd_input_confirm_placeholder),
                             obscureText: true,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -251,7 +259,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                       padding: const EdgeInsets.fromLTRB(5, 150, 10, 0),
                       child: ElevatedButton(
                         onPressed: _verifyAndValidateForm,
-                        child: Text("Send your application"),
+                        child: Text(
+                            AppLocalizations.of(context)!.send_application),
                       ),
                     ),
                   ],
