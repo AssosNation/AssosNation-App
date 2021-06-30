@@ -41,13 +41,13 @@ class GamificationService extends GamificationInterface {
 
       final response = await gamiRef.get();
       Gamification gamification = Gamification.withInfos(
-        user: response.get("user"),
-        level: response.get("level"),
-        exp: response.get("exp"),
-        likeNumber: response.get("likeNumber"),
-        loginCount: response.get("loginCount"),
-        subCount: response.get("subCount"),
-      );
+          user: response.get("user"),
+          level: response.get("level"),
+          exp: response.get("exp"),
+          likeNumber: response.get("likeNumber"),
+          loginCount: response.get("loginCount"),
+          subCount: response.get("subCount"),
+          eventRegistrations: response.get("eventRegistrations"));
 
       return gamification;
     } on FirebaseException catch (e) {
@@ -57,11 +57,14 @@ class GamificationService extends GamificationInterface {
   }
 
   @override
-  int computeExp(int likesNumber, int loginCount, int subCount) {
+  int computeExp(
+      int likesNumber, int loginCount, int subCount, int eventRegistrations) {
     int likeTotalXp = likesNumber * Constants.likeCountExpValue;
     int loginTotalXp = loginCount * Constants.loginCountExpValue;
     int subTotalXp = subCount * Constants.subCountExpValue;
-    return likeTotalXp + loginTotalXp + subTotalXp;
+    int eventRegistrationsTotalXp =
+        eventRegistrations * Constants.eventRegistrationsExpValue;
+    return likeTotalXp + loginTotalXp + subTotalXp + eventRegistrationsTotalXp;
   }
 
   @override
@@ -146,9 +149,15 @@ class GamificationService extends GamificationInterface {
     try {
       DocumentReference gamiRef =
           _service.collection("gamification").doc(gamificationId);
+
       final gamiInfos = await gamiRef.get();
-      int totalExp = computeExp(gamiInfos.get("likeNumber"),
-          gamiInfos.get("loginCount"), gamiInfos.get("subCount"));
+      int totalExp = computeExp(
+        gamiInfos.get("likeNumber"),
+        gamiInfos.get("loginCount"),
+        gamiInfos.get("subCount"),
+        gamiInfos.get("eventRegistrations"),
+      );
+
       int computedLevel = computeLevel(totalExp);
       await gamiRef.update({
         "exp": totalExp,
@@ -188,6 +197,40 @@ class GamificationService extends GamificationInterface {
       return Future.value(true);
     } on FirebaseException catch (e) {
       return Future.error("Cannot increase subCount for that reference");
+    }
+  }
+
+  @override
+  Future decreaseEventRegistrationByOne(String gamificationId) async {
+    try {
+      DocumentReference gamiRef =
+          _service.collection("gamification").doc(gamificationId);
+
+      final gamiInfos = await gamiRef.get();
+      await gamiRef.update(
+          {"eventRegistrations": gamiInfos.get("eventRegistrations") - 1});
+      await updateExpAndLevel(gamificationId);
+
+      return Future.value(true);
+    } on FirebaseException catch (e) {
+      return Future.error(
+          "Cannot decrease eventRegistrations for that reference");
+    }
+  }
+
+  @override
+  Future increaseEventRegistrationByOne(String gamificationId) async {
+    try {
+      DocumentReference gamiRef =
+          _service.collection("gamification").doc(gamificationId);
+
+      await gamiRef.update({"eventRegistrations": FieldValue.increment(1)});
+      await updateExpAndLevel(gamificationId);
+
+      return Future.value(true);
+    } on FirebaseException catch (e) {
+      return Future.error(
+          "Cannot increase eventRegistrations for that reference");
     }
   }
 }

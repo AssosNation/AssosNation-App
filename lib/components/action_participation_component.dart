@@ -63,7 +63,7 @@ class _ActionParticipationComponentState
                 ? Icons.add_circle_outlined
                 : Icons.add_circle_outline),
             label: Text(this.widget._action.isUserRegistered
-                ? "Inscrit !"
+                ? AppLocalizations.of(context)!.registered_to_events_label
                 : AppLocalizations.of(context)!.participate_button_label)),
       ],
     );

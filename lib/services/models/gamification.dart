@@ -5,6 +5,7 @@ class Gamification {
   int likeNumber = 0;
   int loginCount = 0;
   int subCount = 0;
+  int eventRegistrations = 0;
 
   Gamification({required this.user});
 
@@ -14,5 +15,6 @@ class Gamification {
       required this.exp,
       required this.likeNumber,
       required this.loginCount,
-      required this.subCount});
+      required this.subCount,
+      required this.eventRegistrations});
 }
