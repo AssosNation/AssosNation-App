@@ -1,9 +1,7 @@
 import 'package:assosnation_app/components/dialog/delete_confirmation_dialog.dart';
-import 'package:assosnation_app/components/edit_action_dialog.dart';
-import 'package:assosnation_app/components/posts/edit_post_dialog.dart';
+import 'package:assosnation_app/components/associations_actions/edit_action_dialog.dart';
 import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
-import 'package:assosnation_app/services/models/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

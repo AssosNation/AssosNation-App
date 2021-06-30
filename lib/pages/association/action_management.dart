@@ -1,5 +1,5 @@
-import 'package:assosnation_app/components/association_action_card.dart';
-import 'package:assosnation_app/components/create_action_dialog.dart';
+import 'package:assosnation_app/components/associations_actions/association_action_card.dart';
+import 'package:assosnation_app/components/associations_actions/create_action_dialog.dart';
 import 'package:assosnation_app/services/firebase/firestore/association_actions_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
