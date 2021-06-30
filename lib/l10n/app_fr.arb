@@ -60,5 +60,6 @@
   "delete_button": "",
   "title_label": "",
   "content_label": "",
-  "cancel_button_label": ""
+  "cancel_button_label": "",
+  "title_my_profile": "Mon profil"
 }

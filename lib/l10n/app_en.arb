@@ -62,5 +62,6 @@
   "content_label": "Content",
   "cancel_button_label": "Cancel",
   "confirm_button_label": "Confirm",
-  "delete_alert_msg": "Are you sure you want to delete this post ?"
+  "delete_alert_msg": "Are you sure you want to delete this post ?",
+  "title_my_profile": "My profile"
 }

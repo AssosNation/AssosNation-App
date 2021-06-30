@@ -1,4 +1,3 @@
-import 'package:assosnation_app/components/an_big_title.dart';
 import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
@@ -7,6 +6,7 @@ import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatelessWidget {
@@ -18,33 +18,58 @@ class Profile extends StatelessWidget {
       FireStoreService().getSubscribedAssociationsByUser(_user.uid);
 
     return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      AnBigTitle("My profile"),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          CircleAvatar(
-            //TODO : add a Image in the DB for the user to display it here
-            backgroundImage: NetworkImage(
-                'https://media-exp1.licdn.com/dms/image/C5603AQEJ5TDmil5VAA/profile-displayphoto-shrink_800_800/0/1522223155450?e=1626307200&v=beta&t=qXIHutBHwCHF9gKoXPP_P6fnvgNvzmUqV5ZOeqDvEiI'),
-            radius: 60,
-          ),
-          Column(
-            children: [
-              Row(children: [
-                AnTitle(_user!.firstName),
-                AnTitle(_user.lastName)
-              ]),
-              AnTitle(_user.mail)
-            ],
-          )
-        ],
+      SizedBox(height: 15),
+      Text(
+        AppLocalizations.of(context)!.title_my_profile,
+        style: GoogleFonts.montserrat(
+            fontSize: 30, fontWeight: FontWeight.bold, color: Colors.teal),
+      ),
+      Container(
+        padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            CircleAvatar(
+              //TODO : add a Image in the DB for the user to display it here
+              backgroundImage: NetworkImage(
+                  'https://media-exp1.licdn.com/dms/image/C5603AQEJ5TDmil5VAA/profile-displayphoto-shrink_800_800/0/1522223155450?e=1626307200&v=beta&t=qXIHutBHwCHF9gKoXPP_P6fnvgNvzmUqV5ZOeqDvEiI'),
+              radius: 60,
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
+              child: Column(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.edit),
+                    color: Colors.teal,
+                  )
+                ],
+              ),
+            ),
+            Column(
+              children: [
+                Row(children: [
+                  Text(
+                    "${_user!.firstName} ${_user.lastName}",
+                    style: TextStyle(fontSize: 18, color: Colors.teal),
+                  ),
+                ]),
+                Text(
+                  _user.mail,
+                  style: TextStyle(fontSize: 18, color: Colors.teal),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
       Divider(
         thickness: 3,
         indent: 15,
         endIndent: 15,
         color: Colors.teal,
-        height: 100,
+        height: 50,
       ),
       AnTitle(AppLocalizations.of(context)!.association_list_label),
       Expanded(
@@ -64,7 +89,7 @@ class Profile extends StatelessWidget {
                             itemCount: assosList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Card(
-                                elevation: 20,
+                                elevation: 5,
                                 color: Theme.of(context).accentColor,
                                 child: ListTile(
                                   onTap: () {
@@ -72,8 +97,10 @@ class Profile extends StatelessWidget {
                                         "/associationDetails",
                                         arguments: assosList[index]);
                                   },
-                                  title: Text(assosList[index].name),
-                                  subtitle: Text(assosList[index].description),
+                                  title: Text(
+                                    assosList[index].name,
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
                                 ),
                               );
                             }));
@@ -86,8 +113,10 @@ class Profile extends StatelessWidget {
               return Container();
             }),
       ),
-      CupertinoButton(
-          color: Colors.redAccent,
+      ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.redAccent),
+          ),
           onPressed: () {
             showDialog(
               context: context,
@@ -127,7 +156,6 @@ class Profile extends StatelessWidget {
             AppLocalizations.of(context)!.signoff_label,
             style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
           )),
-      SizedBox(height: 20)
     ]);
   }
 }
