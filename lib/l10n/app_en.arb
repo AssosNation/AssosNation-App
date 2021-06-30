@@ -65,5 +65,5 @@
   "delete_alert_msg": "Are you sure you want to delete this post ?",
   "connect_button": "Connect",
   "failed_to_connect_snackbar": "Failed to connect, try again",
-  "succeed": "Succesfully connected ! Welcome"
+  "succeed": "Succesfully connected ! Welcome !"
 }

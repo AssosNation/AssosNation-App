@@ -61,5 +61,7 @@
   "title_label": "Titre",
   "content_label": "Contenu",
   "cancel_button_label": "Annuler",
-  "connect_button": "Connexion"
+  "connect_button": "Connexion",
+  "failed_to_connect_snackbar": "La connexion à échouée, réessayez",
+  "succeed": "Connexion réussie ! Bienvenue !"
 }
