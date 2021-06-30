@@ -67,5 +67,6 @@
   "send_application": "Envoyer votre candidature",
   "association_application_from_title": "Formulaire de candidature",
   "no_events_yet": "Aucun événement disponible pour cette association",
-  "registered_to_events_label": "Inscrit !"
+  "registered_to_events_label": "Inscrit !",
+  "title_my_profile": "Mon profil"
 }
