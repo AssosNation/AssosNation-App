@@ -5,6 +5,7 @@ import 'package:assosnation_app/components/edit_asso_dialog.dart';
 import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/utils/converters.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,8 @@ class AssociationPage extends StatelessWidget {
                         ),
                         Container(
                             padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            child: AnTitle("My association's informations")),
+                            child: AnTitle(AppLocalizations.of(context)!
+                                .my_association_infos)),
                         Divider(
                           thickness: 3,
                           indent: 15,
@@ -103,7 +105,8 @@ class AssociationPage extends StatelessWidget {
                           child: Row(
                             children: [
                               Icon(Icons.home_filled, color: Colors.teal),
-                              Text("Adress : ${_association.address}"),
+                              Text(
+                                  "${AppLocalizations.of(context)!.address} : ${_association.address}"),
                               IconButton(
                                   icon: Icon(Icons.edit, color: Colors.teal),
                                   onPressed: () => showModalBottomSheet(
@@ -119,13 +122,15 @@ class AssociationPage extends StatelessWidget {
                           child: Row(
                             children: [
                               Icon(Icons.location_city, color: Colors.teal),
-                              Text("City : ${_association.city}"),
+                              Text(
+                                  "${AppLocalizations.of(context)!.city} : ${_association.city}"),
                               IconButton(
                                   icon: Icon(Icons.edit, color: Colors.teal),
                                   onPressed: () => showModalBottomSheet(
                                         context: context,
                                         builder: (context) => EditAssoDialog(
-                                            _association, "city"),
+                                            _association,
+                                            AppLocalizations.of(context)!.city),
                                       ))
                             ],
                           ),
@@ -170,7 +175,8 @@ class AssociationPage extends StatelessWidget {
                           child: Row(
                             children: [
                               Icon(Icons.person, color: Colors.teal),
-                              Text("Director : ${_association.president}"),
+                              Text(
+                                  "${AppLocalizations.of(context)!.president} : ${_association.president}"),
                               IconButton(
                                   icon: Icon(Icons.edit, color: Colors.grey),
                                   onPressed: () {
