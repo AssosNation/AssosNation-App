@@ -49,7 +49,7 @@ class Profile extends StatelessWidget {
                 Row(children: [
                   Text(
                     "${_user!.firstName} ${_user.lastName}",
-                    style: TextStyle(fontSize: 18, color: Colors.teal),
+                    style: TextStyle(fontSize: 22, color: Colors.teal),
                   ),
                 ]),
                 Text(
@@ -99,8 +99,9 @@ class Profile extends StatelessWidget {
                                   },
                                   title: Text(
                                     assosList[index].name,
-                                    style: TextStyle(color: Colors.white70),
+                                    style: TextStyle(color: Colors.white),
                                   ),
+                                  subtitle: Text(assosList[index].description),
                                 ),
                               );
                             }));

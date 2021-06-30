@@ -33,9 +33,10 @@ class _UserScaffoldState extends State<UserScaffold> {
 
   Widget _userNavBar() {
     return BottomNavigationBar(
+        backgroundColor: Colors.teal,
         currentIndex: _selectedPage,
-        unselectedItemColor: Colors.teal[400],
-        selectedItemColor: Colors.teal,
+        unselectedItemColor: Colors.grey[300],
+        selectedItemColor: Colors.white,
         selectedFontSize: 16,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         type: BottomNavigationBarType.fixed,
