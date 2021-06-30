@@ -1,11 +1,8 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
-import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'forms/form_main_title.dart';
 
 class NewsFeedLikeComponent extends StatefulWidget {
   var _likesNumber;
@@ -30,6 +27,7 @@ class _NewsFeedLikeComponentState extends State<NewsFeedLikeComponent> {
 
   @override
   Widget build(BuildContext context) {
+    final _user = context.watch<AnUser?>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -51,11 +49,10 @@ class _NewsFeedLikeComponentState extends State<NewsFeedLikeComponent> {
             onPressed: () {
               if (this.widget._userLiked) {
                 FireStoreService()
-                    .removeUserToLikedList(widget._postId, this.widget._userId);
+                    .removeUserToLikedList(widget._postId, _user!);
                 updateState(false);
               } else {
-                FireStoreService()
-                    .addUsersToLikedList(widget._postId, this.widget._userId);
+                FireStoreService().addUsersToLikedList(widget._postId, _user!);
                 updateState(true);
               }
             },
