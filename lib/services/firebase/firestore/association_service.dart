@@ -46,10 +46,22 @@ class AssociationService extends AssociationServiceInterface {
 
   @override
   Future updateName(Association assos, String content) async {
+    CollectionReference _conversations = _service.collection("conversations");
     DocumentReference assoRef =
         _service.collection("associations").doc(assos.uid);
     try {
+      QuerySnapshot snapshot = await _conversations
+          .where("participants", arrayContains: assoRef)
+          .get();
+
+      snapshot.docs.forEach((e) async {
+        e.reference.update({
+          'names': [e.get("names")[0], content]
+        });
+      });
+
       await assoRef.update({"name": content});
+
       return Future.value(true);
     } on FirebaseException catch (e) {
       return Future.error("Cannot update name with id ${assos.uid}");

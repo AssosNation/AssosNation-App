@@ -69,11 +69,21 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
     }
   }
 
-  _chooseMaxLines() {
+  _selectMaxLines() {
     if (widget._field == "description") {
       return 4;
     } else {
       return 1;
+    }
+  }
+
+  _selectMaxCharacters() {
+    if (widget._field == "description") {
+      return 150;
+    } else if (widget._field == "phone") {
+      return 10;
+    } else {
+      return 50;
     }
   }
 
@@ -94,7 +104,7 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
                   PostMainSubtitle("Content : "),
                   Expanded(
                     child: TextFormField(
-                      maxLength: 50,
+                      maxLength: _selectMaxCharacters(),
                       autocorrect: true,
                       initialValue: _displayCurrentContent(),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -105,7 +115,7 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
                         } else
                           return "This field cannot be empty nor the same value as before";
                       },
-                      maxLines: _chooseMaxLines(),
+                      maxLines: _selectMaxLines(),
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
