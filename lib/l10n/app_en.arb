@@ -3,7 +3,7 @@
   "signin_label": "Sign In",
   "signup_label": "Sign Up",
   "signoff_label": "Disconnect",
-  "submit_label": "Envoyer",
+  "submit_label": "Submit",
   "discover_page_title": "Discover an association",
   "discover_page_location_label": "Near your location",
   "user_tab_newsfeed": "News Feed",
@@ -48,7 +48,7 @@
   "start_date": "start date",
   "end_date": "end date",
   "search_placeholder": "search for an association",
-  "error_no_infos": "Something wrong happened",
+  "error_no_infos": "Something wrong happened..",
   "no_messages_yet": "There are no messages yet",
   "email_input_placeholder": "Enter your email address",
   "pwd_input_placeholder": "Enter your password",
@@ -62,5 +62,8 @@
   "content_label": "Content",
   "cancel_button_label": "Cancel",
   "confirm_button_label": "Confirm",
-  "delete_alert_msg": "Are you sure you want to delete this post ?"
+  "delete_alert_msg": "Are you sure you want to delete this post ?",
+  "connect_button": "Connect",
+  "failed_to_connect_snackbar": "Failed to connect, try again",
+  "succeed": "Succesfully connected ! Welcome !"
 }

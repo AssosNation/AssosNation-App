@@ -3,6 +3,7 @@ import 'package:assosnation_app/components/description_asso.dart';
 import 'package:assosnation_app/components/dialog/association_informations_dialog.dart';
 import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/gamification_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
@@ -79,9 +80,10 @@ class AssociationDetails extends StatelessWidget {
                                             context,
                                             AppLocalizations.of(context)!
                                                 .unsubscribe,
-
-                                            /// TODO I18N
                                             Colors.deepOrange);
+                                        GamificationService()
+                                            .decreaseSubCountByOne(
+                                                _user.gamificationRef.id);
                                       } else {
                                         AssociationService()
                                             .subscribeToAssociation(
@@ -90,9 +92,10 @@ class AssociationDetails extends StatelessWidget {
                                             context,
                                             AppLocalizations.of(context)!
                                                 .subscribe,
-
-                                            /// TODO I18N
                                             Colors.green);
+                                        GamificationService()
+                                            .increaseSubCountByOne(
+                                                _user.gamificationRef.id);
                                       }
                                     }
                                   },

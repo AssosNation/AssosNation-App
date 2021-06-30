@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/gamification_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/interfaces/authentication_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
@@ -13,8 +14,13 @@ class AuthService extends AuthenticationInterface {
         await FireStoreService().checkIfUserIsAssos(_user.uid);
     if (!isAssociation) {
       final userInfos = await FireStoreService().getUserInfosFromDB(_user.uid);
-      return AnUser.withData(_user.uid, _user.email!, userInfos.firstName,
-          userInfos.lastName, userInfos.subscriptions);
+      return AnUser.withData(
+          _user.uid,
+          _user.email!,
+          userInfos.firstName,
+          userInfos.lastName,
+          userInfos.subscriptions,
+          userInfos.gamificationRef);
     }
   }
 
@@ -85,8 +91,11 @@ class AuthService extends AuthenticationInterface {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: mail, password: pwd);
       if (userCredential.user != null) {
+        final gamiRef = await GamificationService()
+            .initGamificationForUser(userCredential.user!.uid);
+
         final newUser = AnUser.withData(userCredential.user!.uid,
-            userCredential.user!.email!, firstName, lastName, []);
+            userCredential.user!.email!, firstName, lastName, [], gamiRef);
 
         await FireStoreService().addUserToDB(newUser);
         return true;
@@ -103,8 +112,7 @@ class AuthService extends AuthenticationInterface {
   @override
   Future signIn(mail, pwd) async {
     try {
-      UserCredential userCredential =
-          await _auth.signInWithEmailAndPassword(email: mail, password: pwd);
+      await _auth.signInWithEmailAndPassword(email: mail, password: pwd);
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

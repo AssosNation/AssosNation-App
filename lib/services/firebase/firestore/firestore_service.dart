@@ -1,3 +1,4 @@
+import 'package:assosnation_app/services/firebase/firestore/gamification_service.dart';
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
@@ -16,7 +17,7 @@ class FireStoreService extends DatabaseInterface {
     }
 
     Map<DocumentReference, String> associationNameList =
-        await getAssociationListNameMesCouilles(associationList);
+        await getAssociationListName(associationList);
 
     CollectionReference posts = _service.collection("posts");
     try {
@@ -44,7 +45,7 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
-  getAssociationListNameMesCouilles(associationList) async {
+  getAssociationListName(associationList) async {
     Map<DocumentReference, String> associationNameList = {};
     for (DocumentReference association in associationList) {
       DocumentSnapshot assosRef = await association.get();
@@ -70,11 +71,13 @@ class FireStoreService extends DatabaseInterface {
         'firstName': user.firstName,
         'lastName': user.lastName,
         'mail': user.mail,
-        'subscriptions': []
+        'subscriptions': user.subscriptions,
+        'gamificationRef': user.gamificationRef
       });
+
+      return true;
     } on FirebaseException catch (e) {
-      print("Error while adding user to database");
-      print(e.message);
+      Future.error("Error while adding user to database");
     }
   }
 
@@ -88,7 +91,8 @@ class FireStoreService extends DatabaseInterface {
           snapshot.get('mail'),
           snapshot.get('firstName'),
           snapshot.get('lastName'),
-          snapshot.get("subscriptions"));
+          snapshot.get("subscriptions"),
+          snapshot.get("gamificationRef"));
       return _user;
     } on FirebaseException catch (e) {
       print(e.message);
@@ -324,22 +328,20 @@ class FireStoreService extends DatabaseInterface {
         .update({"actions": association.actions});
   }
 
-  /**
-   * Ajoute l'utilisateur dans la liste des likes d'un post
-   */
-  addUsersToLikedList(post, user) {
-    _service.collection('posts').doc(post).update({
-      'usersWhoLiked': FieldValue.arrayUnion([user])
+  Future addUsersToLikedList(String postId, AnUser user) async {
+    await _service.collection('posts').doc(postId).update({
+      'usersWhoLiked': FieldValue.arrayUnion([user.uid])
     });
+    await GamificationService()
+        .increaseLikeNumberByOne(user.gamificationRef.id);
   }
 
-  /**
-   * Enlève l'utilisateur de la liste des likes d'un post
-   */
-  removeUserToLikedList(post, user) {
-    _service.collection('posts').doc(post).update({
-      'usersWhoLiked': FieldValue.arrayRemove([user])
+  Future removeUserToLikedList(String postId, AnUser user) async {
+    _service.collection('posts').doc(postId).update({
+      'usersWhoLiked': FieldValue.arrayRemove([user.uid])
     });
+    await GamificationService()
+        .decreaseLikeNumberByOne(user.gamificationRef.id);
   }
 
   @override

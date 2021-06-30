@@ -1,6 +1,5 @@
 import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
-import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,29 +22,23 @@ class NewsFeed extends StatelessWidget {
               children: [
                 FutureBuilder(
                   future: FireStoreService()
-                      .getAllPostsByAssociationList(_user?.subscriptions),
+                      .getAllPostsByAssociationList(_user!.subscriptions),
                   builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
                     if (snapshot.hasData) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.none:
-                          return CircularProgressIndicator();
-                        case ConnectionState.waiting:
-                          return CircularProgressIndicator();
-                        case ConnectionState.active:
-                          break;
-                        case ConnectionState.done:
-                          List<dynamic> postList = snapshot.data!;
-                          return Expanded(
-                            child: ListView.builder(
-                              itemBuilder: (context, index) {
-                                return NewsFeedCard(postList[index]['post'],
-                                    postList[index]['assosName'], _user!.uid);
-                              },
-                              itemCount: postList.length,
-                              shrinkWrap: true,
-                            ),
-                          );
-                      }
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        List<dynamic> postList = snapshot.data!;
+                        return Expanded(
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return NewsFeedCard(postList[index]['post'],
+                                  postList[index]['assosName'], _user.uid);
+                            },
+                            itemCount: postList.length,
+                          ),
+                        );
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.waiting)
+                        return CircularProgressIndicator();
                     }
                     if (snapshot.hasError) {
                       print(snapshot.error);
