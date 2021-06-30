@@ -2,9 +2,9 @@
   "language": "Français",
   "signin_label": "Connexion",
   "signup_label": "Inscription",
-  "signoff_label": "Deconnexion",
+  "signoff_label": "Déconnexion",
   "submit_label": "Envoyer",
-  "discover_page_title": "Decouvrez une association",
+  "discover_page_title": "Découvrez une association",
   "discover_page_location_label": "Proche de vous",
   "user_tab_newsfeed": "News",
   "user_tab_messaging": "Messagerie",
@@ -20,5 +20,45 @@
   "user_association_events": "Events",
   "participate_button_label": "Je participe",
   "participants_number_label": "participants",
-  "days_label": "jours"
+  "days_label": "jours",
+  "are_you_sure": "En êtes-vous sûr ?",
+  "yes": "Oui",
+  "no": "Non",
+  "unsubscribe": "Vous n'êtes plus abonné à cette association !",
+  "subscribe": "Vous êtes désormais abonné à cette association !",
+  "association_no_posts": "{assosName} n'a pas encore publié son premier post !",
+  "@association_no_posts": {
+    "placeholders": {
+      "assosName": {
+        "type": "String"
+      }
+    }
+  },
+  "location_service_off": "",
+  "my_association_infos": "",
+  "address": "",
+  "phone": " ",
+  "mail": "",
+  "password": "",
+  "firstname": "",
+  "lastname": "",
+  "president": "",
+  "city": "",
+  "postalcode": "",
+  "start_date": "",
+  "end_date": "",
+  "search_placeholder": "",
+  "error_no_infos": "",
+  "no_messages_yet": "",
+  "email_input_placeholder": "  ",
+  "pwd_input_placeholder": "  ",
+  "pwd_input_confirm_placeholder": "  ",
+  "association_apply_button": "",
+  "global_infos_label": " ",
+  "connection_infos_label": " ",
+  "edit_button": "",
+  "delete_button": "",
+  "title_label": "",
+  "content_label": "",
+  "cancel_button_label": ""
 }

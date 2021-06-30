@@ -1,5 +1,6 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -96,7 +97,8 @@ class AssociationActionCard extends StatelessWidget {
                               action.association.uid, action.id, 'test');
                         },
                         icon: Icon(Icons.add),
-                        label: Text("Je participe")),
+                        label: Text(AppLocalizations.of(context)!
+                            .participate_button_label)),
                   ],
                 ),
               ],

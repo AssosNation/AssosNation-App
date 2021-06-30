@@ -3,6 +3,7 @@ import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class Profile extends StatelessWidget {
         color: Colors.teal,
         height: 100,
       ),
-      AnTitle("My associations"),
+      AnTitle(AppLocalizations.of(context)!.association_list_label),
       Expanded(
         child: FutureBuilder(
             future:
@@ -104,10 +105,10 @@ class Profile extends StatelessWidget {
                     color: Colors.redAccent,
                     size: 55,
                   ),
-                  content: Text("Are you sure ?"),
+                  content: Text(AppLocalizations.of(context)!.are_you_sure),
                   actions: [
                     CupertinoButton(
-                      child: Text("Yes"),
+                      child: Text(AppLocalizations.of(context)!.yes),
                       onPressed: () {
                         final _auth = FirebaseAuth.instance;
                         _auth.signOut();
@@ -116,7 +117,7 @@ class Profile extends StatelessWidget {
                     ),
                     CupertinoButton(
                       child: Text(
-                        "No",
+                        AppLocalizations.of(context)!.no,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
@@ -129,7 +130,7 @@ class Profile extends StatelessWidget {
             );
           },
           child: Text(
-            "Sign Out",
+            AppLocalizations.of(context)!.signoff_label,
             style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
           )),
       SizedBox(height: 20)
