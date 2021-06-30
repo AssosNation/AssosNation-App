@@ -14,9 +14,6 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
 
-    if (_user != null)
-      FireStoreService().getSubscribedAssociationsByUser(_user.uid);
-
     return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
       SizedBox(height: 15),
       Text(
