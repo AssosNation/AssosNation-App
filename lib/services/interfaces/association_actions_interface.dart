@@ -5,10 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class AssociationActionsInterface {
   Future createAssociationActionForAssociation(AssociationAction action);
-
-  Stream<QuerySnapshot> retrieveAllAssociationActionForAssociationStream(
-      Association assos);
-
   Future removeAssociationAction(AssociationAction action);
   Future updateAssociationAction(
       AssociationAction oldAction, AssociationAction newAction);

@@ -30,7 +30,7 @@ class AssociationActionsService implements AssociationActionsInterface {
     await _service
         .collection('associations')
         .doc(action.association.uid)
-        .update({'actions': FieldValue.delete()});
+        .update({'actions': action.association.actions});
   }
 
   @override
@@ -38,13 +38,6 @@ class AssociationActionsService implements AssociationActionsInterface {
       AssociationAction oldAction, AssociationAction newAction) async {
     await this.removeAssociationAction(oldAction);
     this.createAssociationActionForAssociation(newAction);
-  }
-
-  @override
-  Stream<QuerySnapshot> retrieveAllAssociationActionForAssociationStream(
-      Association assos) {
-    // TODO: implement retrieveAllAssociationActionForAssociationStream
-    throw UnimplementedError();
   }
 
   AssociationAction? getAssociationActionFromAssociationInfos(

@@ -1,3 +1,4 @@
+import 'package:assosnation_app/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Conversation {
@@ -9,15 +10,12 @@ class Conversation {
   Conversation(this.uid, this.messages, this.participants, this.names);
 
   String getDiffTimeBetweenNowAndLastMessage() {
-    final DateTime currentTime = Timestamp.now().toDate();
-    final Duration difference =
-        currentTime.difference(messages.last["timestamp"].toDate());
-    if (difference.inMinutes < 60)
-      return "${difference.inMinutes} min";
-    else if (difference.inHours < 24)
-      return "${difference.inHours}h";
-    else
-      return "${difference.inDays} days";
+    if (messages.length > 0) {
+      return Utils.getDiffTimeBetweenNowAndTimestamp(
+          messages.last["timestamp"]);
+    }
+
+    return '';
 
     /// TODO I18N
   }

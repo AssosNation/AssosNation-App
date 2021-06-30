@@ -1,8 +1,11 @@
 import 'package:assosnation_app/components/association_action_card.dart';
 import 'package:assosnation_app/components/create_action_dialog.dart';
 import 'package:assosnation_app/services/firebase/firestore/association_actions_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
+import 'package:assosnation_app/utils/converters.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,30 +14,54 @@ class ActionManagement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _association = context.watch<Association?>();
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          elevation: 2,
-          child: Icon(Icons.add),
-          onPressed: () => showDialog(
-                context: context,
-                builder: (context) => CreateActionDialog(_association),
-              )),
-      body: Column(children: [
-        Expanded(
-            child: ListView.builder(
-                itemCount: _association!.actions!.length,
-                itemBuilder: (BuildContext context, int index) {
-                  AssociationAction? action = AssociationActionsService()
-                      .getAssociationActionFromAssociationInfos(
-                          _association, index);
-                  if (action != null) {
-                    return AssociationActionCard(action);
-                  } else {
-                    return Text("Vous n'avez pas encore créé d'actions");
-                  }
-                })),
-      ]),
+    final _assos = context.watch<Association?>();
+    return StreamBuilder(
+      stream: AssociationService().watchAssociationInfo(_assos!),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.data != null) {
+          final Association _association =
+              Converters.convertDocSnapshotsToAssos(snapshot.data!);
+
+          if (snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              return Scaffold(
+                floatingActionButton: FloatingActionButton(
+                    elevation: 2,
+                    child: Icon(Icons.add),
+                    onPressed: () => showDialog(
+                          context: context,
+                          builder: (context) =>
+                              CreateActionDialog(_association),
+                        )),
+                body: Column(children: [
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount: _association.actions!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            AssociationAction? action =
+                                AssociationActionsService()
+                                    .getAssociationActionFromAssociationInfos(
+                                        _association, index);
+                            if (action != null) {
+                              return AssociationActionCard(action);
+                            } else {
+                              return Text(
+                                  "Vous n'avez pas encore créé d'actions");
+                            }
+                          })),
+                ]),
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
+          } else {
+            return Container();
+          }
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
     );
   }
 }
