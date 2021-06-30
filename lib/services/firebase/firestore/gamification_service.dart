@@ -7,6 +7,7 @@ import '../../interfaces/gamification_interface.dart';
 class GamificationService extends GamificationInterface {
   final FirebaseFirestore _service = FirebaseFirestore.instance;
 
+  @override
   Future<DocumentReference> initGamificationForUser(String userId) async {
     try {
       DocumentReference userRef = _service.collection("users").doc(userId);
@@ -23,21 +24,6 @@ class GamificationService extends GamificationInterface {
       return docRef;
     } on FirebaseException catch (e) {
       return Future.error("Cannot init gamification infos for that user");
-    }
-  }
-
-  @override
-  Future getCurrentLevel(String gamificationId) async {
-    try {
-      DocumentReference gamiRef =
-          _service.collection("gamification").doc(gamificationId);
-
-      await gamiRef.update({"likeNumber": FieldValue.increment(1)});
-
-      return true;
-    } on FirebaseException catch (e) {
-      return Future.error(
-          "Cannot retrieve gamification infos for that reference");
     }
   }
 
@@ -68,16 +54,9 @@ class GamificationService extends GamificationInterface {
   }
 
   @override
-  Future getCurrentExp(String gamificationId) {
-    // TODO: implement getCurrentExp
-    throw UnimplementedError();
-  }
-
-  @override
   int computeExp(int likesNumber, int loginCount) {
     int likeTotalXp = likesNumber * Constants.likeCountExpValue;
     int loginTotalXp = loginCount * Constants.loginCountExpValue;
-
     return likeTotalXp + loginTotalXp;
   }
 
@@ -85,8 +64,13 @@ class GamificationService extends GamificationInterface {
   int computeLevel(int exp) {
     if (exp == 0)
       return 1;
-    else
-      return (exp / Constants.xpToLevelMultiplier).round();
+    else {
+      int computedLevel = (exp / Constants.xpToLevelMultiplier).round();
+      if (computedLevel <= 1)
+        return 1;
+      else
+        return (exp / Constants.xpToLevelMultiplier).round();
+    }
   }
 
   @override
@@ -96,11 +80,10 @@ class GamificationService extends GamificationInterface {
           _service.collection("gamification").doc(gamificationId);
 
       await gamiRef.update({"likeNumber": FieldValue.increment(1)});
-
+      await updateExpAndLevel(gamificationId);
       return Future.value(true);
     } on FirebaseException catch (e) {
-      return Future.error(
-          "Cannot retrieve gamification infos for that reference");
+      return Future.error("Cannot increase likeNumber for that reference");
     }
   }
 
@@ -111,11 +94,10 @@ class GamificationService extends GamificationInterface {
           _service.collection("gamification").doc(gamificationId);
 
       await gamiRef.update({"loginCount": FieldValue.increment(1)});
-
+      await updateExpAndLevel(gamificationId);
       return Future.value(true);
     } on FirebaseException catch (e) {
-      return Future.error(
-          "Cannot retrieve gamification infos for that reference");
+      return Future.error("Cannot increase loginCount for that reference");
     }
   }
 
@@ -126,11 +108,10 @@ class GamificationService extends GamificationInterface {
           _service.collection("gamification").doc(gamificationId);
       final gamiInfos = await gamiRef.get();
       await gamiRef.update({"likeNumber": gamiInfos.get("likeNumber") - 1});
-
+      await updateExpAndLevel(gamificationId);
       return Future.value(true);
     } on FirebaseException catch (e) {
-      return Future.error(
-          "Cannot retrieve gamification infos for that reference");
+      return Future.error("Cannot decrease likeNumber for that reference");
     }
   }
 
@@ -142,11 +123,10 @@ class GamificationService extends GamificationInterface {
 
       final gamiInfos = await gamiRef.get();
       await gamiRef.update({"loginCount": gamiInfos.get("loginCount") - 1});
-
+      await updateExpAndLevel(gamificationId);
       return Future.value(true);
     } on FirebaseException catch (e) {
-      return Future.error(
-          "Cannot retrieve gamification infos for that reference");
+      return Future.error("Cannot decrease loginCount for that reference");
     }
   }
 
@@ -158,14 +138,21 @@ class GamificationService extends GamificationInterface {
   }
 
   @override
-  Future updateExp(String gamificationId) {
-    // TODO: implement updateExp
-    throw UnimplementedError();
-  }
-
-  @override
-  Future updateLevel(String gamificationId) {
-    // TODO: implement updateLevel
-    throw UnimplementedError();
+  Future updateExpAndLevel(String gamificationId) async {
+    try {
+      DocumentReference gamiRef =
+          _service.collection("gamification").doc(gamificationId);
+      final gamiInfos = await gamiRef.get();
+      int totalExp =
+          computeExp(gamiInfos.get("likeNumber"), gamiInfos.get("loginCount"));
+      int computedLevel = computeLevel(totalExp);
+      await gamiRef.update({
+        "exp": totalExp,
+        "level": computedLevel,
+      });
+    } on FirebaseException catch (e) {
+      return Future.error(
+          "Cannot update experience for the gamification document $gamificationId");
+    }
   }
 }

@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class GamificationInterface {
-  Future getCurrentLevel(String gamificationId);
-
-  Future getCurrentExp(String gamificationId);
+  Future<DocumentReference> initGamificationForUser(String userId);
 
   Future getGamificationInfos(String gamificationId);
 
@@ -24,7 +22,5 @@ abstract class GamificationInterface {
 
   Stream<DocumentSnapshot> watchGamificationInfos(String gamificationId);
 
-  Future updateLevel(String gamificationId);
-
-  Future updateExp(String gamificationId);
+  Future updateExpAndLevel(String gamificationId);
 }
