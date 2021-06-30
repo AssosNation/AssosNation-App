@@ -52,7 +52,7 @@ class _CalendarState extends State<Calendar> {
                         return Expanded(
                           child: ListView.builder(
                             itemBuilder: (context, index) {
-                              return ActionCard(actionList[index]);
+                              return ActionCard(actionList[index], _user!.uid);
                             },
                             itemCount: actionList.length,
                             shrinkWrap: true,
