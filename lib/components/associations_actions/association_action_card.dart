@@ -1,20 +1,20 @@
 import 'package:assosnation_app/components/dialog/delete_confirmation_dialog.dart';
-import 'package:assosnation_app/components/posts/edit_post_dialog.dart';
+import 'package:assosnation_app/components/associations_actions/edit_action_dialog.dart';
 import 'package:assosnation_app/components/posts/post_main_title.dart';
-import 'package:assosnation_app/services/models/post.dart';
+import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AssociationPostCard extends StatefulWidget {
-  final Post _post;
+class AssociationActionCard extends StatefulWidget {
+  final AssociationAction _action;
 
-  AssociationPostCard(this._post);
+  AssociationActionCard(this._action);
 
   @override
-  _AssociationPostCardState createState() => _AssociationPostCardState();
+  _AsociationActionCardState createState() => _AsociationActionCardState();
 }
 
-class _AssociationPostCardState extends State<AssociationPostCard> {
+class _AsociationActionCardState extends State<AssociationActionCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,7 +28,7 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
         child: Column(
           children: [
             PostMainTitle(
-              this.widget._post.title,
+              this.widget._action.title,
             ),
             Row(
               children: [
@@ -36,7 +36,7 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
                     child: Text(
-                      this.widget._post.content,
+                      this.widget._action.description,
                       maxLines: 7,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.justify,
@@ -54,9 +54,9 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
                   children: [
                     OutlinedButton.icon(
                       icon: Icon(Icons.edit),
-                      onPressed: () => showModalBottomSheet(
+                      onPressed: () => showDialog(
                         context: context,
-                        builder: (context) => EditPostDialog(widget._post),
+                        builder: (context) => EditActionDialog(widget._action),
                       ),
                       label: Text("Edit"),
                     ),
@@ -68,9 +68,9 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
                       onPressed: () => showModalBottomSheet(
                         context: context,
                         builder: (context) => DeleteObjectConfirmationDialog(
-                            "Are you sure to delete this post ?",
-                            widget._post.id,
-                            null),
+                            "Are you sure to delete this action ?",
+                            null,
+                            this.widget._action),
                       ),
                       label: Text(
                         "Delete",

@@ -1,15 +1,14 @@
+import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'forms/form_main_title.dart';
-
-class AssociationActionCard extends StatelessWidget {
+class ActionCard extends StatelessWidget {
   final AssociationAction action;
 
-  AssociationActionCard(this.action);
+  ActionCard(this.action);
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +82,7 @@ class AssociationActionCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                        '${this.action.usersRegistered != 0 ? this.action.usersRegistered : 'pas'} de participants'),
+                        '${this.action.usersRegistered != 0 ? this.action.usersRegistered : 'pas de'} participants'),
                   ],
                 ),
                 Divider(),

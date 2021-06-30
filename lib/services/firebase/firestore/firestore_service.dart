@@ -366,18 +366,4 @@ class FireStoreService extends DatabaseInterface {
         });
     return actionsList;
   }
-
-  Future<String> getAssociationNameById(associationId) async {
-    print(associationId);
-    DocumentReference association = this._service.doc(associationId);
-    print(association);
-    String associationName = '';
-    await association.get().then((snapshot) {
-      associationName = snapshot.get("name");
-    });
-
-    print(associationName);
-
-    return associationName;
-  }
 }

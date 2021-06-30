@@ -1,4 +1,4 @@
-import 'package:assosnation_app/components/association_action_card.dart';
+import 'package:assosnation_app/components/associations_actions/action_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/services/models/user.dart';
@@ -52,7 +52,7 @@ class _CalendarState extends State<Calendar> {
                         return Expanded(
                           child: ListView.builder(
                             itemBuilder: (context, index) {
-                              return AssociationActionCard(actionList[index]);
+                              return ActionCard(actionList[index]);
                             },
                             itemCount: actionList.length,
                             shrinkWrap: true,

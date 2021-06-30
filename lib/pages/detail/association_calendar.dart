@@ -1,4 +1,4 @@
-import 'package:assosnation_app/components/association_action_card.dart';
+import 'package:assosnation_app/components/associations_actions/association_action_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
