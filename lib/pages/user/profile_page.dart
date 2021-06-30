@@ -19,42 +19,63 @@ class Profile extends StatelessWidget {
       Text(
         AppLocalizations.of(context)!.title_my_profile,
         style: GoogleFonts.montserrat(
-            fontSize: 30, fontWeight: FontWeight.bold, color: Colors.teal),
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).primaryColor),
       ),
       Container(
         padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CircleAvatar(
-              //TODO : add a Image in the DB for the user to display it here
-              backgroundImage: NetworkImage(
-                  'https://media-exp1.licdn.com/dms/image/C5603AQEJ5TDmil5VAA/profile-displayphoto-shrink_800_800/0/1522223155450?e=1626307200&v=beta&t=qXIHutBHwCHF9gKoXPP_P6fnvgNvzmUqV5ZOeqDvEiI'),
-              radius: 60,
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
-              child: Column(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.edit),
-                    color: Colors.teal,
-                  )
-                ],
-              ),
+            Stack(
+              children: [
+                Positioned(
+                  top: 120,
+                  left: 120,
+                  child: IconButton(
+                    iconSize: 25,
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                                title: Text(AppLocalizations.of(context)!
+                                    .choose_option_photo));
+                          });
+                    },
+                    icon: Icon(Icons.add_a_photo),
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(10),
+                  child: CircleAvatar(
+                    radius: 70,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    child: CircleAvatar(
+                      //TODO : add a Image in the DB for the user to display it here
+                      backgroundImage: NetworkImage(
+                          'https://media-exp1.licdn.com/dms/image/C5603AQEJ5TDmil5VAA/profile-displayphoto-shrink_800_800/0/1522223155450?e=1626307200&v=beta&t=qXIHutBHwCHF9gKoXPP_P6fnvgNvzmUqV5ZOeqDvEiI'),
+                      radius: 66,
+                    ),
+                  ),
+                ),
+              ],
             ),
             Column(
               children: [
                 Row(children: [
                   Text(
                     "${_user!.firstName} ${_user.lastName}",
-                    style: TextStyle(fontSize: 22, color: Colors.teal),
+                    style: TextStyle(
+                        fontSize: 22, color: Theme.of(context).primaryColor),
                   ),
                 ]),
                 Text(
                   _user.mail,
-                  style: TextStyle(fontSize: 18, color: Colors.teal),
+                  style: TextStyle(
+                      fontSize: 18, color: Theme.of(context).primaryColor),
                 ),
               ],
             )
@@ -65,7 +86,7 @@ class Profile extends StatelessWidget {
         thickness: 3,
         indent: 15,
         endIndent: 15,
-        color: Colors.teal,
+        color: Theme.of(context).primaryColor,
         height: 50,
       ),
       AnTitle(AppLocalizations.of(context)!.association_list_label),

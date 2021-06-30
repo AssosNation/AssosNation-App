@@ -71,5 +71,6 @@
   "association_application_from_title": "Association Application",
   "no_events_yet": "There are no events created yet",
   "registered_to_events_label": "Registered !",
-  "title_my_profile": "My profile"
+  "title_my_profile": "My profile",
+  "choose_option_photo": "Choose an option"
 }
