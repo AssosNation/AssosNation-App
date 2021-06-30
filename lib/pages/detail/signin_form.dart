@@ -29,20 +29,6 @@ class _SignInFormState extends State<SignInForm> {
     }
   }
 
-  _isEmailValidated(String email) {
-    return email
-        .contains(new RegExp(r'([a-z0-9A-Z-.]+@[a-zA-Z]+\.[a-z]{1,3})'));
-  }
-
-  _displaySnackBarWithMessage(String msg, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      behavior: SnackBarBehavior.floating,
-      content: Text(msg),
-      backgroundColor: color,
-      duration: Duration(seconds: 3),
-    ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -75,7 +61,7 @@ class _SignInFormState extends State<SignInForm> {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (email) {
-                              if (_isEmailValidated(email!)) {
+                              if (Utils.isEmailValidated(email!)) {
                                 _mail = email;
                                 return null;
                               } else if (email.isEmpty)
