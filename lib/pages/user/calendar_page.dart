@@ -61,7 +61,7 @@ class _CalendarState extends State<Calendar> {
                         );
                       }
                     } else if (snapshot.hasError) {
-                      return Text("Pas d'actions pour toi l'ami");
+                      return Text(AppLocalizations.of(context)!.no_events_yet);
                     } else
                       return Container();
                   },

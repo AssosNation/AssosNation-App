@@ -62,8 +62,10 @@
   "content_label": "Contenu",
   "cancel_button_label": "Annuler",
   "connect_button": "Connexion",
-  "failed_to_connect_snackbar": "La connexion à échouée, réessayez",
+  "failed_to_connect_snackbar": "La connexion a échouée, réessayez",
   "succeed_to_connect_snackbar": "Connexion réussie ! Bienvenue !",
   "send_application": "Envoyer votre candidature",
-  "association_application_from_title": "Formulaire de candidature"
+  "association_application_from_title": "Formulaire de candidature",
+  "no_events_yet": "Aucun événement disponible pour cette association",
+  "registered_to_events_label": "Inscrit !"
 }

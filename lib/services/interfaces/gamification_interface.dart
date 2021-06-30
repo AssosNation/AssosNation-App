@@ -11,6 +11,7 @@ abstract class GamificationInterface {
     int likesNumber,
     int loginCount,
     int subCount,
+    int eventRegistrations,
   );
 
   Future increaseLikeNumberByOne(String gamificationId);
@@ -28,4 +29,8 @@ abstract class GamificationInterface {
   Future increaseSubCountByOne(String gamificationId);
 
   Future decreaseSubCountByOne(String gamificationId);
+
+  Future decreaseEventRegistrationByOne(String gamificationId);
+
+  Future increaseEventRegistrationByOne(String gamificationId);
 }

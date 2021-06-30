@@ -316,6 +316,9 @@ class FireStoreService extends DatabaseInterface {
         .collection('associations')
         .doc(association.uid)
         .update({"actions": association.actions});
+    final userInfo = await _service.collection("users").doc(_userId).get();
+    await GamificationService()
+        .increaseEventRegistrationByOne(userInfo.get("gamificationRef").id);
   }
 
   removeUserToAction(AssociationAction action, _userId) async {
@@ -326,6 +329,9 @@ class FireStoreService extends DatabaseInterface {
         .collection('associations')
         .doc(association.uid)
         .update({"actions": association.actions});
+    final userInfo = await _service.collection("users").doc(_userId).get();
+    await GamificationService()
+        .decreaseEventRegistrationByOne(userInfo.get("gamificationRef").id);
   }
 
   Future addUsersToLikedList(String postId, AnUser user) async {

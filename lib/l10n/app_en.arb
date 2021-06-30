@@ -68,5 +68,7 @@
   "failed_to_connect_snackbar": "Failed to connect, try again",
   "succeed_to_connect_snackbar": "Succesfully connected ! Welcome !",
   "send_application": "Send your application",
-  "association_application_from_title": "Association Application"
+  "association_application_from_title": "Association Application",
+  "no_events_yet": "There are no events created yet",
+  "registered_to_events_label": "Registered !"
 }

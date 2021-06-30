@@ -14,6 +14,8 @@ class AuthService extends AuthenticationInterface {
         await FireStoreService().checkIfUserIsAssos(_user.uid);
     if (!isAssociation) {
       final userInfos = await FireStoreService().getUserInfosFromDB(_user.uid);
+      GamificationService()
+          .increaseLoginCountByOne(userInfos.gamificationRef.id);
       return AnUser.withData(
           _user.uid,
           _user.email!,
@@ -124,7 +126,6 @@ class AuthService extends AuthenticationInterface {
       }
     } on FirebaseException catch (e) {
       print("A problem occured when signing in");
-      print(e);
     }
   }
 

@@ -1,7 +1,8 @@
-import 'package:assosnation_app/components/dialog/delete_confirmation_dialog.dart';
 import 'package:assosnation_app/components/associations_actions/edit_action_dialog.dart';
+import 'package:assosnation_app/components/dialog/delete_confirmation_dialog.dart';
 import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -58,7 +59,7 @@ class _AsociationActionCardState extends State<AssociationActionCard> {
                         context: context,
                         builder: (context) => EditActionDialog(widget._action),
                       ),
-                      label: Text("Edit"),
+                      label: Text(AppLocalizations.of(context)!.edit_button),
                     ),
                     OutlinedButton.icon(
                       icon: Icon(
@@ -73,7 +74,7 @@ class _AsociationActionCardState extends State<AssociationActionCard> {
                             this.widget._action),
                       ),
                       label: Text(
-                        "Delete",
+                        AppLocalizations.of(context)!.delete_button,
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
