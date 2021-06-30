@@ -12,8 +12,8 @@ class AssociationAction {
   final Timestamp startDate;
   final Timestamp endDate;
   final Association association;
-  final int usersRegistered;
-  final bool isUserRegistered;
+  int usersRegistered;
+  bool isUserRegistered;
 
   AssociationAction(
       this.id,

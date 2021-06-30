@@ -305,14 +305,23 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
-  addUserToAction(associationId, action, user) async {
-    Association association =
-        await this.getAssociationInfosFromDB(associationId);
-    association.actions![action]['usersRegistered'].add(user);
+  addUserToAction(AssociationAction action, _userId) async {
+    Association association = action.association;
+    association.actions![action.id]['usersRegistered'].add(_userId);
     _service
         .collection('associations')
-        .doc(associationId)
-        .update({"actions": FieldValue.arrayUnion(association.actions!)});
+        .doc(association.uid)
+        .update({"actions": association.actions});
+  }
+
+  removeUserToAction(AssociationAction action, _userId) async {
+    Association association = action.association;
+    association.actions![action.id]['usersRegistered']
+        .removeWhere((userId) => userId == _userId);
+    _service
+        .collection('associations')
+        .doc(association.uid)
+        .update({"actions": association.actions});
   }
 
   /**
@@ -365,19 +374,5 @@ class FireStoreService extends DatabaseInterface {
               e['usersRegistered'].contains(user.uid)))
         });
     return actionsList;
-  }
-
-  Future<String> getAssociationNameById(associationId) async {
-    print(associationId);
-    DocumentReference association = this._service.doc(associationId);
-    print(association);
-    String associationName = '';
-    await association.get().then((snapshot) {
-      associationName = snapshot.get("name");
-    });
-
-    print(associationName);
-
-    return associationName;
   }
 }
