@@ -1,6 +1,5 @@
 import 'package:assosnation_app/components/action_participation_component.dart';
 import 'package:assosnation_app/components/forms/form_main_title.dart';
-import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
