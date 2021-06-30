@@ -10,6 +10,7 @@ import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/association_search.dart';
 import 'package:assosnation_app/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class UserScaffold extends StatefulWidget {
@@ -40,15 +41,20 @@ class _UserScaffoldState extends State<UserScaffold> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.dynamic_feed), label: "Feed"),
+              icon: Icon(Icons.dynamic_feed),
+              label: AppLocalizations.of(context)!.user_tab_newsfeed),
           BottomNavigationBarItem(
-              icon: Icon(Icons.message), label: "Messaging"),
+              icon: Icon(Icons.message),
+              label: AppLocalizations.of(context)!.user_tab_messaging),
           BottomNavigationBarItem(
-              icon: Icon(Icons.saved_search), label: "Discover"),
+              icon: Icon(Icons.saved_search),
+              label: AppLocalizations.of(context)!.user_tab_discover),
           BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle), label: "Profile"),
+              icon: Icon(Icons.account_circle),
+              label: AppLocalizations.of(context)!.user_tab_profile),
           BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today), label: "Calendar")
+              icon: Icon(Icons.calendar_today),
+              label: AppLocalizations.of(context)!.user_tab_events)
         ],
         onTap: (index) {
           setState(() {

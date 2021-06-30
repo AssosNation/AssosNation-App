@@ -1,12 +1,8 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
-import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
-import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'forms/form_main_title.dart';
 
 class ActionParticipationComponent extends StatefulWidget {
   final AssociationAction _action;
@@ -68,7 +64,7 @@ class _ActionParticipationComponentState
                 : Icons.add_circle_outline),
             label: Text(this.widget._action.isUserRegistered
                 ? "Inscrit !"
-                : "Je participe")),
+                : AppLocalizations.of(context)!.participate_button_label)),
       ],
     );
   }

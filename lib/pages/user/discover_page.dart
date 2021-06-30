@@ -3,6 +3,7 @@ import 'package:assosnation_app/components/association_card.dart';
 import 'package:assosnation_app/pages/detail/location.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class _DiscoverState extends State<Discover> {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        AnTitle("Discover an association"),
+        AnTitle(AppLocalizations.of(context)!.discover_page_title),
         Flexible(
           flex: 1,
           child: FutureBuilder(
@@ -51,7 +52,7 @@ class _DiscoverState extends State<Discover> {
                 return Container();
               }),
         ),
-        AnTitle("AROUND YOU"),
+        AnTitle(AppLocalizations.of(context)!.discover_page_location_label),
         Expanded(
           child: Card(
             shape: RoundedRectangleBorder(

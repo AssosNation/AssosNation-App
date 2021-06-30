@@ -10,10 +10,10 @@ import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/converters.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:assosnation_app/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AssociationDetails extends StatelessWidget {
@@ -77,7 +77,8 @@ class AssociationDetails extends StatelessWidget {
                                                 _association.uid, _user.uid);
                                         Utils.displaySnackBarWithMessage(
                                             context,
-                                            "Vous n'êtes plus abonné à cette association ! ",
+                                            AppLocalizations.of(context)!
+                                                .unsubscribe,
 
                                             /// TODO I18N
                                             Colors.deepOrange);
@@ -87,7 +88,8 @@ class AssociationDetails extends StatelessWidget {
                                                 _association.uid, _user.uid);
                                         Utils.displaySnackBarWithMessage(
                                             context,
-                                            "Vous êtes désormais abonné à cette association !",
+                                            AppLocalizations.of(context)!
+                                                .subscribe,
 
                                             /// TODO I18N
                                             Colors.green);
@@ -149,7 +151,8 @@ class AssociationDetails extends StatelessWidget {
                               color: Colors.teal,
                               height: 40,
                             ),
-                            AnTitle("News Feed"),
+                            AnTitle(AppLocalizations.of(context)!
+                                .user_tab_newsfeed),
                           ],
                         ),
                       ),
@@ -178,10 +181,8 @@ class AssociationDetails extends StatelessWidget {
                                     itemCount: postList.length,
                                   );
                                 } else
-                                  return Text(
-                                      "${_association.name} n'a pas encore publié son premier post ! ");
-
-                              /// TODO I18N
+                                  return Text(AppLocalizations.of(context)!
+                                      .association_no_posts(_association.name));
                             }
                           }
                           if (snapshot.hasError) {

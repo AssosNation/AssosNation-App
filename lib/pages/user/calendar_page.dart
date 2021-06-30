@@ -2,6 +2,7 @@ import 'package:assosnation_app/components/associations_actions/action_card.dart
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,7 @@ class _CalendarState extends State<Calendar> {
                   child: Text("Actions de mes assos")),
               ElevatedButton(
                   onPressed: () => setState(() => _isFirstPart = false),
-                  child: Text("Toutes les actions")),
+                  child: Text(AppLocalizations.of(context)!.all_events_label)),
             ],
           ),
           Expanded(
