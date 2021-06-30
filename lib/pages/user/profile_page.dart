@@ -18,13 +18,7 @@ class Profile extends StatelessWidget {
       FireStoreService().getSubscribedAssociationsByUser(_user.uid);
 
     return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      SizedBox(
-        height: 10,
-      ),
       AnBigTitle("My profile"),
-      SizedBox(
-        height: 40,
-      ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
