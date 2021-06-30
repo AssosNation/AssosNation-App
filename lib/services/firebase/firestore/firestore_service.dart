@@ -277,11 +277,13 @@ class FireStoreService extends DatabaseInterface {
   }
 
   @override
-  Future<List<Association>> getSubscribedAssociationsByUser(String uid) async {
+  Future<List<Association>> getSubscribedAssociationsByUser(AnUser user) async {
     CollectionReference associations = _service.collection("associations");
+    DocumentReference documentUser = _service.collection("users").doc(user.uid);
     try {
-      final snapshot =
-          await associations.where("subscribers", arrayContains: uid).get();
+      final snapshot = await associations
+          .where("subscribers", arrayContains: documentUser)
+          .get();
       List<Association> _subAssosList = snapshot.docs
           .map((e) => Association(
               e.id,
