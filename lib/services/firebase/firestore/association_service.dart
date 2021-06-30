@@ -1,4 +1,3 @@
-import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
 import 'package:assosnation_app/services/interfaces/association_service_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -47,17 +46,22 @@ class AssociationService extends AssociationServiceInterface {
 
   @override
   Future updateName(Association assos, String content) async {
+    CollectionReference _conversations = _service.collection("conversations");
     DocumentReference assoRef =
         _service.collection("associations").doc(assos.uid);
     try {
-      await assoRef.update({"name": content});
-      var associationsConversations =
-          MessagingService().getAllConversationsByAssociation(assos.uid);
-      associationsConversations.then((conversations) {
-        conversations.forEach((conversation) {
-          conversation.names[1] = content;
+      QuerySnapshot snapshot = await _conversations
+          .where("participants", arrayContains: assoRef)
+          .get();
+
+      snapshot.docs.forEach((e) async {
+        e.reference.update({
+          'names': [e.get("names")[0], content]
         });
       });
+
+      await assoRef.update({"name": content});
+
       return Future.value(true);
     } on FirebaseException catch (e) {
       return Future.error("Cannot update name with id ${assos.uid}");
