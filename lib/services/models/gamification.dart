@@ -4,6 +4,7 @@ class Gamification {
   int exp = 0;
   int likeNumber = 0;
   int loginCount = 0;
+  int subCount = 0;
 
   Gamification({required this.user});
 
@@ -12,5 +13,6 @@ class Gamification {
       required this.level,
       required this.exp,
       required this.likeNumber,
-      required this.loginCount});
+      required this.loginCount,
+      required this.subCount});
 }

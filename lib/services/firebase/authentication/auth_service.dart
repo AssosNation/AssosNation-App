@@ -112,8 +112,7 @@ class AuthService extends AuthenticationInterface {
   @override
   Future signIn(mail, pwd) async {
     try {
-      UserCredential userCredential =
-          await _auth.signInWithEmailAndPassword(email: mail, password: pwd);
+      await _auth.signInWithEmailAndPassword(email: mail, password: pwd);
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

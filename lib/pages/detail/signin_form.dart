@@ -1,5 +1,6 @@
 import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -20,10 +21,14 @@ class _SignInFormState extends State<SignInForm> {
         dynamic res = await _auth.signIn(_mail, _pwd);
         if (res == null) {
           Utils.displaySnackBarWithMessage(
-              context, "Failed to connect, try again", Colors.red);
+              context,
+              AppLocalizations.of(context)!.failed_to_connect_snackbar,
+              Colors.red);
         } else {
           Utils.displaySnackBarWithMessage(
-              context, "Succesfully connected ! Welcome", Colors.green);
+              context,
+              AppLocalizations.of(context)!.succeed_to_connect_snackbar,
+              Colors.green);
         }
       }
     }
@@ -56,7 +61,8 @@ class _SignInFormState extends State<SignInForm> {
                       children: [
                         TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Enter your email address"),
+                                labelText: AppLocalizations.of(context)!
+                                    .email_input_placeholder),
                             keyboardType: TextInputType.emailAddress,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -70,8 +76,9 @@ class _SignInFormState extends State<SignInForm> {
                                 return "This email address is not valid";
                             }),
                         TextFormField(
-                          decoration:
-                              InputDecoration(labelText: "Enter your password"),
+                          decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!
+                                  .pwd_input_placeholder),
                           obscureText: true,
                           validator: (pwd) {
                             if (pwd == null || pwd == "")
@@ -92,7 +99,7 @@ class _SignInFormState extends State<SignInForm> {
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: ElevatedButton(
                       onPressed: _verifyAndValidateForm,
-                      child: Text("Connect"),
+                      child: Text(AppLocalizations.of(context)!.connect_button),
                     ),
                   )
                 ],

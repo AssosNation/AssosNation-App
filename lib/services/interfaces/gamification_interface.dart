@@ -10,6 +10,7 @@ abstract class GamificationInterface {
   int computeExp(
     int likesNumber,
     int loginCount,
+    int subCount,
   );
 
   Future increaseLikeNumberByOne(String gamificationId);
@@ -23,4 +24,8 @@ abstract class GamificationInterface {
   Stream<DocumentSnapshot> watchGamificationInfos(String gamificationId);
 
   Future updateExpAndLevel(String gamificationId);
+
+  Future increaseSubCountByOne(String gamificationId);
+
+  Future decreaseSubCountByOne(String gamificationId);
 }
