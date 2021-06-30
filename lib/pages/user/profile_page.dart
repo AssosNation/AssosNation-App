@@ -71,8 +71,7 @@ class Profile extends StatelessWidget {
       AnTitle(AppLocalizations.of(context)!.association_list_label),
       Expanded(
         child: FutureBuilder(
-            future:
-                FireStoreService().getSubscribedAssociationsByUser(_user.uid),
+            future: FireStoreService().getSubscribedAssociationsByUser(_user),
             builder: (ctx, AsyncSnapshot<List<Association>> snapshot) {
               if (snapshot.hasData) {
                 switch (snapshot.connectionState) {
