@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:assosnation_app/services/location_service.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -18,34 +19,27 @@ class _LocationState extends State<Location> {
         future: LocationService().lastKnownCameraPos(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                return GoogleMap(
-                  initialCameraPosition: LocationService().defaultPos,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
-                  compassEnabled: true,
-                  onMapCreated: (controller) {
-                    _controller.complete(controller);
-                    controller.animateCamera(
-                        CameraUpdate.newCameraPosition(snapshot.data));
-                  },
-                );
-              case ConnectionState.waiting:
-                print("waiting");
-                return CircularProgressIndicator();
-              case ConnectionState.none:
-                print("none");
-                return CircularProgressIndicator();
-              case ConnectionState.active:
-                return Container();
-            }
+            if (snapshot.connectionState == ConnectionState.done) {
+              return GoogleMap(
+                initialCameraPosition: LocationService().defaultPos,
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                compassEnabled: true,
+                onMapCreated: (controller) {
+                  _controller.complete(controller);
+                  controller.animateCamera(
+                      CameraUpdate.newCameraPosition(snapshot.data));
+                },
+                buildingsEnabled: false,
+              );
+            } else
+              return CircularProgressIndicator();
           } else if (snapshot.hasError) {
             return Container(
               width: MediaQuery.of(context).size.width * 0.92,
               child: Center(
                 child: Text(
-                  "Please activate the location service on your device",
+                  AppLocalizations.of(context)!.location_service_off,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).accentColor),

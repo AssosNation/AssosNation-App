@@ -21,8 +21,8 @@ class _DiscoverState extends State<Discover> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         AnTitle(AppLocalizations.of(context)!.discover_page_title),
-        Flexible(
-          flex: 1,
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.3,
           child: FutureBuilder(
               future: FireStoreService().getAllAssociations(),
               builder: (ctx, AsyncSnapshot<List<Association>> snapshot) {
@@ -39,7 +39,7 @@ class _DiscoverState extends State<Discover> {
                         },
                         options: CarouselOptions(
                             autoPlay: true,
-                            autoPlayAnimationDuration: Duration(seconds: 2),
+                            autoPlayInterval: Duration(seconds: 7),
                             autoPlayCurve: Curves.easeInOutBack,
                             height: MediaQuery.of(context).size.height * 0.95),
                       );
@@ -53,7 +53,8 @@ class _DiscoverState extends State<Discover> {
               }),
         ),
         AnTitle(AppLocalizations.of(context)!.discover_page_location_label),
-        Expanded(
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.4,
           child: Card(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.horizontal(
