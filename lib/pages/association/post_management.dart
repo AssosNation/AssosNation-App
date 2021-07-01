@@ -20,18 +20,21 @@ class PostManagement extends StatelessWidget {
                 .retrieveAllPostsForAssociationStream(_association!),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                final List<Post> docs =
-                    Converters.convertDocSnapshotsToListPost(
-                        snapshot.data!.docs);
-                return ListView.builder(
-                  itemCount: docs.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: AssociationPostCard(docs[index]),
-                    );
-                  },
-                );
+                if (snapshot.connectionState == ConnectionState.active) {
+                  final List<Post> docs =
+                      Converters.convertDocSnapshotsToListPost(
+                          snapshot.data!.docs);
+                  print(docs);
+                  return ListView.builder(
+                    itemCount: docs.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: AssociationPostCard(docs[index]),
+                      );
+                    },
+                  );
+                }
               }
               return Container();
             }),
