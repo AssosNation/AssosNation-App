@@ -5,14 +5,17 @@ import 'package:assosnation_app/services/firebase/authentication/auth_service.da
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/association_search.dart';
 import 'package:assosnation_app/utils/constants.dart';
 import 'package:assosnation_app/utils/route_generator.dart';
-import 'package:assosnation_app/utils/search/association_search.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'l10n/l10n.dart';
 
 void main() => runApp(MyApp());
 
@@ -44,6 +47,8 @@ class MyApp extends StatelessWidget {
                   Theme.of(context).textTheme,
                 ),
               ),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: L10n.all,
               home: MyHomePage(
                 key: UniqueKey(),
               ),
@@ -78,7 +83,18 @@ class _MyHomePageState extends State<MyHomePage> {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(Constants.appName),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/icon/logo_an.png",
+                height: 40,
+              ),
+              Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(Constants.appName)),
+            ],
+          ),
           actions: [
             StreamBuilder<List<Association>>(
                 stream: FireStoreService().getAllAssociations().asStream(),

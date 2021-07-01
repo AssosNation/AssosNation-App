@@ -1,5 +1,7 @@
 import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
+import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class SignInForm extends StatefulWidget {
@@ -18,28 +20,18 @@ class _SignInFormState extends State<SignInForm> {
       if (_formKey.currentState!.validate()) {
         dynamic res = await _auth.signIn(_mail, _pwd);
         if (res == null) {
-          _displaySnackBarWithMessage(
-              "Failed to connect, try again", Colors.red);
+          Utils.displaySnackBarWithMessage(
+              context,
+              AppLocalizations.of(context)!.failed_to_connect_snackbar,
+              Colors.red);
         } else {
-          _displaySnackBarWithMessage(
-              "Succesfully connected ! Welcome", Colors.green);
+          Utils.displaySnackBarWithMessage(
+              context,
+              AppLocalizations.of(context)!.succeed_to_connect_snackbar,
+              Colors.green);
         }
       }
     }
-  }
-
-  _isEmailValidated(String email) {
-    return email
-        .contains(new RegExp(r'([a-z0-9A-Z-.]+@[a-zA-Z]+\.[a-z]{1,3})'));
-  }
-
-  _displaySnackBarWithMessage(String msg, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      behavior: SnackBarBehavior.floating,
-      content: Text(msg),
-      backgroundColor: color,
-      duration: Duration(seconds: 3),
-    ));
   }
 
   @override
@@ -69,12 +61,13 @@ class _SignInFormState extends State<SignInForm> {
                       children: [
                         TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Enter your email address"),
+                                labelText: AppLocalizations.of(context)!
+                                    .email_input_placeholder),
                             keyboardType: TextInputType.emailAddress,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (email) {
-                              if (_isEmailValidated(email!)) {
+                              if (Utils.isEmailValidated(email!)) {
                                 _mail = email;
                                 return null;
                               } else if (email.isEmpty)
@@ -83,8 +76,9 @@ class _SignInFormState extends State<SignInForm> {
                                 return "This email address is not valid";
                             }),
                         TextFormField(
-                          decoration:
-                              InputDecoration(labelText: "Enter your password"),
+                          decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!
+                                  .pwd_input_placeholder),
                           obscureText: true,
                           validator: (pwd) {
                             if (pwd == null || pwd == "")
@@ -105,7 +99,7 @@ class _SignInFormState extends State<SignInForm> {
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: ElevatedButton(
                       onPressed: _verifyAndValidateForm,
-                      child: Text("Connect"),
+                      child: Text(AppLocalizations.of(context)!.connect_button),
                     ),
                   )
                 ],

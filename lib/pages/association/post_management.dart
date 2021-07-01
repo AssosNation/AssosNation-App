@@ -1,5 +1,5 @@
 import 'package:assosnation_app/components/posts/association_post_card.dart';
-import 'package:assosnation_app/services/firebase/firestore/posts/posts_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/utils/converters.dart';
@@ -20,18 +20,21 @@ class PostManagement extends StatelessWidget {
                 .retrieveAllPostsForAssociationStream(_association!),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                final List<Post> docs =
-                    Converters.convertDocSnapshotsToListPost(
-                        snapshot.data!.docs);
-                return ListView.builder(
-                  itemCount: docs.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: AssociationPostCard(docs[index]),
-                    );
-                  },
-                );
+                if (snapshot.connectionState == ConnectionState.active) {
+                  final List<Post> docs =
+                      Converters.convertDocSnapshotsToListPost(
+                          snapshot.data!.docs);
+                  print(docs);
+                  return ListView.builder(
+                    itemCount: docs.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: AssociationPostCard(docs[index]),
+                      );
+                    },
+                  );
+                }
               }
               return Container();
             }),

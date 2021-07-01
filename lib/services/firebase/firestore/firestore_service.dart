@@ -1,3 +1,4 @@
+import 'package:assosnation_app/services/firebase/firestore/gamification_service.dart';
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
@@ -9,25 +10,49 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FireStoreService extends DatabaseInterface {
   final FirebaseFirestore _service = FirebaseFirestore.instance;
 
-  @override
-  Future<List<Post>> getAllPostsByAssociation() async {
+  Future<List<dynamic>> getAllPostsByAssociationList(
+      List? associationList) async {
+    if (associationList == null) {
+      return List.empty();
+    }
+
+    Map<DocumentReference, String> associationNameList =
+        await getAssociationListName(associationList);
+
     CollectionReference posts = _service.collection("posts");
     try {
       QuerySnapshot snapshot = await posts.get();
-      List<Post> postList = snapshot.docs
-          .map((post) => Post(
-              post.id,
-              post.get('title'),
-              post.get('assosId').toString(),
-              post.get('content'),
-              post.get('photo'),
-              post.get('timestamp'),
-              post.get('usersWhoLiked')))
-          .toList();
+      List postList = List.empty(growable: true);
+      snapshot.docs.forEach((post) async {
+        if (associationList.contains(post.get('assosId'))) {
+          postList.add({
+            "post": Post(
+                post.id,
+                post.get('title'),
+                post.get('assosId').toString(),
+                post.get('content'),
+                post.get('photo'),
+                post.get('timestamp'),
+                post.get('usersWhoLiked')),
+            "assosName": associationNameList[post.get('assosId')]
+          });
+        }
+      });
+
       return postList;
     } on FirebaseException catch (e) {
       return Future.error("Error while retrieving all posts");
     }
+  }
+
+  getAssociationListName(associationList) async {
+    Map<DocumentReference, String> associationNameList = {};
+    for (DocumentReference association in associationList) {
+      DocumentSnapshot assosRef = await association.get();
+      associationNameList[association] = assosRef.get('name');
+    }
+
+    return associationNameList;
   }
 
   @override
@@ -46,11 +71,13 @@ class FireStoreService extends DatabaseInterface {
         'firstName': user.firstName,
         'lastName': user.lastName,
         'mail': user.mail,
-        'subscriptions': []
+        'subscriptions': user.subscriptions,
+        'gamificationRef': user.gamificationRef
       });
+
+      return true;
     } on FirebaseException catch (e) {
-      print("Error while adding user to database");
-      print(e.message);
+      Future.error("Error while adding user to database");
     }
   }
 
@@ -64,12 +91,18 @@ class FireStoreService extends DatabaseInterface {
           snapshot.get('mail'),
           snapshot.get('firstName'),
           snapshot.get('lastName'),
-          snapshot.get("subscriptions"));
+          snapshot.get("subscriptions"),
+          snapshot.get("gamificationRef"));
       return _user;
     } on FirebaseException catch (e) {
       print(e.message);
       return Future.error("Error while retrieving all user data");
     }
+  }
+
+  Future<Association> getAssociationInfosFromDBWithReference(
+      DocumentReference association) async {
+    return this.getAssociationInfosFromDB(association.id);
   }
 
   Future<Association> getAssociationInfosFromDB(String assosId) async {
@@ -90,7 +123,6 @@ class FireStoreService extends DatabaseInterface {
           snapshot.get("president"),
           snapshot.get("approved"),
           snapshot.get("type"),
-          snapshot.get("posts"),
           snapshot.get("actions"),
           snapshot.get("subscribers"));
       return assos;
@@ -125,7 +157,6 @@ class FireStoreService extends DatabaseInterface {
               e.get("president"),
               e.get("approved"),
               e.get("type"),
-              e.get("posts"),
               e.get("actions"),
               e.get("subscribers")))
           .toList();
@@ -164,19 +195,19 @@ class FireStoreService extends DatabaseInterface {
   }
 
   Future<List<AssociationAction>> getActionByAssociationReference(
-      DocumentReference reference) async {
+      DocumentReference reference, _userId) async {
     Association association =
         await this.getAssociationInfosFromDB(reference.id);
-    return this.getActionsByAssociation(association);
+    return this.getActionsByAssociation(association, _userId);
   }
 
-  Future<List<AssociationAction>> getAllActions() async {
+  Future<List<AssociationAction>> getAllActions(_userId) async {
     try {
       List<Association> associationList = await this.getAllAssociations();
       List<AssociationAction> actionList = [];
       for (var association in associationList) {
         List<AssociationAction> newActionList =
-            this.getActionsByAssociation(association);
+            this.getActionsByAssociation(association, _userId);
         actionList = actionList + newActionList;
       }
       actionList.sort((a, b) => a.startDate.compareTo(b.startDate));
@@ -187,7 +218,8 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
-  List<AssociationAction> getActionsByAssociation(Association association) {
+  List<AssociationAction> getActionsByAssociation(
+      Association association, _userId) {
     List<AssociationAction> actionList = [];
     if (association.actions!.length == 0) {
       return actionList;
@@ -206,26 +238,25 @@ class FireStoreService extends DatabaseInterface {
               e['endDate'],
               association,
               e['usersRegistered'].length,
-              e['usersRegistered']
-                  .contains("test"))) //TODO: change with actual user
+              e['usersRegistered'].contains(_userId)))
         });
+
     return actionList;
   }
 
-  Future<List<AssociationAction>> getUserAssociationsByDate() async {
-    DocumentReference user = _service
-        .collection("users")
-        .doc('8DcvbXT3K9Y7rslyQ16bryiNoX52'); //TODO: change to connected user
+  Future<List<AssociationAction>> getUserAssociationsByDate(_userId) async {
+    DocumentReference user = _service.collection("users").doc(_userId);
     try {
       DocumentSnapshot snapshot = await user.get();
       List associationList = snapshot.get('subscriptions').toList();
       List<AssociationAction> actionList = [];
       for (var reference in associationList) {
         List<AssociationAction> newActionList =
-            await this.getActionByAssociationReference(reference);
+            await this.getActionByAssociationReference(reference, _userId);
         actionList = actionList + newActionList;
       }
       actionList.sort((a, b) => a.startDate.compareTo(b.startDate));
+
       return actionList;
     } on FirebaseException catch (e) {
       print(e.message);
@@ -265,7 +296,6 @@ class FireStoreService extends DatabaseInterface {
               e.get("president"),
               e.get("approved"),
               e.get("type"),
-              e.get("posts"),
               e.get("actions"),
               e.get("subscribers")))
           .toList();
@@ -276,30 +306,45 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
-  addUserToAction(association, action, user) {
-    _service.collection('associations').doc(association).update({
-      'actions'[action]: FieldValue.arrayUnion([
-        {'usersRegistered': user}
-      ])
-    });
+  addUserToAction(AssociationAction action, _userId) async {
+    Association association = action.association;
+    association.actions![action.id]['usersRegistered'].add(_userId);
+    _service
+        .collection('associations')
+        .doc(association.uid)
+        .update({"actions": association.actions});
+    final userInfo = await _service.collection("users").doc(_userId).get();
+    await GamificationService()
+        .increaseEventRegistrationByOne(userInfo.get("gamificationRef").id);
   }
 
-  /**
-   * Ajoute l'utilisateur dans la liste des likes d'un post
-   */
-  addUsersToLikedList(post, user) {
-    _service.collection('posts').doc(post).update({
-      'usersWhoLiked': FieldValue.arrayUnion([user])
-    });
+  removeUserToAction(AssociationAction action, _userId) async {
+    Association association = action.association;
+    association.actions![action.id]['usersRegistered']
+        .removeWhere((userId) => userId == _userId);
+    _service
+        .collection('associations')
+        .doc(association.uid)
+        .update({"actions": association.actions});
+    final userInfo = await _service.collection("users").doc(_userId).get();
+    await GamificationService()
+        .decreaseEventRegistrationByOne(userInfo.get("gamificationRef").id);
   }
 
-  /**
-   * Enlève l'utilisateur de la liste des likes d'un post
-   */
-  removeUserToLikedList(post, user) {
-    _service.collection('posts').doc(post).update({
-      'usersWhoLiked': FieldValue.arrayRemove([user])
+  Future addUsersToLikedList(String postId, AnUser user) async {
+    await _service.collection('posts').doc(postId).update({
+      'usersWhoLiked': FieldValue.arrayUnion([user.uid])
     });
+    await GamificationService()
+        .increaseLikeNumberByOne(user.gamificationRef.id);
+  }
+
+  Future removeUserToLikedList(String postId, AnUser user) async {
+    _service.collection('posts').doc(postId).update({
+      'usersWhoLiked': FieldValue.arrayRemove([user.uid])
+    });
+    await GamificationService()
+        .decreaseLikeNumberByOne(user.gamificationRef.id);
   }
 
   @override
@@ -311,5 +356,28 @@ class FireStoreService extends DatabaseInterface {
     } on FirebaseException catch (e) {
       return Future.error("Error while retrieving an association");
     }
+  }
+
+  @override
+  Future<List<AssociationAction>> getAllActionsByAssociation(
+      Association assos, AnUser user) async {
+    List<AssociationAction> actionsList = [];
+
+    assos.actions?.asMap().forEach((index, e) => {
+          actionsList.add(AssociationAction(
+              index,
+              e['title'],
+              e['city'],
+              e['postalCode'],
+              e['address'],
+              e['description'],
+              e['type'],
+              e['startDate'],
+              e['endDate'],
+              assos,
+              e['usersRegistered'].length,
+              e['usersRegistered'].contains(user.uid)))
+        });
+    return actionsList;
   }
 }

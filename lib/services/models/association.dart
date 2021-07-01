@@ -11,7 +11,6 @@ class Association {
   final String president;
   final bool approved;
   final String? type;
-  final List<dynamic>? posts;
   final List<dynamic>? actions;
   List<dynamic> subscribers;
 
@@ -28,7 +27,6 @@ class Association {
       this.president,
       this.approved,
       this.type,
-      this.posts,
       this.actions,
       this.subscribers);
 
@@ -45,7 +43,10 @@ class Association {
       this.president,
       this.approved,
       this.type,
-      this.posts,
       this.actions,
       this.subscribers);
+
+  didUserSubscribed(String uid) {
+    return subscribers.any((element) => element.id == uid);
+  }
 }

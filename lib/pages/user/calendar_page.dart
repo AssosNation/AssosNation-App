@@ -1,7 +1,11 @@
-import 'package:assosnation_app/components/association_action_card.dart';
+import 'package:assosnation_app/components/associations_actions/action_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
+import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Calendar extends StatefulWidget {
   @override
@@ -13,6 +17,7 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
+    final _user = context.watch<AnUser?>();
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -26,7 +31,7 @@ class _CalendarState extends State<Calendar> {
                   child: Text("Actions de mes assos")),
               ElevatedButton(
                   onPressed: () => setState(() => _isFirstPart = false),
-                  child: Text("Toutes les actions")),
+                  child: Text(AppLocalizations.of(context)!.all_events_label)),
             ],
           ),
           Expanded(
@@ -36,8 +41,8 @@ class _CalendarState extends State<Calendar> {
               children: [
                 FutureBuilder(
                   future: _isFirstPart
-                      ? FireStoreService().getUserAssociationsByDate()
-                      : FireStoreService().getAllActions(),
+                      ? FireStoreService().getUserAssociationsByDate(_user?.uid)
+                      : FireStoreService().getAllActions(_user?.uid),
                   builder: (context,
                       AsyncSnapshot<List<AssociationAction>> snapshot) {
                     if (snapshot.hasData) {
@@ -48,7 +53,7 @@ class _CalendarState extends State<Calendar> {
                         return Expanded(
                           child: ListView.builder(
                             itemBuilder: (context, index) {
-                              return AssociationActionCard(actionList[index]);
+                              return ActionCard(actionList[index], _user!.uid);
                             },
                             itemCount: actionList.length,
                             shrinkWrap: true,
@@ -56,7 +61,7 @@ class _CalendarState extends State<Calendar> {
                         );
                       }
                     } else if (snapshot.hasError) {
-                      return Text("Pas d'actions pour toi l'ami");
+                      return Text(AppLocalizations.of(context)!.no_events_yet);
                     } else
                       return Container();
                   },

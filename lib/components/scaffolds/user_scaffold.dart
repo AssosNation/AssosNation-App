@@ -7,9 +7,10 @@ import 'package:assosnation_app/pages/user/profile_page.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/association_search.dart';
 import 'package:assosnation_app/utils/constants.dart';
-import 'package:assosnation_app/utils/search/association_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class UserScaffold extends StatefulWidget {
@@ -24,43 +25,36 @@ class _UserScaffoldState extends State<UserScaffold> {
 
   final List<Widget> _pages = [
     NewsFeed(),
-    MessagingPage(),
-    Discover(),
-    Profile(),
     Calendar(),
+    Discover(),
+    MessagingPage(),
+    Profile(),
   ];
-
-  Widget _profileImageIfConnected(AnUser? _user) {
-    if (_user != null) {
-      return Padding(
-        padding: const EdgeInsets.all(3),
-        child: CircleAvatar(
-          child: Text(_user.mail.substring(0, 2).toUpperCase()),
-        ),
-      );
-    }
-    return Container();
-  }
 
   Widget _userNavBar() {
     return BottomNavigationBar(
         currentIndex: _selectedPage,
         unselectedItemColor: Colors.teal[400],
         selectedItemColor: Colors.teal,
-        selectedFontSize: 16,
+        selectedFontSize: 14,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.dynamic_feed), label: "Feed"),
+              icon: Icon(Icons.dynamic_feed),
+              label: AppLocalizations.of(context)!.user_tab_newsfeed),
           BottomNavigationBarItem(
-              icon: Icon(Icons.message), label: "Messaging"),
+              icon: Icon(Icons.calendar_today),
+              label: AppLocalizations.of(context)!.user_tab_events),
           BottomNavigationBarItem(
-              icon: Icon(Icons.saved_search), label: "Discover"),
+              icon: Icon(Icons.saved_search),
+              label: AppLocalizations.of(context)!.user_tab_discover),
           BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle), label: "Profile"),
+              icon: Icon(Icons.message),
+              label: AppLocalizations.of(context)!.user_tab_messaging),
           BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today), label: "Calendar")
+              icon: Icon(Icons.account_circle),
+              label: AppLocalizations.of(context)!.user_tab_profile)
         ],
         onTap: (index) {
           setState(() {
@@ -84,8 +78,18 @@ class _UserScaffoldState extends State<UserScaffold> {
       bottomNavigationBar: _user != null ? _userNavBar() : null,
       appBar: AppBar(
         centerTitle: true,
-        leading: _profileImageIfConnected(_user),
-        title: Text(Constants.appName),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/icon/logo_an.png",
+              height: 40,
+            ),
+            Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(Constants.appName)),
+          ],
+        ),
         actions: [
           StreamBuilder<List<Association>>(
               stream: FireStoreService().getAllAssociations().asStream(),

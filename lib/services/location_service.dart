@@ -1,4 +1,6 @@
 import 'package:assosnation_app/services/interfaces/location_interface.dart';
+import 'package:assosnation_app/services/models/association.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as loc;
@@ -46,7 +48,7 @@ class LocationService implements LocationInterface {
         desiredAccuracy: LocationAccuracy.low);
 
     return CameraPosition(
-        target: LatLng(currentPos.latitude, currentPos.longitude), zoom: 15);
+        target: LatLng(currentPos.latitude, currentPos.longitude), zoom: 11);
   }
 
   @override
@@ -71,6 +73,25 @@ class LocationService implements LocationInterface {
     if (currentPos == null) return defaultPos;
 
     return CameraPosition(
-        target: LatLng(currentPos.latitude, currentPos.longitude), zoom: 15);
+        target: LatLng(currentPos.latitude, currentPos.longitude), zoom: 11);
+  }
+
+  @override
+  Future<Set<Marker>> generateMarkersList(List<Association> _assoslist) async {
+    final Set<Marker> markers = {};
+    for (var e in _assoslist) {
+      var i = 0;
+      final List<Location> position =
+          await locationFromAddress("${e.address}, ${e.city} ${e.postalCode}");
+
+      markers.add(Marker(
+          markerId: MarkerId(e.name),
+          position: LatLng(position[i].latitude, position[i].longitude),
+          infoWindow: InfoWindow(
+              title: e.name,
+              snippet: "${e.address}, ${e.city} ${e.postalCode}")));
+      i++;
+    }
+    return markers;
   }
 }
