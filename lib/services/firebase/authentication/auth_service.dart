@@ -45,7 +45,6 @@ class AuthService extends AuthenticationInterface {
           assosInfos.president,
           assosInfos.approved,
           assosInfos.type,
-          assosInfos.posts,
           assosInfos.actions,
           assosInfos.subscribers);
     }
@@ -164,7 +163,6 @@ class AuthService extends AuthenticationInterface {
             president,
             true, // NEED TO CHANGE THAT TO FALSE AFTERWARD
             "",
-            [],
             [],
             []); // type, posts, actions
         await FireStoreService().addAssociationToDb(newAssociation);

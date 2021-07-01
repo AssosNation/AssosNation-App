@@ -44,7 +44,6 @@ class Converters {
         doc.get("president"),
         doc.get("approved"),
         doc.get("type"),
-        doc.get("posts"),
         doc.get("actions"),
         doc.get("subscribers"));
   }

@@ -123,7 +123,6 @@ class FireStoreService extends DatabaseInterface {
           snapshot.get("president"),
           snapshot.get("approved"),
           snapshot.get("type"),
-          snapshot.get("posts"),
           snapshot.get("actions"),
           snapshot.get("subscribers"));
       return assos;
@@ -158,7 +157,6 @@ class FireStoreService extends DatabaseInterface {
               e.get("president"),
               e.get("approved"),
               e.get("type"),
-              e.get("posts"),
               e.get("actions"),
               e.get("subscribers")))
           .toList();
@@ -298,7 +296,6 @@ class FireStoreService extends DatabaseInterface {
               e.get("president"),
               e.get("approved"),
               e.get("type"),
-              e.get("posts"),
               e.get("actions"),
               e.get("subscribers")))
           .toList();

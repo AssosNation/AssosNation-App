@@ -15,10 +15,11 @@ class GamificationService extends GamificationInterface {
 
       DocumentReference docRef = await gamification.add({
         "level": 1,
-        "exp": 1,
-        "likeNumber": 1,
-        "loginCount": 1,
-        "subCount": 1,
+        "exp": 0,
+        "likeNumber": 0,
+        "loginCount": 0,
+        "subCount": 0,
+        "eventRegistrations": 0,
         "user": {"id": userId, "ref": userRef},
       });
 
