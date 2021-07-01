@@ -70,17 +70,20 @@ class _ProfileState extends State<Profile> {
             ),
             Column(
               children: [
-                Row(children: [
-                  Text(
-                    "${_user!.firstName} ${_user.lastName}",
-                    style: TextStyle(
-                        fontSize: 22, color: Theme.of(context).primaryColor),
-                  ),
-                ]),
+                Text(
+                  "${_user!.firstName}",
+                  style: TextStyle(
+                      fontSize: 18, color: Theme.of(context).primaryColor),
+                ),
+                Text(
+                  "${_user.lastName}",
+                  style: TextStyle(
+                      fontSize: 18, color: Theme.of(context).primaryColor),
+                ),
                 Text(
                   _user.mail,
                   style: TextStyle(
-                      fontSize: 18, color: Theme.of(context).primaryColor),
+                      fontSize: 15, color: Theme.of(context).primaryColor),
                 ),
               ],
             )
