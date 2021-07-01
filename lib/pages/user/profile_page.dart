@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
@@ -15,6 +20,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  late String imageUrl;
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
@@ -41,13 +47,7 @@ class _ProfileState extends State<Profile> {
                   child: IconButton(
                     iconSize: 25,
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                                title: Text(AppLocalizations.of(context)!
-                                    .choose_option_photo));
-                          });
+                      uploadImage();
                     },
                     icon: Icon(Icons.add_a_photo),
                     color: Theme.of(context).primaryColor,
@@ -184,5 +184,35 @@ class _ProfileState extends State<Profile> {
             style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
           )),
     ]);
+  }
+
+  uploadImage() async {
+    final _storage = FirebaseStorage.instance;
+    final _picker = ImagePicker();
+    PickedFile? image;
+
+    await Permission.photos.request();
+
+    var permissionStatus = await Permission.photos.status;
+
+    if (permissionStatus.isGranted) {
+      image = await _picker.getImage(source: ImageSource.gallery);
+      var file = File(image!.path);
+
+      if (image != null) {
+        var snapshot =
+            await _storage.ref().child('users_images/toto').putFile(file);
+
+        var downloadUrl = await snapshot.ref.getDownloadURL();
+
+        setState(() {
+          imageUrl = downloadUrl;
+        });
+      } else {
+        print('No Path Received');
+      }
+    } else {
+      print('Grant Permissions and try again');
+    }
   }
 }
