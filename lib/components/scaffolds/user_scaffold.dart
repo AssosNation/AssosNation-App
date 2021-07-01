@@ -25,10 +25,10 @@ class _UserScaffoldState extends State<UserScaffold> {
 
   final List<Widget> _pages = [
     NewsFeed(),
-    MessagingPage(),
-    Discover(),
-    Profile(),
     Calendar(),
+    Discover(),
+    MessagingPage(),
+    Profile(),
   ];
 
   Widget _userNavBar() {
@@ -45,17 +45,17 @@ class _UserScaffoldState extends State<UserScaffold> {
               icon: Icon(Icons.dynamic_feed),
               label: AppLocalizations.of(context)!.user_tab_newsfeed),
           BottomNavigationBarItem(
-              icon: Icon(Icons.message),
-              label: AppLocalizations.of(context)!.user_tab_messaging),
+              icon: Icon(Icons.calendar_today),
+              label: AppLocalizations.of(context)!.user_tab_events),
           BottomNavigationBarItem(
               icon: Icon(Icons.saved_search),
               label: AppLocalizations.of(context)!.user_tab_discover),
           BottomNavigationBarItem(
+              icon: Icon(Icons.message),
+              label: AppLocalizations.of(context)!.user_tab_messaging),
+          BottomNavigationBarItem(
               icon: Icon(Icons.account_circle),
               label: AppLocalizations.of(context)!.user_tab_profile),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today),
-              label: AppLocalizations.of(context)!.user_tab_events)
         ],
         onTap: (index) {
           setState(() {
