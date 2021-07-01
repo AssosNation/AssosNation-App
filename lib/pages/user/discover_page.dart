@@ -61,7 +61,24 @@ class _DiscoverState extends State<Discover> {
                     left: Radius.elliptical(15, 10),
                     right: Radius.elliptical(10, 15))),
             margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
-            child: Location(),
+            child: FutureBuilder(
+              future: FireStoreService().getAllAssociations(),
+              builder: (context, AsyncSnapshot<List<Association>> snapshot) {
+                if (snapshot.hasData) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.done:
+                      return Location(assosList: snapshot.data!);
+                    case ConnectionState.waiting:
+                      return CircularProgressIndicator();
+                    case ConnectionState.none:
+                      return CircularProgressIndicator();
+                    case ConnectionState.active:
+                      return CircularProgressIndicator();
+                  }
+                }
+                return Container();
+              },
+            ),
           ),
         )
       ],
