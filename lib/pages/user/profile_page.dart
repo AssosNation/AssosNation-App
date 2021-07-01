@@ -20,7 +20,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  late String imageUrl;
+  String imageUrl =
+      "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cnetfrance.fr%2Fnews%2Fa-15h-la-premiere-image-d-un-trou-noir-pourrait-changer-notre-perception-de-l-univers-39883293.htm&psig=AOvVaw03O2KXB1-G6GVNGYAAL7Dt&ust=1625251631664000&source=images&cd=vfe&ved=0CAoQjRxqFwoTCLiR76TEwvECFQAAAAAdAAAAABAD";
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
@@ -59,9 +60,7 @@ class _ProfileState extends State<Profile> {
                     radius: 70,
                     backgroundColor: Theme.of(context).primaryColor,
                     child: CircleAvatar(
-                      //TODO : add a Image in the DB for the user to display it here
-                      backgroundImage: NetworkImage(
-                          'https://media-exp1.licdn.com/dms/image/C5603AQEJ5TDmil5VAA/profile-displayphoto-shrink_800_800/0/1522223155450?e=1626307200&v=beta&t=qXIHutBHwCHF9gKoXPP_P6fnvgNvzmUqV5ZOeqDvEiI'),
+                      backgroundImage: NetworkImage(imageUrl),
                       radius: 66,
                     ),
                   ),
