@@ -56,16 +56,21 @@
   "association_apply_button": "Vous êtes une assos ? Postulez ici !",
   "global_infos_label": "Informations globales",
   "connection_infos_label": "Informations de connexion",
+  "postal_infos_label": "Informations Postales",
   "edit_button": "Editer",
   "delete_button": "Supprimer",
   "title_label": "Titre",
   "content_label": "Contenu",
   "cancel_button_label": "Annuler",
+  "confirm_button_label": "Confirmer",
+  "delete_alert_msg": "Etes vous sur de vouloir supprimer ce post ?",
   "connect_button": "Connexion",
   "failed_to_connect_snackbar": "La connexion a échouée, réessayez",
   "succeed_to_connect_snackbar": "Connexion réussie ! Bienvenue !",
   "send_application": "Envoyer votre candidature",
   "association_application_from_title": "Formulaire de candidature",
   "no_events_yet": "Aucun événement disponible pour cette association",
-  "registered_to_events_label": "Inscrit !"
+  "registered_to_events_label": "Inscrit !",
+  "title_my_profile": "Mon profil",
+  "choose_option_photo": "Choisissez une option"
 }

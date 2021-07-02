@@ -39,7 +39,7 @@ class _DiscoverState extends State<Discover> {
                         },
                         options: CarouselOptions(
                             autoPlay: true,
-                            autoPlayAnimationDuration: Duration(seconds: 2),
+                            autoPlayInterval: Duration(seconds: 7),
                             autoPlayCurve: Curves.easeInOutBack,
                             height: MediaQuery.of(context).size.height * 0.95),
                       );
@@ -53,14 +53,32 @@ class _DiscoverState extends State<Discover> {
               }),
         ),
         AnTitle(AppLocalizations.of(context)!.discover_page_location_label),
-        Expanded(
+        Flexible(
+          flex: 1,
           child: Card(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.horizontal(
                     left: Radius.elliptical(15, 10),
                     right: Radius.elliptical(10, 15))),
             margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
-            child: Location(),
+            child: FutureBuilder(
+              future: FireStoreService().getAllAssociations(),
+              builder: (context, AsyncSnapshot<List<Association>> snapshot) {
+                if (snapshot.hasData) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.done:
+                      return Location(assosList: snapshot.data!);
+                    case ConnectionState.waiting:
+                      return CircularProgressIndicator();
+                    case ConnectionState.none:
+                      return CircularProgressIndicator();
+                    case ConnectionState.active:
+                      return CircularProgressIndicator();
+                  }
+                }
+                return Container();
+              },
+            ),
           ),
         )
       ],

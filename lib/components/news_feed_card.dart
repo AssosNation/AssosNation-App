@@ -1,5 +1,4 @@
 import 'package:assosnation_app/components/news_feed_like_component.dart';
-import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,11 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 10, 5, 10),
       child: Card(
-        elevation: 5.0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.horizontal(
+                left: Radius.elliptical(15, 10),
+                right: Radius.elliptical(10, 15))),
+        elevation: 3.0,
         child: Column(
           children: [
             Column(

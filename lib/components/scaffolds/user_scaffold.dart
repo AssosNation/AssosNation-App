@@ -25,18 +25,19 @@ class _UserScaffoldState extends State<UserScaffold> {
 
   final List<Widget> _pages = [
     NewsFeed(),
-    MessagingPage(),
-    Discover(),
-    Profile(),
     Calendar(),
+    Discover(),
+    MessagingPage(),
+    Profile(),
   ];
 
   Widget _userNavBar() {
     return BottomNavigationBar(
+        backgroundColor: Colors.teal,
         currentIndex: _selectedPage,
-        unselectedItemColor: Colors.teal[400],
-        selectedItemColor: Colors.teal,
-        selectedFontSize: 16,
+        unselectedItemColor: Colors.grey[400],
+        selectedItemColor: Colors.white,
+        selectedFontSize: 14,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         type: BottomNavigationBarType.fixed,
         items: [
@@ -44,17 +45,17 @@ class _UserScaffoldState extends State<UserScaffold> {
               icon: Icon(Icons.dynamic_feed),
               label: AppLocalizations.of(context)!.user_tab_newsfeed),
           BottomNavigationBarItem(
-              icon: Icon(Icons.message),
-              label: AppLocalizations.of(context)!.user_tab_messaging),
+              icon: Icon(Icons.calendar_today),
+              label: AppLocalizations.of(context)!.user_tab_events),
           BottomNavigationBarItem(
               icon: Icon(Icons.saved_search),
               label: AppLocalizations.of(context)!.user_tab_discover),
           BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: AppLocalizations.of(context)!.user_tab_profile),
+              icon: Icon(Icons.message),
+              label: AppLocalizations.of(context)!.user_tab_messaging),
           BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today),
-              label: AppLocalizations.of(context)!.user_tab_events)
+              icon: Icon(Icons.account_circle),
+              label: AppLocalizations.of(context)!.user_tab_profile)
         ],
         onTap: (index) {
           setState(() {
