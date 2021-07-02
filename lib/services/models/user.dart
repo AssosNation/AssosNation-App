@@ -7,9 +7,10 @@ class AnUser {
   late final String? lastName;
   late final List<dynamic>? subscriptions;
   late DocumentReference gamificationRef;
+  late String profileImg;
 
   AnUser(this.uid, this.mail);
 
   AnUser.withData(this.uid, this.mail, this.firstName, this.lastName,
-      this.subscriptions, this.gamificationRef);
+      this.subscriptions, this.gamificationRef, this.profileImg);
 }
