@@ -70,8 +70,8 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
                       icon: Icon(Icons.edit),
                       onPressed: () => showModalBottomSheet(
                         context: context,
-                            builder: (context) => EditPostDialog(widget._post),
-                          ),
+                        builder: (context) => EditPostDialog(widget._post),
+                      ),
                       label: Text(AppLocalizations.of(context)!.edit_button),
                     ),
                     OutlinedButton.icon(
