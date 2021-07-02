@@ -95,9 +95,16 @@ class AuthService extends AuthenticationInterface {
         final gamiRef = await GamificationService()
             .initGamificationForUser(userCredential.user!.uid);
 
-        final newUser = AnUser.withData(userCredential.user!.uid,
-            userCredential.user!.email!, firstName, lastName, [], gamiRef, "");
+        final defaultImg = await StorageService().getDefaultUserProfileImg();
 
+        final newUser = AnUser.withData(
+            userCredential.user!.uid,
+            userCredential.user!.email!,
+            firstName,
+            lastName,
+            [],
+            gamiRef,
+            defaultImg);
         await UserService().addUserToDB(newUser);
         return true;
       }

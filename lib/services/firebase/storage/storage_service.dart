@@ -81,4 +81,16 @@ class StorageService extends StorageInterface {
       return Future.error('Grant Permissions and try again');
     }
   }
+
+  @override
+  Future<String> getDefaultUserProfileImg() async {
+    try {
+      Reference ref =
+          _storage.ref().child('users_images').child('default_avatar.png');
+      final _imageUrl = await ref.getDownloadURL();
+      return _imageUrl;
+    } on FirebaseException catch (e) {
+      return Future.error("Cannot find the default image url");
+    }
+  }
 }
