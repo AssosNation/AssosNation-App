@@ -48,7 +48,7 @@ class _ProfileState extends State<Profile> {
                   child: IconButton(
                     iconSize: 25,
                     onPressed: () {
-                      uploadImage();
+                      uploadImage(_user!);
                     },
                     icon: Icon(Icons.add_a_photo),
                     color: Theme.of(context).primaryColor,
@@ -188,7 +188,7 @@ class _ProfileState extends State<Profile> {
     ]);
   }
 
-  uploadImage() async {
+  uploadImage(AnUser user) async {
     final _storage = FirebaseStorage.instance;
     final _picker = ImagePicker();
     PickedFile? image;
@@ -202,8 +202,10 @@ class _ProfileState extends State<Profile> {
       var file = File(image!.path);
 
       if (image != null) {
-        var snapshot =
-            await _storage.ref().child('users_images/toto').putFile(file);
+        var snapshot = await _storage
+            .ref()
+            .child('users_images/${user.uid}')
+            .putFile(file);
 
         var downloadUrl = await snapshot.ref.getDownloadURL();
 
