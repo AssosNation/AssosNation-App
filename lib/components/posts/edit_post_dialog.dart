@@ -75,7 +75,8 @@ class _EditPostDialogState extends State<EditPostDialog> {
                             _title = title;
                             return null;
                           } else
-                            return "This field cannot be empty nor the same value as before";
+                            return AppLocalizations.of(context)!
+                                .error_empty_field;
                         },
                         maxLines: 1,
                         style: TextStyle(color: Colors.black),
@@ -99,7 +100,8 @@ class _EditPostDialogState extends State<EditPostDialog> {
                             _content = content;
                             return null;
                           } else
-                            return "This field cannot be empty nor the same value as before";
+                            return AppLocalizations.of(context)!
+                                .error_empty_field;
                         },
                         maxLines: 2,
                         style: TextStyle(color: Colors.black),
@@ -118,7 +120,7 @@ class _EditPostDialogState extends State<EditPostDialog> {
                     OutlinedButton(
                         onPressed: _verifyAndValidateForm,
                         child: Text(
-                          "Confirm",
+                          AppLocalizations.of(context)!.confirm_button_label,
                           style: TextStyle(color: Colors.teal),
                         )),
                   ],

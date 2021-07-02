@@ -78,7 +78,7 @@ class _CreateActionDialogState extends State<CreateActionDialog> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  PostMainTitle(AppLocalizations.of(context)!.editing_post),
+                  PostMainTitle(AppLocalizations.of(context)!.action_creation),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -94,7 +94,8 @@ class _CreateActionDialogState extends State<CreateActionDialog> {
                               _title = title;
                               return null;
                             } else
-                              return "This field cannot be empty nor the same value as before";
+                              return AppLocalizations.of(context)!
+                                  .error_empty_field;
                           },
                           maxLines: 1,
                           style: TextStyle(color: Colors.black),
@@ -117,7 +118,8 @@ class _CreateActionDialogState extends State<CreateActionDialog> {
                               _city = city;
                               return null;
                             } else
-                              return "This field cannot be empty nor the same value as before";
+                              return AppLocalizations.of(context)!
+                                  .error_empty_field;
                           },
                           maxLines: 1,
                           style: TextStyle(color: Colors.black),
@@ -141,7 +143,8 @@ class _CreateActionDialogState extends State<CreateActionDialog> {
                               _postalCode = postalCode;
                               return null;
                             } else
-                              return "This field cannot be empty nor the same value as before";
+                              return AppLocalizations.of(context)!
+                                  .error_empty_field;
                           },
                           maxLines: 1,
                           style: TextStyle(color: Colors.black),
@@ -164,7 +167,8 @@ class _CreateActionDialogState extends State<CreateActionDialog> {
                               _address = address;
                               return null;
                             } else
-                              return "This field cannot be empty nor the same value as before";
+                              return AppLocalizations.of(context)!
+                                  .error_empty_field;
                           },
                           maxLines: 1,
                           style: TextStyle(color: Colors.black),
@@ -176,7 +180,7 @@ class _CreateActionDialogState extends State<CreateActionDialog> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       PostMainSubtitle(
-                          AppLocalizations.of(context)!.description), //TODO int
+                          AppLocalizations.of(context)!.description),
                       Expanded(
                         child: TextFormField(
                           maxLength: 150,
@@ -188,7 +192,8 @@ class _CreateActionDialogState extends State<CreateActionDialog> {
                               _description = description;
                               return null;
                             } else
-                              return "This field cannot be empty nor the same value as before";
+                              return AppLocalizations.of(context)!
+                                  .error_empty_field;
                           },
                           maxLines: 2,
                           style: TextStyle(color: Colors.black),
@@ -199,7 +204,8 @@ class _CreateActionDialogState extends State<CreateActionDialog> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      PostMainSubtitle("Type : "),
+                      PostMainSubtitle(
+                          AppLocalizations.of(context)!.type_label),
                       Expanded(
                         child: DropdownButton(
                           value: _type,
@@ -209,10 +215,9 @@ class _CreateActionDialogState extends State<CreateActionDialog> {
                             });
                           },
                           items: <String>[
-                            'Donation',
-                            'Action caritative',
-                            'Autre',
-                            'type'
+                            '${AppLocalizations.of(context)!.type_asso_donation}',
+                            '${AppLocalizations.of(context)!.type_asso_charity}',
+                            '${AppLocalizations.of(context)!.type_asso_other}',
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -279,7 +284,7 @@ class _CreateActionDialogState extends State<CreateActionDialog> {
                       OutlinedButton(
                           onPressed: _verifyAndValidateForm,
                           child: Text(
-                            "Confirm",
+                            AppLocalizations.of(context)!.confirm_button_label,
                             style: TextStyle(color: Colors.teal),
                           )),
                     ],

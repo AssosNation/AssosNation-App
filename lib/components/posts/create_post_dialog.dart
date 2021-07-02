@@ -70,7 +70,8 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                             _title = title;
                             return null;
                           } else
-                            return "This field cannot be empty nor the same value as before";
+                            return AppLocalizations.of(context)!
+                                .error_empty_field;
                         },
                         maxLines: 1,
                         style: TextStyle(color: Colors.black),
@@ -93,7 +94,8 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                             _content = content;
                             return null;
                           } else
-                            return "This field cannot be empty nor the same value as before";
+                            return AppLocalizations.of(context)!
+                                .error_empty_field;
                         },
                         maxLines: 3,
                         style: TextStyle(color: Colors.black),

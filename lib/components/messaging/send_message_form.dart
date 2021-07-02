@@ -56,7 +56,7 @@ class _SendMessageFormState extends State<SendMessageForm> {
                             _msgToSend = msg;
                             return null;
                           } else
-                            return "This field cannot be empty";
+                            AppLocalizations.of(context)!.error_empty_field;
                         },
                       ),
                     ))),

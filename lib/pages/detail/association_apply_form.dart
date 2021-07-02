@@ -91,7 +91,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _name = name;
                                 return null;
                               } else
-                                return "Please enter the association's name";
+                                return AppLocalizations.of(context)!
+                                    .enter_association_name;
                             },
                           ),
                           TextFormField(
@@ -106,7 +107,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _president = president;
                                 return null;
                               } else
-                                return "Please enter the president's name";
+                                return AppLocalizations.of(context)!
+                                    .enter_president_name;
                             },
                           ),
                           TextFormField(
@@ -121,7 +123,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _description = description;
                                 return null;
                               } else
-                                return "Please enter the association's description";
+                                return AppLocalizations.of(context)!
+                                    .enter_description;
                             },
                           ),
                         ],
@@ -145,9 +148,11 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                   _mail = email;
                                   return null;
                                 } else if (email.isEmpty)
-                                  return "This field cannot be empty";
+                                  return AppLocalizations.of(context)!
+                                      .error_empty_field;
                                 else
-                                  return "This email address is not valid";
+                                  return AppLocalizations.of(context)!
+                                      .mail_not_valid;
                               }),
                           TextFormField(
                               decoration: InputDecoration(
@@ -161,7 +166,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                   _phone = phone;
                                   return null;
                                 } else
-                                  return "Please enter the association's description";
+                                  return AppLocalizations.of(context)!
+                                      .enter_description;
                               }),
                         ],
                       ),
@@ -184,7 +190,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _address = address;
                                 return null;
                               } else
-                                return "Please enter the address";
+                                return AppLocalizations.of(context)!
+                                    .enter_asso_address;
                             },
                           ),
                           TextFormField(
@@ -199,7 +206,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _city = city;
                                 return null;
                               } else
-                                return "Please enter the city";
+                                return AppLocalizations.of(context)!
+                                    .enter_asso_city;
                             },
                           ),
                           TextFormField(
@@ -214,7 +222,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _postalCode = postalCode;
                                 return null;
                               } else
-                                return "Please enter the postal code";
+                                return AppLocalizations.of(context)!
+                                    .enter_asso_postal_code;
                             },
                           ),
                         ],
@@ -238,7 +247,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _pwd = pwd;
                                 return null;
                               } else
-                                return "Please enter a password";
+                                return AppLocalizations.of(context)!
+                                    .enter_password;
                             },
                           ),
                           TextFormField(
@@ -253,7 +263,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _pwd2 = pwd2;
                                 return null;
                               } else
-                                return "Please match your passwords";
+                                return AppLocalizations.of(context)!
+                                    .passwords_not_matched;
                             },
                           ),
                         ],

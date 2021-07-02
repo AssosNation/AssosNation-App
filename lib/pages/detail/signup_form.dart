@@ -107,9 +107,11 @@ class _SignUpFormState extends State<SignUpForm> {
                                   _mail = email;
                                   return null;
                                 } else if (email.isEmpty)
-                                  return "This field cannot be empty";
+                                  return AppLocalizations.of(context)!
+                                      .error_empty_field;
                                 else
-                                  return "This email address is not valid";
+                                  return AppLocalizations.of(context)!
+                                      .mail_not_valid;
                               }),
                           TextFormField(
                             decoration: InputDecoration(
@@ -123,7 +125,8 @@ class _SignUpFormState extends State<SignUpForm> {
                                 _pwd = pwd;
                                 return null;
                               } else
-                                return "Please enter a password";
+                                return AppLocalizations.of(context)!
+                                    .enter_password;
                             },
                           ),
                           TextFormField(
@@ -138,7 +141,8 @@ class _SignUpFormState extends State<SignUpForm> {
                                 _pwd2 = pwd2;
                                 return null;
                               } else
-                                return "Please match your passwords";
+                                return AppLocalizations.of(context)!
+                                    .passwords_not_matched;
                             },
                           ),
                         ],

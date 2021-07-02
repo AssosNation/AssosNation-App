@@ -96,5 +96,18 @@
   "enter_asso_city": "Entrez la ville de votre association",
   "enter_asso_postal_code": "Entrez le code postal de votre association",
   "enter_asso_email": "Entrez l'adresse mail de votre association",
-  "my_assos_actions": "Actions de mes asso"
+  "enter_password": "Entrez un mot de passe",
+  "passwords_not_matched": "Faites correspondre vos mots de passe",
+  "my_assos_actions": "Actions de mes assos",
+  "error_empty_field": "Ce champ ne peut pas être vide",
+  "type_asso_donation": "Donation",
+  "type_asso_charity": "Action caritative",
+  "type_asso_other": "Autre",
+  "action_creation": "Créer mon action",
+  "action_edition": "Mofidier mon action",
+  "type_label": "Type",
+  "no_image_selected": "Pas d'image selectionée",
+  "mail_not_valid": "Cette adresse mail n'est pas valide",
+  "password_not_valid": "Ce mot de passe n'est pas valide",
+  "association_no_actions": "{assosName} n'a pas encore organisé d'actions"
 }

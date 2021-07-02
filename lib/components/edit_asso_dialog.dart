@@ -114,7 +114,8 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
                           _content = content;
                           return null;
                         } else
-                          return "This field cannot be empty nor the same value as before";
+                          return AppLocalizations.of(context)!
+                              .error_empty_field;
                       },
                       maxLines: _selectMaxLines(),
                       style: TextStyle(color: Colors.black),
