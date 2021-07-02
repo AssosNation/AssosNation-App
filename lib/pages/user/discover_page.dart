@@ -21,8 +21,8 @@ class _DiscoverState extends State<Discover> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         AnTitle(AppLocalizations.of(context)!.discover_page_title),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.3,
+        Flexible(
+          flex: 1,
           child: FutureBuilder(
               future: FireStoreService().getAllAssociations(),
               builder: (ctx, AsyncSnapshot<List<Association>> snapshot) {
@@ -53,8 +53,8 @@ class _DiscoverState extends State<Discover> {
               }),
         ),
         AnTitle(AppLocalizations.of(context)!.discover_page_location_label),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.4,
+        Flexible(
+          flex: 1,
           child: Card(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.horizontal(

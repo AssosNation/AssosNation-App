@@ -3,6 +3,8 @@ import 'package:assosnation_app/components/forms/form_subtitle.dart';
 import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/post.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
+import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,25 +30,16 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
           setState(() {
             _title = "";
             _content = "";
-            _displaySnackBarWithMessage(
-                "Your post has been updated", Colors.green);
+            Utils.displaySnackBarWithMessage(
+                context, "Your post has been updated", Colors.green);
           });
         } else {
           Navigator.pop(context);
-          _displaySnackBarWithMessage(
+          Utils.displaySnackBarWithMessage(context,
               "Something wrong happened, please try again", Colors.red);
         }
       }
     }
-  }
-
-  _displaySnackBarWithMessage(String msg, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      behavior: SnackBarBehavior.floating,
-      content: Text(msg),
-      backgroundColor: color,
-      duration: Duration(seconds: 3),
-    ));
   }
 
   @override
@@ -65,7 +58,8 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                 FormMainTitle("Creating a post"),
                 Row(
                   children: [
-                    FormSubTitle("Title : "),
+                    FormSubTitle(
+                        "${AppLocalizations.of(context)!.title_label} : "),
                     Expanded(
                       child: TextFormField(
                         maxLength: 30,
@@ -87,7 +81,8 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FormSubTitle("Content : "),
+                    FormSubTitle(
+                        "${AppLocalizations.of(context)!.content_label} : "),
                     Expanded(
                       child: TextFormField(
                         maxLength: 150,
@@ -111,14 +106,15 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                   children: [
                     OutlinedButton(
                         onPressed: () => Navigator.pop(context),
-                        child: Text("Cancel",
+                        child: Text(
+                            "${AppLocalizations.of(context)!.cancel_button_label.toUpperCase()}",
                             style: TextStyle(color: Colors.red))),
                     OutlinedButton(
                         onPressed: () async {
                           _verifyAndValidateForm(_assos!.uid);
                         },
                         child: Text(
-                          "Confirm",
+                          "${AppLocalizations.of(context)!.confirm_button_label.toUpperCase()}",
                           style: TextStyle(color: Colors.teal),
                         )),
                   ],
