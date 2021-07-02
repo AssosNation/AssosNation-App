@@ -122,7 +122,7 @@ class StorageService extends StorageInterface {
   @override
   Future<String> uploadPostImageToStorage(File image, String postId) async {
     final snapshot =
-    await _storage.ref().child('posts_images/$postId').putFile(image);
+        await _storage.ref().child('posts_images/$postId').putFile(image);
     String imgUrl = await snapshot.ref.getDownloadURL();
     await PostService().updatePostImageUrl(postId, imgUrl);
     return imgUrl;
