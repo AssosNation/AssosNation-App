@@ -24,4 +24,9 @@ class Utils {
       duration: Duration(seconds: 3),
     ));
   }
+
+  static isEmailValidated(String email) {
+    return email
+        .contains(new RegExp(r'([a-z0-9A-Z-.]+@[a-zA-Z]+\.[a-z]{1,3})'));
+  }
 }

@@ -1,4 +1,6 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/gamification_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/user_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/interfaces/authentication_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
@@ -9,18 +11,24 @@ class AuthService extends AuthenticationInterface {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<AnUser?> _userFromFirebaseUser(User _user) async {
-    final isAssociation =
-        await FireStoreService().checkIfUserIsAssos(_user.uid);
+    final isAssociation = await UserService().checkIfUserIsAssos(_user.uid);
     if (!isAssociation) {
-      final userInfos = await FireStoreService().getUserInfosFromDB(_user.uid);
-      return AnUser.withData(_user.uid, _user.email!, userInfos.firstName,
-          userInfos.lastName, userInfos.subscriptions);
+      final userInfos = await UserService().getUserInfosFromDB(_user.uid);
+      GamificationService()
+          .increaseLoginCountByOne(userInfos.gamificationRef.id);
+      return AnUser.withData(
+          _user.uid,
+          _user.email!,
+          userInfos.firstName,
+          userInfos.lastName,
+          userInfos.subscriptions,
+          userInfos.gamificationRef,
+          userInfos.profileImg);
     }
   }
 
   Future<Association?> _associationFromUser(User _user) async {
-    final isAssociation =
-        await FireStoreService().checkIfUserIsAssos(_user.uid);
+    final isAssociation = await UserService().checkIfUserIsAssos(_user.uid);
     if (isAssociation) {
       final assosInfos =
           await FireStoreService().getAssociationInfosFromDB(_user.uid);
@@ -37,7 +45,6 @@ class AuthService extends AuthenticationInterface {
           assosInfos.president,
           assosInfos.approved,
           assosInfos.type,
-          assosInfos.posts,
           assosInfos.actions,
           assosInfos.subscribers);
     }
@@ -67,7 +74,7 @@ class AuthService extends AuthenticationInterface {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: mail, password: pwd);
 
-      await FireStoreService().addUserToDB(userCredential.user);
+      await UserService().addUserToDB(userCredential.user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -85,10 +92,20 @@ class AuthService extends AuthenticationInterface {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: mail, password: pwd);
       if (userCredential.user != null) {
-        final newUser = AnUser.withData(userCredential.user!.uid,
-            userCredential.user!.email!, firstName, lastName, []);
+        final gamiRef = await GamificationService()
+            .initGamificationForUser(userCredential.user!.uid);
 
-        await FireStoreService().addUserToDB(newUser);
+        final defaultImg = await StorageService().getDefaultUserProfileImg();
+
+        final newUser = AnUser.withData(
+            userCredential.user!.uid,
+            userCredential.user!.email!,
+            firstName,
+            lastName,
+            [],
+            gamiRef,
+            defaultImg);
+        await UserService().addUserToDB(newUser);
         return true;
       }
     } on FirebaseAuthException catch (e) {
@@ -103,8 +120,7 @@ class AuthService extends AuthenticationInterface {
   @override
   Future signIn(mail, pwd) async {
     try {
-      UserCredential userCredential =
-          await _auth.signInWithEmailAndPassword(email: mail, password: pwd);
+      await _auth.signInWithEmailAndPassword(email: mail, password: pwd);
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -116,7 +132,6 @@ class AuthService extends AuthenticationInterface {
       }
     } on FirebaseException catch (e) {
       print("A problem occured when signing in");
-      print(e);
     }
   }
 
@@ -151,13 +166,14 @@ class AuthService extends AuthenticationInterface {
             city,
             postalCode,
             phone,
-            _defImageUrl, // image URL
+            _defImageUrl,
+            // image URL
             president,
-            true, // NEED TO CHANGE THAT TO FALSE AFTERWARD
+            true,
+            // NEED TO CHANGE THAT TO FALSE AFTERWARD
             "",
             [],
-            [],
-            []); // type, posts, actions
+            []); // type, actions
         await FireStoreService().addAssociationToDb(newAssociation);
         signOff();
         return true;

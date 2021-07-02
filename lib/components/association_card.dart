@@ -3,6 +3,7 @@ import 'package:assosnation_app/components/association_card_title.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 
 class AssociationCard extends StatelessWidget {
   const AssociationCard(this.association);
@@ -14,7 +15,8 @@ class AssociationCard extends StatelessWidget {
     return InkWell(
       splashColor: Colors.teal,
       onTap: () {
-        Navigator.of(context).pushNamed("/associationDetails", arguments: association);
+        Navigator.of(context)
+            .pushNamed("/associationDetails", arguments: association);
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -40,7 +42,12 @@ class AssociationCard extends StatelessWidget {
                 Opacity(
                   opacity: 0.8,
                   child: Container(
-                    color: Colors.grey[200],
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: Colors.blueGrey[100],
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.elliptical(10, 15)),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -52,7 +59,12 @@ class AssociationCard extends StatelessWidget {
                 Opacity(
                   opacity: 0.8,
                   child: Container(
-                    color: Colors.grey[200],
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: Colors.blueGrey[100],
+                      borderRadius: BorderRadius.vertical(
+                          bottom: Radius.elliptical(10, 15)),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

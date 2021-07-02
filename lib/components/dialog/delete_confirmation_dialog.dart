@@ -1,11 +1,15 @@
+import 'package:assosnation_app/services/firebase/firestore/association_actions_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
+import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:flutter/material.dart';
 
-class DeletePostConfirmationDialog extends StatelessWidget {
-  const DeletePostConfirmationDialog(this.confirmationMessage, this.postId);
+class DeleteObjectConfirmationDialog extends StatelessWidget {
+  const DeleteObjectConfirmationDialog(
+      this.confirmationMessage, this.postId, this.action);
 
   final String? confirmationMessage;
-  final String postId;
+  final String? postId;
+  final AssociationAction? action;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,12 @@ class DeletePostConfirmationDialog extends StatelessWidget {
                   )),
               OutlinedButton(
                   onPressed: () async {
-                    await PostService().removePost(postId);
+                    if (this.postId != null) {
+                      await PostService().removePost(this.postId!);
+                    } else {
+                      AssociationActionsService()
+                          .removeAssociationAction(this.action!);
+                    }
                     Navigator.pop(context);
                   },
                   child: Text("Delete", style: TextStyle(color: Colors.red))),

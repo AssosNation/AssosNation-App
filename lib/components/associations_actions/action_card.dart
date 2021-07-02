@@ -1,15 +1,15 @@
-import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/components/action_participation_component.dart';
+import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'forms/form_main_title.dart';
-
-class AssociationActionCard extends StatelessWidget {
+class ActionCard extends StatelessWidget {
   final AssociationAction action;
+  final _userId;
 
-  AssociationActionCard(this.action);
+  ActionCard(this.action, this._userId);
 
   @override
   Widget build(BuildContext context) {
@@ -72,33 +72,7 @@ class AssociationActionCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                      child: Icon(
-                        Icons.people,
-                        color: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    Text(
-                        '${this.action.usersRegistered != 0 ? this.action.usersRegistered : 'pas'} de participants'),
-                  ],
-                ),
-                Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton.icon(
-                        onPressed: () {
-                          FireStoreService().addUserToAction(
-                              action.association.uid, action.id, 'test');
-                        },
-                        icon: Icon(Icons.add),
-                        label: Text("Je participe")),
-                  ],
-                ),
+                ActionParticipationComponent(this.action, _userId)
               ],
             ),
           ],

@@ -43,31 +43,10 @@ class AssociationMessagingPage extends StatelessWidget {
                           },
                           trailing: Text(
                               "${convs[index].getDiffTimeBetweenNowAndLastMessage()}"),
-                          title: FutureBuilder(
-                            future:
-                                convs[index].getReceiverName(_association.uid),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done)
-                                  return Text(snapshot.data);
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting)
-                                  return LinearProgressIndicator();
-                              }
-                              return Text("Une erreur est survenue");
-                            },
-                          ),
+                          title: Text(convs[index].names[0]),
                           subtitle: Row(
                             children: [
-                              FutureBuilder(
-                                future:
-                                    convs[index].getLastMessageSenderAsync(),
-                                initialData: "",
-                                builder: (context, snapshot) =>
-                                    Text("${snapshot.data} : "),
-                              ),
+                              Text("${convs[index].getLastMessageSender()}"),
                               Expanded(
                                 child: Text(
                                   convs[index].getLastMessageSent(),

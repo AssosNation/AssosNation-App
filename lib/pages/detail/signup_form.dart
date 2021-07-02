@@ -1,6 +1,7 @@
 import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/components/forms/form_subtitle.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,19 +37,6 @@ class _SignUpFormState extends State<SignUpForm> {
     }
   }
 
-  _isEmailValidated(String email) {
-    return email
-        .contains(new RegExp(r'([a-z0-9A-Z-.]+@[a-zA-Z]+\.[a-z]{1,3})'));
-  }
-
-  _displaySnackBarWithMessage(String msg, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(msg),
-      backgroundColor: color,
-      duration: Duration(seconds: 3),
-    ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -63,12 +51,13 @@ class _SignUpFormState extends State<SignUpForm> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    FormMainTitle("Signing Up"),
+                    FormMainTitle(AppLocalizations.of(context)!.signup_label),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                       child: Column(
                         children: [
-                          FormSubTitle("Global Informations"),
+                          FormSubTitle(
+                              AppLocalizations.of(context)!.global_infos_label),
                           TextFormField(
                             decoration: InputDecoration(
                                 labelText: "Enter your First Name"),
@@ -104,15 +93,17 @@ class _SignUpFormState extends State<SignUpForm> {
                       padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                       child: Column(
                         children: [
-                          FormSubTitle("Connection Informations"),
+                          FormSubTitle(AppLocalizations.of(context)!
+                              .connection_infos_label),
                           TextFormField(
                               decoration: InputDecoration(
-                                  labelText: "Enter your email address"),
+                                  labelText: AppLocalizations.of(context)!
+                                      .email_input_placeholder),
                               keyboardType: TextInputType.emailAddress,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               validator: (email) {
-                                if (_isEmailValidated(email!)) {
+                                if (Utils.isEmailValidated(email!)) {
                                   _mail = email;
                                   return null;
                                 } else if (email.isEmpty)
@@ -122,7 +113,8 @@ class _SignUpFormState extends State<SignUpForm> {
                               }),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Enter your password"),
+                                labelText: AppLocalizations.of(context)!
+                                    .pwd_input_placeholder),
                             obscureText: true,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -136,7 +128,8 @@ class _SignUpFormState extends State<SignUpForm> {
                           ),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Confirm your password"),
+                                labelText: AppLocalizations.of(context)!
+                                    .pwd_input_confirm_placeholder),
                             obscureText: true,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -155,7 +148,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                       child: ElevatedButton(
                         onPressed: _verifyAndValidateForm,
-                        child: Text("Submit"),
+                        child: Text(AppLocalizations.of(context)!.submit_label),
                       ),
                     ),
                     Padding(
@@ -163,7 +156,8 @@ class _SignUpFormState extends State<SignUpForm> {
                       child: ElevatedButton(
                         onPressed: () => Navigator.of(context)
                             .pushNamed("/applyAssociation"),
-                        child: Text("You are an association ? Apply here"),
+                        child: Text(AppLocalizations.of(context)!
+                            .association_apply_button),
                       ),
                     )
                   ],

@@ -20,4 +20,7 @@ abstract class MessagingInterface {
       String convId, DocumentReference senderRef, String msg);
 
   Stream<QuerySnapshot> watchAllConversationsByUser(AnUser user);
+
+  Future initConversationIfNotFound(
+      String userId, String assosId, String userName, String assosName);
 }

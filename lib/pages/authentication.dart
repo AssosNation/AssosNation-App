@@ -1,4 +1,5 @@
 import 'package:assosnation_app/pages/detail/signin_form.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/material.dart';
 
 import 'detail/signup_form.dart';
@@ -22,10 +23,10 @@ class _AuthenticationState extends State<Authentication> {
             children: [
               ElevatedButton(
                   onPressed: () => setState(() => _isSigningUp = false),
-                  child: Text("Sign-In")),
+                  child: Text(AppLocalizations.of(context)!.signin_label)),
               ElevatedButton(
                   onPressed: () => setState(() => _isSigningUp = true),
-                  child: Text("Sign-Up")),
+                  child: Text(AppLocalizations.of(context)!.signup_label)),
             ],
           ),
           Expanded(

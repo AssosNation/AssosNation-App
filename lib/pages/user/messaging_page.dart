@@ -39,32 +39,14 @@ class MessagingPage extends StatelessWidget {
                             Navigator.of(context).pushNamed("/convAsUser",
                                 arguments: convs[index]);
                           },
-                          trailing: Text(
-                              "${convs[index].getDiffTimeBetweenNowAndLastMessage()}"),
-                          title: FutureBuilder(
-                            future: convs[index].getReceiverName(_user.uid),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done)
-                                  return Text(snapshot.data);
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting)
-                                  return LinearProgressIndicator();
-                              }
-                              return Text("Une erreur est survenue");
-                            },
-                          ),
+                          trailing: convs[index].messages.length > 0
+                              ? Text(
+                                  "${convs[index].getDiffTimeBetweenNowAndLastMessage()}")
+                              : Text(""),
+                          title: Text(convs[index].names[1]),
                           subtitle: Row(
                             children: [
-                              FutureBuilder(
-                                future:
-                                    convs[index].getLastMessageSenderAsync(),
-                                initialData: "",
-                                builder: (context, snapshot) =>
-                                    Text("${snapshot.data} : "),
-                              ),
+                              Text("${convs[index].getLastMessageSender()}"),
                               Expanded(
                                 child: Text(
                                   convs[index].getLastMessageSent(),
@@ -88,80 +70,3 @@ class MessagingPage extends StatelessWidget {
     );
   }
 }
-/*
-StreamBuilder(
-          stream: MessagingService().watchAllConversationsByUser(_user!),
-          builder:
-              (BuildContext build, AsyncSnapshot<QuerySnapshot> snapshots) {
-            final List<Conversation> convs =
-                Converters.convertDocSnapshotsToConvList(snapshots.data!.docs);
-            if (snapshots.hasData) {
-              switch (snapshots.connectionState) {
-                case ConnectionState.waiting:
-                  return CircularProgressIndicator();
-                case ConnectionState.done:
-                  return ListView.builder(
-                    itemCount: snapshots.data!.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.horizontal(
-                                left: Radius.elliptical(15, 10),
-                                right: Radius.elliptical(10, 15))),
-                        child: ListTile(
-                          title: FutureBuilder(
-                            future: snapshots.data![index]
-                                .getReceiverName(_user.uid),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done)
-                                  return Text(snapshot.data);
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting)
-                                  return LinearProgressIndicator();
-                              }
-                              return Text("Une erreur est survenue");
-                            },
-                          ),
-                          subtitle: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              FutureBuilder(
-                                future: snapshots.data![index]
-                                    .getLastMessageSenderAsync(),
-                                initialData: "",
-                                builder: (context, snapshot) =>
-                                    Text("${snapshot.data} : "),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  snapshots.data![index].getLastMessageSent(),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
-                          trailing: Text(
-                              "${snapshots.data![index].getDiffTimeBetweenNowAndLastMessage()}"),
-                          onTap: () {
-                            Navigator.of(context).pushNamed("/convAsUser",
-                                arguments: snapshots.data![index]);
-                          },
-                        ),
-                      );
-                    },
-                  );
-                case ConnectionState.none:
-                  return Container();
-                case ConnectionState.active:
-                  break;
-              }
-            }
-            if (snapshots.hasError) return Container();
-            return Container();
-          },
-        )
- */

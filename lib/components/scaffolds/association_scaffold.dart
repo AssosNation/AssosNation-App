@@ -6,7 +6,7 @@ import 'package:assosnation_app/pages/association/post_management.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/utils/constants.dart';
-import 'package:flutter/material.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:provider/provider.dart';
 
 class AssociationScaffold extends StatefulWidget {
@@ -17,7 +17,7 @@ class AssociationScaffold extends StatefulWidget {
 }
 
 class _AssociationScaffoldState extends State<AssociationScaffold> {
-  int _selectedPage = 3;
+  int _selectedPage = 2;
 
   final List<Widget> _pages = [
     PostManagement(),
@@ -35,12 +35,18 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.post_add), label: "Posts"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.event_sharp), label: "Events"),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "HomePage"),
+              icon: Icon(Icons.post_add),
+              label: AppLocalizations.of(context)!.association_tab_posts),
           BottomNavigationBarItem(
-              icon: Icon(Icons.message), label: "Messaging"),
+              icon: Icon(Icons.event_sharp),
+              label: AppLocalizations.of(context)!.association_tab_events),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: AppLocalizations.of(context)!.association_tab_home),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.message),
+              label: AppLocalizations.of(context)!.association_tab_messaging),
         ],
         onTap: (index) {
           setState(() {
