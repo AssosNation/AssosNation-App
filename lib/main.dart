@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
     return FutureBuilder(
       future: Firebase.initializeApp(),
       builder: (context, snapshot) {
