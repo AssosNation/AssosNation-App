@@ -1,17 +1,14 @@
-import 'dart:io';
-
 import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
@@ -20,8 +17,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  String imageUrl =
-      "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cnetfrance.fr%2Fnews%2Fa-15h-la-premiere-image-d-un-trou-noir-pourrait-changer-notre-perception-de-l-univers-39883293.htm&psig=AOvVaw03O2KXB1-G6GVNGYAAL7Dt&ust=1625251631664000&source=images&cd=vfe&ved=0CAoQjRxqFwoTCLiR76TEwvECFQAAAAAdAAAAABAD";
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
@@ -48,7 +43,8 @@ class _ProfileState extends State<Profile> {
                   child: IconButton(
                     iconSize: 25,
                     onPressed: () {
-                      uploadImage(_user!);
+                      StorageService().uploadImageAndReturnImgPath(_user!);
+                      setState(() {});
                     },
                     icon: Icon(Icons.add_a_photo),
                     color: Theme.of(context).primaryColor,
@@ -59,10 +55,14 @@ class _ProfileState extends State<Profile> {
                   child: CircleAvatar(
                     radius: 70,
                     backgroundColor: Theme.of(context).primaryColor,
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(imageUrl),
-                      radius: 66,
-                    ),
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: null,
+                        builder: (context, snapshot) {
+                          return CircleAvatar(
+                            backgroundImage: NetworkImage(_user!.profileImg),
+                            radius: 66,
+                          );
+                        }),
                   ),
                 ),
               ],
@@ -186,37 +186,5 @@ class _ProfileState extends State<Profile> {
             style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
           )),
     ]);
-  }
-
-  uploadImage(AnUser user) async {
-    final _storage = FirebaseStorage.instance;
-    final _picker = ImagePicker();
-    PickedFile? image;
-
-    await Permission.photos.request();
-
-    var permissionStatus = await Permission.photos.status;
-
-    if (permissionStatus.isGranted) {
-      image = await _picker.getImage(source: ImageSource.gallery);
-      var file = File(image!.path);
-
-      if (image != null) {
-        var snapshot = await _storage
-            .ref()
-            .child('users_images/${user.uid}')
-            .putFile(file);
-
-        var downloadUrl = await snapshot.ref.getDownloadURL();
-
-        setState(() {
-          imageUrl = downloadUrl;
-        });
-      } else {
-        print('No Path Received');
-      }
-    } else {
-      print('Grant Permissions and try again');
-    }
   }
 }

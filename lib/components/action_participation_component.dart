@@ -1,4 +1,4 @@
-import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/user_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,9 +18,9 @@ class _ActionParticipationComponentState
     extends State<ActionParticipationComponent> {
   updateState(participateAction) {
     setState(() {
-      this.widget._action.usersRegistered =
-          this.widget._action.usersRegistered + (participateAction ? 1 : -1);
-      this.widget._action.isUserRegistered = participateAction;
+      widget._action.usersRegistered =
+          widget._action.usersRegistered + (participateAction ? 1 : -1);
+      widget._action.isUserRegistered = participateAction;
     });
   }
 
@@ -39,30 +39,29 @@ class _ActionParticipationComponentState
                   color: Theme.of(context).accentColor,
                 ),
               ),
-              Text((this.widget._action.usersRegistered > 0
+              Text((widget._action.usersRegistered > 0
                       ? this.widget._action.usersRegistered.toString()
                       : 'pas de') +
                   ' participant' +
-                  (this.widget._action.usersRegistered > 1 ? 's' : '')),
+                  (widget._action.usersRegistered > 1 ? 's' : '')),
             ],
           ),
         ),
         TextButton.icon(
             onPressed: () {
-              if (this.widget._action.isUserRegistered) {
-                FireStoreService()
-                    .removeUserToAction(widget._action, this.widget._userId);
+              if (widget._action.isUserRegistered) {
+                UserService()
+                    .removeUserToAction(widget._action, widget._userId);
                 updateState(false);
               } else {
-                FireStoreService()
-                    .addUserToAction(widget._action, this.widget._userId);
+                UserService().addUserToAction(widget._action, widget._userId);
                 updateState(true);
               }
             },
-            icon: Icon(this.widget._action.isUserRegistered
+            icon: Icon(widget._action.isUserRegistered
                 ? Icons.add_circle_outlined
                 : Icons.add_circle_outline),
-            label: Text(this.widget._action.isUserRegistered
+            label: Text(widget._action.isUserRegistered
                 ? AppLocalizations.of(context)!.registered_to_events_label
                 : AppLocalizations.of(context)!.participate_button_label)),
       ],
