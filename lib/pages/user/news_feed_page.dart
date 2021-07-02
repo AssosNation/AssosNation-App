@@ -5,20 +5,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NewsFeed extends StatelessWidget {
+class NewsFeed extends StatefulWidget {
+  @override
+  _NewsFeedState createState() => _NewsFeedState();
+}
+
+class _NewsFeedState extends State<NewsFeed> {
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
 
     return Container(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FutureBuilder(
                   future: FireStoreService()
@@ -28,12 +30,19 @@ class NewsFeed extends StatelessWidget {
                       if (snapshot.connectionState == ConnectionState.done) {
                         List<dynamic> postList = snapshot.data!;
                         return Expanded(
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return NewsFeedCard(postList[index]['post'],
-                                  postList[index]['assosName'], _user.uid);
+                          child: RefreshIndicator(
+                            onRefresh: () async {
+                              setState(() {});
                             },
-                            itemCount: postList.length,
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                return NewsFeedCard(postList[index]['post'],
+                                    postList[index]['assosName'], _user.uid);
+                              },
+                              itemCount: postList.length,
+                              shrinkWrap: true,
+                              cacheExtent: 4,
+                            ),
                           ),
                         );
                       } else if (snapshot.connectionState ==

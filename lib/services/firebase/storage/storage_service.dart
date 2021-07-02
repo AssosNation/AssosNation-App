@@ -12,9 +12,15 @@ class StorageService extends StorageInterface {
   FirebaseStorage _storage = FirebaseStorage.instance;
 
   @override
-  Future getBannerByAssociation() {
-    // TODO: implement getBannerByAssociation
-    throw UnimplementedError();
+  Future<String> getBannerByAssociation(String assosId) async {
+    try {
+      Reference ref =
+          _storage.ref().child('associations_banners').child(assosId);
+      final _imageUrl = await ref.getDownloadURL();
+      return _imageUrl;
+    } on FirebaseException catch (e) {
+      return Future.error("Cannot find the default image url");
+    }
   }
 
   @override
@@ -97,6 +103,7 @@ class StorageService extends StorageInterface {
     }
   }
 
+  @override
   Future<File> selectImageFromGallery() async {
     final permissionStatus = await _requesPhotoAccessPermission();
 
@@ -112,9 +119,10 @@ class StorageService extends StorageInterface {
     }
   }
 
+  @override
   Future<String> uploadPostImageToStorage(File image, String postId) async {
     final snapshot =
-        await _storage.ref().child('posts_images/$postId').putFile(image);
+    await _storage.ref().child('posts_images/$postId').putFile(image);
     String imgUrl = await snapshot.ref.getDownloadURL();
     await PostService().updatePostImageUrl(postId, imgUrl);
     return imgUrl;

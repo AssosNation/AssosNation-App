@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Post {
   String id = "";
   String title;
-  String assosId;
+  DocumentReference assosId;
   String content;
   String photo = "";
   Timestamp timestamp = Timestamp.now();

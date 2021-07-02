@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:assosnation_app/services/models/user.dart';
 
 abstract class StorageInterface {
-  Future getBannerByAssociation();
+  Future<String> getBannerByAssociation(String assosId);
 
   Future<String> getDefaultAssocaitonBannerUrl();
 
@@ -14,4 +16,8 @@ abstract class StorageInterface {
   Future uploadAndUpdateUserImage(AnUser user);
 
   Future<String> getDefaultUserProfileImg();
+
+  Future<File> selectImageFromGallery();
+
+  Future<String> uploadPostImageToStorage(File image, String postId);
 }

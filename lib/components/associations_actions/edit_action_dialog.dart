@@ -2,6 +2,7 @@ import 'package:assosnation_app/components/posts/post_main_subtitle.dart';
 import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/association_actions_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
+import 'package:assosnation_app/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,31 +48,23 @@ class _EditActionDialogState extends State<EditActionDialog> {
         AssociationActionsService()
             .updateAssociationAction(widget._action, newAction);
         Navigator.pop(context);
-        _displaySnackBarWithMessage("Your post has been updated", Colors.green);
+        Utils.displaySnackBarWithMessage(
+            context, "Your post has been updated", Colors.green);
       }
     }
-  }
-
-  _displaySnackBarWithMessage(String msg, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      behavior: SnackBarBehavior.floating,
-      content: Text(msg),
-      backgroundColor: color,
-      duration: Duration(seconds: 3),
-    ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.85,
-        width: MediaQuery.of(context).size.width,
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Expanded(
+      child: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.85,
+          width: MediaQuery.of(context).size.width,
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
