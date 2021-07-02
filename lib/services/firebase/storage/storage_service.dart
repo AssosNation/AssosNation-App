@@ -34,10 +34,7 @@ class StorageService extends StorageInterface {
   @override
   Future<String> getImageByPost(String _postId) async {
     try {
-      Reference ref = _storage
-          .ref()
-          .child('posts_images')
-          .child('5abb9eb43216742a008b45cc-1334-667.jpg');
+      Reference ref = _storage.ref().child('posts_images').child(_postId);
       final _imageUrl = await ref.getDownloadURL();
       return _imageUrl;
     } on FirebaseException catch (e) {
