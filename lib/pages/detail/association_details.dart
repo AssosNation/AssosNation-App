@@ -190,9 +190,8 @@ class AssociationDetails extends StatelessWidget {
                           }
                           if (snapshot.hasError) {
                             return Container(
-                              child: Text("Something wrong happened"),
-
-                              /// TODO I18N
+                              child: Text(
+                                  AppLocalizations.of(context)!.error_no_infos),
                             );
                           }
                           return Container();

@@ -155,7 +155,8 @@ class AssociationPage extends StatelessWidget {
                                               size: 55,
                                             ),
                                             content: Text(
-                                                "If you want to change this information, please contact the support."),
+                                                AppLocalizations.of(context)!
+                                                    .infos_contact_support),
                                             actions: [
                                               CupertinoButton(
                                                 child: Text("Ok"),
@@ -191,7 +192,8 @@ class AssociationPage extends StatelessWidget {
                                               size: 55,
                                             ),
                                             content: Text(
-                                                "If you want to change this information, please contact the support."),
+                                                AppLocalizations.of(context)!
+                                                    .infos_contact_support),
                                             actions: [
                                               CupertinoButton(
                                                 child: Text("Ok"),

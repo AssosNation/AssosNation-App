@@ -1,5 +1,6 @@
 import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class AssociationInformationsDialog extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          PostMainTitle("Informations"),
+          PostMainTitle(AppLocalizations.of(context)!.global_infos_label),
           Row(
             children: [
               Icon(
@@ -67,7 +68,7 @@ class AssociationInformationsDialog extends StatelessWidget {
             children: [
               OutlinedButton.icon(
                 icon: Icon(CupertinoIcons.clear),
-                label: Text("Close"),
+                label: Text(AppLocalizations.of(context)!.close_label),
                 onPressed: () => Navigator.pop(context),
               ),
             ],

@@ -2,6 +2,7 @@ import 'package:assosnation_app/components/posts/post_main_subtitle.dart';
 import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/models/post.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -28,11 +29,11 @@ class _EditPostDialogState extends State<EditPostDialog> {
         if (res == true) {
           Navigator.pop(context);
           _displaySnackBarWithMessage(
-              "Your post has been updated", Colors.green);
+              AppLocalizations.of(context)!.post_updated, Colors.green);
         } else {
           Navigator.pop(context);
           _displaySnackBarWithMessage(
-              "Something wrong happened, please try again", Colors.red);
+              AppLocalizations.of(context)!.error_no_infos, Colors.red);
         }
       }
     }
@@ -59,11 +60,11 @@ class _EditPostDialogState extends State<EditPostDialog> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                PostMainTitle("Editing post"),
+                PostMainTitle(AppLocalizations.of(context)!.editing_post),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    PostMainSubtitle("Title : "),
+                    PostMainSubtitle(AppLocalizations.of(context)!.title_label),
                     Expanded(
                       child: TextFormField(
                         maxLength: 30,
@@ -85,7 +86,8 @@ class _EditPostDialogState extends State<EditPostDialog> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PostMainSubtitle("Content : "),
+                    PostMainSubtitle(
+                        AppLocalizations.of(context)!.content_label),
                     Expanded(
                       child: TextFormField(
                         maxLength: 150,
@@ -110,7 +112,8 @@ class _EditPostDialogState extends State<EditPostDialog> {
                   children: [
                     OutlinedButton(
                         onPressed: () => Navigator.pop(context),
-                        child: Text("Cancel",
+                        child: Text(
+                            AppLocalizations.of(context)!.cancel_button_label,
                             style: TextStyle(color: Colors.red))),
                     OutlinedButton(
                         onPressed: _verifyAndValidateForm,

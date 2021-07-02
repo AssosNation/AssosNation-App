@@ -30,13 +30,13 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
           setState(() {
             _title = "";
             _content = "";
-            Utils.displaySnackBarWithMessage(
-                context, "Your post has been updated", Colors.green);
+            Utils.displaySnackBarWithMessage(context,
+                AppLocalizations.of(context)!.post_updated, Colors.green);
           });
         } else {
           Navigator.pop(context);
           Utils.displaySnackBarWithMessage(context,
-              "Something wrong happened, please try again", Colors.red);
+              AppLocalizations.of(context)!.error_no_infos, Colors.red);
         }
       }
     }
@@ -55,7 +55,7 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                FormMainTitle("Creating a post"),
+                FormMainTitle(AppLocalizations.of(context)!.post_creating),
                 Row(
                   children: [
                     FormSubTitle(

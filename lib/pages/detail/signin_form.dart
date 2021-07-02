@@ -54,7 +54,7 @@ class _SignInFormState extends State<SignInForm> {
                       height: 120,
                     ),
                   ),
-                  FormMainTitle("Login"),
+                  FormMainTitle(AppLocalizations.of(context)!.signin_label),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: Column(

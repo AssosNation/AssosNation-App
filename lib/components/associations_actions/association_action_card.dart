@@ -69,7 +69,7 @@ class _AsociationActionCardState extends State<AssociationActionCard> {
                       onPressed: () => showModalBottomSheet(
                         context: context,
                         builder: (context) => DeleteObjectConfirmationDialog(
-                            "Are you sure to delete this action ?",
+                            AppLocalizations.of(context)!.delete_alert_action,
                             null,
                             this.widget._action),
                       ),
