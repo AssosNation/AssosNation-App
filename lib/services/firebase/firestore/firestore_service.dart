@@ -21,7 +21,8 @@ class FireStoreService extends DatabaseInterface {
 
     CollectionReference posts = _service.collection("posts");
     try {
-      QuerySnapshot snapshot = await posts.get();
+      QuerySnapshot snapshot =
+          await posts.orderBy("timestamp", descending: true).get();
       List postList = List.empty(growable: true);
       snapshot.docs.forEach((post) async {
         if (associationList.contains(post.get('assosId'))) {
@@ -29,7 +30,7 @@ class FireStoreService extends DatabaseInterface {
             "post": Post(
                 post.id,
                 post.get('title'),
-                post.get('assosId').toString(),
+                post.get('assosId'),
                 post.get('content'),
                 post.get('photo'),
                 post.get('timestamp'),
@@ -274,5 +275,11 @@ class FireStoreService extends DatabaseInterface {
               e['usersRegistered'].contains(user.uid)))
         });
     return actionsList;
+  }
+
+  Future<DocumentReference> getAssociationReference(String assosId) async {
+    DocumentReference assosRef =
+        _service.collection("associations").doc(assosId);
+    return assosRef;
   }
 }

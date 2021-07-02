@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/components/forms/form_subtitle.dart';
 import 'package:assosnation_app/components/no_image_placeholder.dart';
+import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
@@ -29,7 +30,9 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
   _verifyAndValidateForm(assosId) async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        final postToCreate = Post.creation(_title, assosId, _content);
+        final assosRef =
+            await FireStoreService().getAssociationReference(assosId);
+        final postToCreate = Post.creation(_title, assosRef, _content);
         final DocumentReference postRef =
             await PostService().createPostForAssociation(postToCreate, assosId);
         await StorageService().uploadPostImageToStorage(_image!, postRef.id);
