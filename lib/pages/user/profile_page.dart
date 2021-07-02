@@ -42,8 +42,9 @@ class _ProfileState extends State<Profile> {
                   left: 120,
                   child: IconButton(
                     iconSize: 25,
-                    onPressed: () {
-                      StorageService().uploadImageAndReturnImgPath(_user!);
+                    onPressed: () async {
+                      await StorageService()
+                          .uploadImageAndReturnImgPath(_user!);
                       setState(() {});
                     },
                     icon: Icon(Icons.add_a_photo),

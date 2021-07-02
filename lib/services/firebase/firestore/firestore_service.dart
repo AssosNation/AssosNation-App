@@ -10,13 +10,14 @@ class FireStoreService extends DatabaseInterface {
   final FirebaseFirestore _service = FirebaseFirestore.instance;
 
   @override
-  Future<List<dynamic>> getAllPostsByAssociationList(List? associationList) async {
+  Future<List<dynamic>> getAllPostsByAssociationList(
+      List? associationList) async {
     if (associationList == null) {
       return List.empty();
     }
 
     Map<DocumentReference, String> associationNameList =
-    await getAssociationListName(associationList);
+        await getAssociationListName(associationList);
 
     CollectionReference posts = _service.collection("posts");
     try {
@@ -150,7 +151,7 @@ class FireStoreService extends DatabaseInterface {
   Future<List<AssociationAction>> getActionByAssociationReference(
       DocumentReference reference, _userId) async {
     Association association =
-    await this.getAssociationInfosFromDB(reference.id);
+        await this.getAssociationInfosFromDB(reference.id);
     return this.getActionsByAssociation(association, _userId);
   }
 
@@ -161,7 +162,7 @@ class FireStoreService extends DatabaseInterface {
       List<AssociationAction> actionList = [];
       for (var association in associationList) {
         List<AssociationAction> newActionList =
-        this.getActionsByAssociation(association, _userId);
+            this.getActionsByAssociation(association, _userId);
         actionList = actionList + newActionList;
       }
       actionList.sort((a, b) => a.startDate.compareTo(b.startDate));
@@ -173,27 +174,28 @@ class FireStoreService extends DatabaseInterface {
   }
 
   @override
-  List<AssociationAction> getActionsByAssociation(Association association, _userId) {
+  List<AssociationAction> getActionsByAssociation(
+      Association association, _userId) {
     List<AssociationAction> actionList = [];
     if (association.actions!.length == 0) {
       return actionList;
     }
 
     association.actions?.asMap().forEach((index, e) => {
-      actionList.add(AssociationAction(
-          index,
-          e['title'],
-          e['city'],
-          e['postalCode'],
-          e['address'],
-          e['description'],
-          e['type'],
-          e['startDate'],
-          e['endDate'],
-          association,
-          e['usersRegistered'].length,
-          e['usersRegistered'].contains(_userId)))
-    });
+          actionList.add(AssociationAction(
+              index,
+              e['title'],
+              e['city'],
+              e['postalCode'],
+              e['address'],
+              e['description'],
+              e['type'],
+              e['startDate'],
+              e['endDate'],
+              association,
+              e['usersRegistered'].length,
+              e['usersRegistered'].contains(_userId)))
+        });
 
     return actionList;
   }
@@ -207,7 +209,7 @@ class FireStoreService extends DatabaseInterface {
       List<AssociationAction> actionList = [];
       for (var reference in associationList) {
         List<AssociationAction> newActionList =
-        await this.getActionByAssociationReference(reference, _userId);
+            await this.getActionByAssociationReference(reference, _userId);
         actionList = actionList + newActionList;
       }
       actionList.sort((a, b) => a.startDate.compareTo(b.startDate));
