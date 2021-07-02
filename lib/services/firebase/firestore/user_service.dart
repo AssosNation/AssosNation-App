@@ -57,7 +57,16 @@ class UserService extends UserServiceInterface {
     throw UnimplementedError();
   }
 
-  Future updateUserProfileImg(String imgUrl) async {}
+  Future updateUserProfileImg(String userId, String imgUrl) async {
+    try {
+      DocumentReference userRef = _service.collection("users").doc(userId);
+      await userRef.update({"profileImg": imgUrl});
+
+      return true;
+    } on FirebaseException catch (e) {
+      Future.error("Couldn't change user's profile image");
+    }
+  }
 
   Future addUserToAction(AssociationAction action, _userId) async {
     Association association = action.association;
@@ -115,5 +124,11 @@ class UserService extends UserServiceInterface {
   Future removeUserFromDB(String uid) {
     // TODO: implement removeUserFromDB
     throw UnimplementedError();
+  }
+
+  @override
+  Stream<DocumentSnapshot> watchUserInfos(AnUser user) {
+    DocumentReference userRef = _service.collection("users").doc(user.uid);
+    return userRef.snapshots();
   }
 }
