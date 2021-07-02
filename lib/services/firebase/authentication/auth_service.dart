@@ -166,12 +166,14 @@ class AuthService extends AuthenticationInterface {
             city,
             postalCode,
             phone,
-            _defImageUrl, // image URL
+            _defImageUrl,
+            // image URL
             president,
-            true, // NEED TO CHANGE THAT TO FALSE AFTERWARD
+            true,
+            // NEED TO CHANGE THAT TO FALSE AFTERWARD
             "",
             [],
-            []); // type, posts, actions
+            []); // type, actions
         await FireStoreService().addAssociationToDb(newAssociation);
         signOff();
         return true;

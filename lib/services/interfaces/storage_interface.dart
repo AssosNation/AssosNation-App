@@ -11,7 +11,7 @@ abstract class StorageInterface {
 
   Future uploadBannerToStorage(dynamic banner);
 
-  Future<String> uploadImageAndReturnImgPath(AnUser userId);
+  Future uploadAndUpdateUserImage(AnUser user);
 
   Future<String> getDefaultUserProfileImg();
 }

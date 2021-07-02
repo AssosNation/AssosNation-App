@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:assosnation_app/services/firebase/firestore/user_service.dart';
 import 'package:assosnation_app/services/interfaces/storage_interface.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -61,7 +62,7 @@ class StorageService extends StorageInterface {
   }
 
   @override
-  Future<String> uploadImageAndReturnImgPath(AnUser userId) async {
+  Future uploadAndUpdateUserImage(AnUser user) async {
     final permissionStatus = await _requesPhotoAccessPermission();
 
     if (permissionStatus.isGranted) {
@@ -70,10 +71,14 @@ class StorageService extends StorageInterface {
       var file = File(image!.path);
 
       if (image != null) {
-        final snapshot =
-            await _storage.ref().child('users_images/$userId').putFile(file);
+        final snapshot = await _storage
+            .ref()
+            .child('users_images/${user.uid}')
+            .putFile(file);
 
-        return await snapshot.ref.getDownloadURL();
+        final imageUrl = await snapshot.ref.getDownloadURL();
+        await UserService().updateUserProfileImg(user.uid, imageUrl);
+        return Future.value(true);
       } else {
         return Future.error('No Path Received');
       }

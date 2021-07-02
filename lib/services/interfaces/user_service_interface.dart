@@ -1,5 +1,6 @@
 import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class UserServiceInterface {
   Future addUserToDB(user);
@@ -8,7 +9,7 @@ abstract class UserServiceInterface {
 
   Future getAllUsers();
 
-  Future updateUserProfileImg(String imgUrl);
+  Future updateUserProfileImg(String userId, String imgUrl);
 
   Future addUserToAction(AssociationAction action, _userId);
 
@@ -21,4 +22,6 @@ abstract class UserServiceInterface {
   Future<bool> checkIfUserIsAssos(String uid);
 
   Future removeUserFromDB(String uid);
+
+  Stream<DocumentSnapshot> watchUserInfos(AnUser user);
 }
