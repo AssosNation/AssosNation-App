@@ -24,7 +24,6 @@ class PostManagement extends StatelessWidget {
                   final List<Post> docs =
                       Converters.convertDocSnapshotsToListPost(
                           snapshot.data!.docs);
-                  print(docs);
                   return ListView.builder(
                     itemCount: docs.length,
                     itemBuilder: (context, index) {

@@ -12,7 +12,7 @@ class PostService implements PostsInterface {
         _service.collection("associations").doc(assosId);
     CollectionReference posts = _service.collection("posts");
     try {
-      await posts.add({
+      DocumentReference postRef = await posts.add({
         "assosId": assosRef,
         "title": post.title,
         "content": post.content,
@@ -20,7 +20,7 @@ class PostService implements PostsInterface {
         "timestamp": Timestamp.now(),
         "usersWhoLiked": []
       });
-      return Future.value(true);
+      return postRef;
     } on FirebaseException catch (e) {
       Future.error("Cannot create post for association $assosRef");
     }
@@ -82,6 +82,16 @@ class PostService implements PostsInterface {
       return Future.value(true);
     } on FirebaseException catch (e) {
       return Future.error("Cannot update post with id ${post.id}");
+    }
+  }
+
+  Future updatePostImageUrl(String postId, String url) async {
+    DocumentReference postRef = _service.collection("posts").doc(postId);
+    try {
+      await postRef.update({"photo": url});
+      return Future.value(true);
+    } on FirebaseException catch (e) {
+      return Future.error("Cannot update post with id $postId");
     }
   }
 }
