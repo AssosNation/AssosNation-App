@@ -1,5 +1,6 @@
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/gamification_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/user_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/interfaces/authentication_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
@@ -10,10 +11,9 @@ class AuthService extends AuthenticationInterface {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<AnUser?> _userFromFirebaseUser(User _user) async {
-    final isAssociation =
-        await FireStoreService().checkIfUserIsAssos(_user.uid);
+    final isAssociation = await UserService().checkIfUserIsAssos(_user.uid);
     if (!isAssociation) {
-      final userInfos = await FireStoreService().getUserInfosFromDB(_user.uid);
+      final userInfos = await UserService().getUserInfosFromDB(_user.uid);
       GamificationService()
           .increaseLoginCountByOne(userInfos.gamificationRef.id);
       return AnUser.withData(
@@ -22,13 +22,13 @@ class AuthService extends AuthenticationInterface {
           userInfos.firstName,
           userInfos.lastName,
           userInfos.subscriptions,
-          userInfos.gamificationRef);
+          userInfos.gamificationRef,
+          userInfos.profileImg);
     }
   }
 
   Future<Association?> _associationFromUser(User _user) async {
-    final isAssociation =
-        await FireStoreService().checkIfUserIsAssos(_user.uid);
+    final isAssociation = await UserService().checkIfUserIsAssos(_user.uid);
     if (isAssociation) {
       final assosInfos =
           await FireStoreService().getAssociationInfosFromDB(_user.uid);
@@ -74,7 +74,7 @@ class AuthService extends AuthenticationInterface {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: mail, password: pwd);
 
-      await FireStoreService().addUserToDB(userCredential.user);
+      await UserService().addUserToDB(userCredential.user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -95,10 +95,17 @@ class AuthService extends AuthenticationInterface {
         final gamiRef = await GamificationService()
             .initGamificationForUser(userCredential.user!.uid);
 
-        final newUser = AnUser.withData(userCredential.user!.uid,
-            userCredential.user!.email!, firstName, lastName, [], gamiRef);
+        final defaultImg = await StorageService().getDefaultUserProfileImg();
 
-        await FireStoreService().addUserToDB(newUser);
+        final newUser = AnUser.withData(
+            userCredential.user!.uid,
+            userCredential.user!.email!,
+            firstName,
+            lastName,
+            [],
+            gamiRef,
+            defaultImg);
+        await UserService().addUserToDB(newUser);
         return true;
       }
     } on FirebaseAuthException catch (e) {
@@ -159,12 +166,14 @@ class AuthService extends AuthenticationInterface {
             city,
             postalCode,
             phone,
-            _defImageUrl, // image URL
+            _defImageUrl,
+            // image URL
             president,
-            true, // NEED TO CHANGE THAT TO FALSE AFTERWARD
+            true,
+            // NEED TO CHANGE THAT TO FALSE AFTERWARD
             "",
             [],
-            []); // type, posts, actions
+            []); // type, actions
         await FireStoreService().addAssociationToDb(newAssociation);
         signOff();
         return true;

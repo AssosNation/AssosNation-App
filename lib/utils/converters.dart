@@ -1,6 +1,7 @@
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/post.dart';
+import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Converters {
@@ -46,5 +47,16 @@ class Converters {
         doc.get("type"),
         doc.get("actions"),
         doc.get("subscribers"));
+  }
+
+  static AnUser convertDocSnapshotsToUser(DocumentSnapshot doc) {
+    return AnUser.withData(
+        doc.id,
+        doc.get("mail"),
+        doc.get("firstName"),
+        doc.get("lastName"),
+        doc.get("subscriptions"),
+        doc.get("gamificationRef"),
+        doc.get("profileImg"));
   }
 }

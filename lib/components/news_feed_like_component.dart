@@ -1,4 +1,4 @@
-import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/user_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +19,8 @@ class NewsFeedLikeComponent extends StatefulWidget {
 class _NewsFeedLikeComponentState extends State<NewsFeedLikeComponent> {
   updateState(likeAction) {
     setState(() {
-      this.widget._likesNumber =
-          this.widget._likesNumber + (likeAction ? 1 : -1);
-      this.widget._userLiked = likeAction;
+      widget._likesNumber = widget._likesNumber + (likeAction ? 1 : -1);
+      widget._userLiked = likeAction;
     });
   }
 
@@ -41,22 +40,21 @@ class _NewsFeedLikeComponentState extends State<NewsFeedLikeComponent> {
                   color: Theme.of(context).accentColor,
                 ),
               ),
-              Text(this.widget._likesNumber.toString()),
+              Text(widget._likesNumber.toString()),
             ],
           ),
         ),
         TextButton.icon(
             onPressed: () {
-              if (this.widget._userLiked) {
-                FireStoreService()
-                    .removeUserToLikedList(widget._postId, _user!);
+              if (widget._userLiked) {
+                UserService().removeUserToLikedList(widget._postId, _user!);
                 updateState(false);
               } else {
-                FireStoreService().addUsersToLikedList(widget._postId, _user!);
+                UserService().addUsersToLikedList(widget._postId, _user!);
                 updateState(true);
               }
             },
-            icon: Icon(this.widget._userLiked
+            icon: Icon(widget._userLiked
                 ? Icons.thumb_up_alt_rounded
                 : Icons.thumb_up_alt_outlined),
             label: Text(this.widget._userLiked ? "Liked !" : "Like")),
