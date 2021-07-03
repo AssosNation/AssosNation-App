@@ -39,10 +39,10 @@ class AssociationDetails extends StatelessWidget {
     return StreamBuilder<DocumentSnapshot>(
       stream: AssociationService().watchAssociationInfo(assos),
       builder: (context, snapshot) {
-        final Association _association =
-            Converters.convertDocSnapshotsToAssos(snapshot.data!);
         if (snapshot.hasData) {
           if (snapshot.connectionState == ConnectionState.active) {
+            final Association _association =
+                Converters.convertDocSnapshotsToAssos(snapshot.data!);
             return Scaffold(
               appBar: AppBar(
                 title: Text(_association.name),
@@ -75,7 +75,7 @@ class AssociationDetails extends StatelessWidget {
                                           .didUserSubscribed(_user.uid)) {
                                         await AssociationService()
                                             .unsubscribeToAssociation(
-                                                _association.uid, _user.uid);
+                                            _association.uid, _user.uid);
                                         Utils.displaySnackBarWithMessage(
                                             context,
                                             AppLocalizations.of(context)!
@@ -83,11 +83,11 @@ class AssociationDetails extends StatelessWidget {
                                             Colors.deepOrange);
                                         GamificationService()
                                             .decreaseSubCountByOne(
-                                                _user.gamificationRef.id);
+                                            _user.gamificationRef.id);
                                       } else {
                                         AssociationService()
                                             .subscribeToAssociation(
-                                                _association.uid, _user.uid);
+                                            _association.uid, _user.uid);
                                         Utils.displaySnackBarWithMessage(
                                             context,
                                             AppLocalizations.of(context)!
@@ -95,7 +95,7 @@ class AssociationDetails extends StatelessWidget {
                                             Colors.green);
                                         GamificationService()
                                             .increaseSubCountByOne(
-                                                _user.gamificationRef.id);
+                                            _user.gamificationRef.id);
                                       }
                                     }
                                   },
@@ -120,7 +120,7 @@ class AssociationDetails extends StatelessWidget {
                                 iconSize: 30,
                                 onPressed: () => Navigator.of(context)
                                     .pushNamed("/associationCalendarPage",
-                                        arguments: assos)),
+                                    arguments: assos)),
                             IconButton(
                               icon: Icon(Icons.info_outline_rounded),
                               color: Colors.white,
@@ -145,7 +145,7 @@ class AssociationDetails extends StatelessWidget {
                           children: [
                             Container(
                                 child:
-                                    DescriptionAsso(_association.description)),
+                                DescriptionAsso(_association.description)),
                             SizedBox(height: 10),
                             Divider(
                               thickness: 3,

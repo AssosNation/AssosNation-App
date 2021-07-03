@@ -3,7 +3,6 @@ import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
 
 class ActionParticipationComponent extends StatefulWidget {
   final AssociationAction _action;
@@ -48,13 +47,6 @@ class _ActionParticipationComponentState
             ],
           ),
         ),
-        TextButton.icon(
-            onPressed: () {
-              Share.share(
-                  '${widget._action.title}\n${widget._action.description}\nPartagé depuis l\'application AssosNation.');
-            },
-            icon: Icon(Icons.share),
-            label: Text('')),
         TextButton.icon(
             onPressed: () {
               if (widget._action.isUserRegistered) {

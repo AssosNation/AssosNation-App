@@ -1,6 +1,7 @@
 import 'package:assosnation_app/components/news_feed_like_component.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/post.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -48,10 +49,12 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                             if (snapshot.hasData) {
                               if (snapshot.connectionState ==
                                   ConnectionState.done) {
-                                return CircleAvatar(
-                                  child: FittedBox(
-                                    child: Image.network(snapshot.data!),
+                                return CachedNetworkImage(
+                                  imageBuilder: (context, imageProvider) =>
+                                      CircleAvatar(
+                                    backgroundImage: imageProvider,
                                   ),
+                                  imageUrl: snapshot.data!,
                                 );
                               } else
                                 return CircularProgressIndicator();
