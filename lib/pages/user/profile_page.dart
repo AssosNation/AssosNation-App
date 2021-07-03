@@ -1,8 +1,10 @@
 import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/gamification_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/user_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/services/models/gamification.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/converters.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
@@ -19,6 +21,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  bool _first = true;
   @override
   Widget build(BuildContext context) {
     AnUser? _user = context.watch<AnUser?>();
@@ -102,6 +105,58 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
                     ),
+                    FutureBuilder(
+                        future: GamificationService()
+                            .getGamificationInfos(_user!.gamificationRef.id),
+                        builder: (ctx, AsyncSnapshot<Gamification> snapshot) {
+                          if (snapshot.hasData) {
+                            Gamification gamification = snapshot.data!;
+                            return Padding(
+                              padding: const EdgeInsets.all(30),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() => {_first = !_first});
+                                          },
+                                          child: AnimatedCrossFade(
+                                              firstChild: Text(
+                                                  'Niveau : ${gamification.level}',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Theme.of(context)
+                                                          .primaryColor)),
+                                              secondChild: Text(
+                                                  'Il te manque ${500 - (gamification.exp % 500)} points d\'xp\n'
+                                                  'pour atteindre le niveau ${gamification.level + 1}',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Theme.of(context)
+                                                          .primaryColor)),
+                                              crossFadeState: _first
+                                                  ? CrossFadeState.showFirst
+                                                  : CrossFadeState.showSecond,
+                                              duration: const Duration(
+                                                  milliseconds: 500)),
+                                        ),
+                                      ]),
+                                  LinearProgressIndicator(
+                                      value: (gamification.exp % 500) / 500,
+                                      backgroundColor: Colors.grey,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Theme.of(context).primaryColor)),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        }),
                     Divider(
                       thickness: 3,
                       indent: 15,
