@@ -61,7 +61,7 @@ class PostService implements PostsInterface {
           .map((e) => Post(
               e.id,
               e.get("title"),
-              e.get("assosId").id,
+              e.get("assosId"),
               e.get("content"),
               e.get("photo"),
               e.get("timestamp"),

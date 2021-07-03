@@ -10,6 +10,7 @@ import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/constants.dart';
 import 'package:assosnation_app/utils/converters.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,10 +73,14 @@ class _ProfileState extends State<Profile> {
                                   radius: 70,
                                   backgroundColor:
                                       Theme.of(context).accentColor,
-                                  child: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(_user!.profileImg),
-                                    radius: 66,
+                                  child: CachedNetworkImage(
+                                    imageUrl: _user!.profileImg,
+                                    imageBuilder: (context, imageProvider) {
+                                      return CircleAvatar(
+                                        backgroundImage: imageProvider,
+                                        radius: 66,
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
