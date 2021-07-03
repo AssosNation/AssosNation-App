@@ -44,6 +44,9 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.teal,
                 appBarTheme: AppBarTheme(color: Colors.teal[300]),
+                primaryTextTheme: TextTheme(
+                    bodyText2: TextStyle(
+                        color: Colors.teal, fontWeight: FontWeight.w500)),
                 cardTheme: CardTheme(
                     elevation: 2.0,
                     shape: RoundedRectangleBorder(
@@ -54,12 +57,10 @@ class MyApp extends StatelessWidget {
                   backgroundColor: Colors.teal[300],
                   unselectedItemColor: Colors.teal[100],
                   selectedItemColor: Colors.white,
-                  selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  selectedLabelStyle: TextStyle(fontWeight: FontWeight.w800),
                   type: BottomNavigationBarType.fixed,
                 ),
-                textTheme: GoogleFonts.montserratTextTheme(
-                  Theme.of(context).textTheme,
-                ),
+                textTheme: GoogleFonts.montserratTextTheme(),
               ),
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: L10n.all,
