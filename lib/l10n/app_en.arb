@@ -51,6 +51,8 @@
   "search_placeholder": "Search for an association",
   "error_no_infos": "Something wrong happened..",
   "no_messages_yet": "There are no messages yet",
+  "enter_first_name": "Enter your first name",
+  "enter_last_name": "Enter your last name",
   "email_input_placeholder": "Enter your email address",
   "pwd_input_placeholder": "Enter your password",
   "pwd_input_confirm_placeholder": "Confirm your password",

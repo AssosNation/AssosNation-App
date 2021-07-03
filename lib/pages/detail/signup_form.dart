@@ -60,7 +60,8 @@ class _SignUpFormState extends State<SignUpForm> {
                               AppLocalizations.of(context)!.global_infos_label),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Enter your First Name"),
+                                labelText: AppLocalizations.of(context)!
+                                    .enter_first_name),
                             keyboardType: TextInputType.name,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -69,12 +70,14 @@ class _SignUpFormState extends State<SignUpForm> {
                                 _firstName = firstName;
                                 return null;
                               } else
-                                return "Please enter your first name";
+                                return AppLocalizations.of(context)!
+                                    .enter_first_name;
                             },
                           ),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Enter your Last Name"),
+                                labelText: AppLocalizations.of(context)!
+                                    .enter_last_name),
                             keyboardType: TextInputType.name,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -83,7 +86,8 @@ class _SignUpFormState extends State<SignUpForm> {
                                 _lastName = lastName;
                                 return null;
                               } else
-                                return "Please enter your first name";
+                                return AppLocalizations.of(context)!
+                                    .enter_last_name;
                             },
                           ),
                         ],
