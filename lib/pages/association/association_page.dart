@@ -6,6 +6,7 @@ import 'package:assosnation_app/services/firebase/firestore/association_service.
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/utils/converters.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,10 +46,13 @@ class AssociationPage extends StatelessWidget {
                             child: Stack(
                               children: [
                                 Opacity(
-                                  opacity: 0.7,
-                                  child: Image.network(
-                                    _association.banner,
-                                    fit: BoxFit.fill,
+                                  opacity: 0.8,
+                                  child: AspectRatio(
+                                    aspectRatio: 4 / 3,
+                                    child: CachedNetworkImage(
+                                      imageUrl: _association.banner,
+                                      fit: BoxFit.scaleDown,
+                                    ),
                                   ),
                                 ),
                                 Positioned.fill(
@@ -84,9 +88,7 @@ class AssociationPage extends StatelessWidget {
                               title: Text(
                                   AppLocalizations.of(context)!
                                       .association_name_label,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .bodyText2),
+                                  style: Theme.of(context).textTheme.bodyText2),
                               subtitle: Text(
                                 _association.name,
                                 style: Theme.of(context).textTheme.subtitle1,
@@ -104,9 +106,7 @@ class AssociationPage extends StatelessWidget {
                               leading: Icon(Icons.phone,
                                   color: Theme.of(context).accentColor),
                               title: Text(AppLocalizations.of(context)!.phone,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .bodyText2),
+                                  style: Theme.of(context).textTheme.bodyText2),
                               subtitle: Text(_association.phone,
                                   style: Theme.of(context).textTheme.subtitle1),
                               trailing: IconButton(
@@ -123,9 +123,7 @@ class AssociationPage extends StatelessWidget {
                               leading: Icon(Icons.home_filled,
                                   color: Theme.of(context).accentColor),
                               title: Text(AppLocalizations.of(context)!.address,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .bodyText2),
+                                  style: Theme.of(context).textTheme.bodyText2),
                               subtitle: Text(_association.address,
                                   style: Theme.of(context).textTheme.subtitle1),
                               trailing: IconButton(
@@ -142,9 +140,7 @@ class AssociationPage extends StatelessWidget {
                               leading: Icon(Icons.location_city_sharp,
                                   color: Theme.of(context).accentColor),
                               title: Text(AppLocalizations.of(context)!.city,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .bodyText2),
+                                  style: Theme.of(context).textTheme.bodyText2),
                               subtitle: Text(_association.city,
                                   style: Theme.of(context).textTheme.subtitle1),
                               trailing: IconButton(
@@ -161,9 +157,7 @@ class AssociationPage extends StatelessWidget {
                               leading: Icon(Icons.mail_outline_sharp,
                                   color: Theme.of(context).accentColor),
                               title: Text(AppLocalizations.of(context)!.mail,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .bodyText2),
+                                  style: Theme.of(context).textTheme.bodyText2),
                               subtitle: Text(_association.mail,
                                   style: Theme.of(context).textTheme.subtitle1),
                               trailing: IconButton(
@@ -180,9 +174,7 @@ class AssociationPage extends StatelessWidget {
                                   color: Theme.of(context).accentColor),
                               title: Text(
                                   AppLocalizations.of(context)!.president,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .bodyText2),
+                                  style: Theme.of(context).textTheme.bodyText2),
                               subtitle: Text(_association.president,
                                   style: Theme.of(context).textTheme.subtitle1),
                               trailing: IconButton(

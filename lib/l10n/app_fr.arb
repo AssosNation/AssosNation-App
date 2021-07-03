@@ -12,15 +12,15 @@
   "user_tab_profile": "Profil",
   "user_tab_events": "Evènements",
   "association_tab_posts": "Posts",
-  "association_tab_events": "Evènement",
-  "association_tab_messaging": "Messaging",
+  "association_tab_events": "Evènements",
+  "association_tab_messaging": "Messagerie",
   "association_tab_home": "Gestion",
   "association_list_label": "Mes associations",
   "all_events_label": "Tous les evénements",
   "user_association_events": "Events",
   "participate_button_label": "Je participe",
   "participants_number_label": "participants",
-  "days_label": "jours",
+  "days_label": "Jours",
   "are_you_sure": "En êtes-vous sûr ?",
   "yes": "Oui",
   "no": "Non",
@@ -110,5 +110,8 @@
   "mail_not_valid": "Cette adresse mail n'est pas valide",
   "password_not_valid": "Ce mot de passe n'est pas valide",
   "association_no_actions": "{assosName} n'a pas encore organisé d'actions",
-  "association_name_label": "Nom de votre association"
+  "association_name_label": "Nom de votre association",
+  "post_management_main_title": "Gestion des Posts",
+  "events_management_main_title": "Gestion des évènements",
+  "association_messaging_main_title": "Messagerie"
 }

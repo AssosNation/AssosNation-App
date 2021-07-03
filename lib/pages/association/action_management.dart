@@ -16,53 +16,65 @@ class ActionManagement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _assos = context.watch<Association?>();
-    return StreamBuilder(
-      stream: AssociationService().watchAssociationInfo(_assos!),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.data != null) {
-          final Association _association =
-              Converters.convertDocSnapshotsToAssos(snapshot.data!);
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
+          child: Text(
+              AppLocalizations.of(context)!.events_management_main_title,
+              style: Theme.of(context).textTheme.headline3),
+        ),
+        Expanded(
+          child: StreamBuilder(
+            stream: AssociationService().watchAssociationInfo(_assos!),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.data != null) {
+                final Association _association =
+                    Converters.convertDocSnapshotsToAssos(snapshot.data!);
 
-          if (snapshot.hasData) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              return Scaffold(
-                floatingActionButton: FloatingActionButton(
-                    elevation: 2,
-                    child: Icon(Icons.add),
-                    onPressed: () => showDialog(
-                          context: context,
-                          builder: (context) =>
-                              CreateActionDialog(_association),
-                        )),
-                body: Column(children: [
-                  Expanded(
-                      child: ListView.builder(
-                          itemCount: _association.actions!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            AssociationAction? action =
-                                AssociationActionsService()
-                                    .getAssociationActionFromAssociationInfos(
-                                        _association, index);
-                            if (action != null) {
-                              return AssociationActionCard(action);
-                            } else {
-                              return Text(AppLocalizations.of(context)!
-                                  .no_actions_available);
-                            }
-                          })),
-                ]),
-              );
-            } else {
-              return CircularProgressIndicator();
-            }
-          } else {
-            return Container();
-          }
-        } else {
-          return CircularProgressIndicator();
-        }
-      },
+                if (snapshot.hasData) {
+                  if (snapshot.connectionState == ConnectionState.active) {
+                    return Scaffold(
+                      floatingActionButton: FloatingActionButton(
+                          elevation: 2,
+                          child: Icon(Icons.add),
+                          onPressed: () => showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    CreateActionDialog(_association),
+                              )),
+                      body: Column(children: [
+                        Expanded(
+                            child: ListView.builder(
+                                itemCount: _association.actions!.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  AssociationAction? action =
+                                      AssociationActionsService()
+                                          .getAssociationActionFromAssociationInfos(
+                                              _association, index);
+                                  if (action != null) {
+                                    return AssociationActionCard(action);
+                                  } else {
+                                    return Text(AppLocalizations.of(context)!
+                                        .no_actions_available);
+                                  }
+                                })),
+                      ]),
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                } else {
+                  return Container();
+                }
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 }

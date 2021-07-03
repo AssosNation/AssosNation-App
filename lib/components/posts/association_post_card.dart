@@ -3,6 +3,7 @@ import 'package:assosnation_app/components/posts/edit_post_dialog.dart';
 import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,11 +19,16 @@ class AssociationPostCard extends StatefulWidget {
 class _AssociationPostCardState extends State<AssociationPostCard> {
   Widget _displayImageIfExists() {
     if (widget._post.photo != "")
-      return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
-        width: MediaQuery.of(context).size.width * 0.9,
-        child: Image.network(
-          widget._post.photo,
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          child: AspectRatio(
+            aspectRatio: 4 / 3,
+            child: CachedNetworkImage(
+              imageUrl: widget._post.photo,
+              fit: BoxFit.scaleDown,
+            ),
+          ),
         ),
       );
     return Container();
