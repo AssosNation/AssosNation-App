@@ -24,7 +24,7 @@ class ActionCard extends StatelessWidget {
                   "/associationDetails",
                   arguments: this.action.association),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
@@ -39,25 +39,42 @@ class ActionCard extends StatelessWidget {
                       ],
                     ),
                   ),
+                  FormMainTitle(
+                    this.action.title,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
-                    child: Row(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 20, 5),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(DateFormat('dd-MM-yyyy').add_Hm().format(
-                            DateTime.parse(
-                                this.action.startDate.toDate().toString())))
+                        Text('Date de début : ' +
+                            DateFormat('dd/MM/yyyy').add_Hm().format(
+                                DateTime.parse(this
+                                    .action
+                                    .startDate
+                                    .toDate()
+                                    .toString()))),
+                        Text('Date de fin : ' +
+                            DateFormat('dd/MM/yyyy').add_Hm().format(
+                                DateTime.parse(
+                                    this.action.endDate.toDate().toString()))),
                       ],
                     ),
                   )
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Adresse :  ${this.action.address}, ${this.action.postalCode} ${this.action.city}',
+                style: TextStyle(fontSize: 15),
+                maxLines: 2,
+                textAlign: TextAlign.start,
+              ),
+            ),
             Column(
               children: [
-                FormMainTitle(
-                  this.action.title,
-                ),
                 Row(
                   children: [
                     Expanded(
