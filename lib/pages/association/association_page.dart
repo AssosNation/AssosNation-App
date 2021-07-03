@@ -1,6 +1,6 @@
-import 'package:assosnation_app/components/an_big_title.dart';
-import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/components/description_asso.dart';
+import 'package:assosnation_app/components/dialog/change_infos_alert.dart';
+import 'package:assosnation_app/components/dialog/edit_association_img_dialog.dart';
 import 'package:assosnation_app/components/edit_asso_dialog.dart';
 import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
@@ -26,188 +26,174 @@ class AssociationPage extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.active) {
                 final Association _association =
                     Converters.convertDocSnapshotsToAssos(snapshot.data!);
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                return Stack(
                   children: [
                     Column(
                       children: [
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          color: Colors.teal,
-                          child: AnBigTitle(_association.name),
+                        InkWell(
+                          onTap: () => showModalBottomSheet(
+                            context: context,
+                            builder: (context) => EditAssociationImgDialog(
+                                association: _association),
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                border: Border.all(
+                                    color: Theme.of(context).accentColor,
+                                    width: 2)),
+                            child: Stack(
+                              children: [
+                                Opacity(
+                                  opacity: 0.7,
+                                  child: Image.network(
+                                    _association.banner,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                Positioned.fill(
+                                    child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Icon(
+                                    Icons.add_a_photo_outlined,
+                                    color: Theme.of(context).accentColor,
+                                    size: 45,
+                                  ),
+                                )),
+                              ],
+                            ),
+                          ),
                         ),
-                        Image.network(
-                          _association.banner,
-                          width: MediaQuery.of(context).size.width,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: DescriptionAsso(_association.description),
                         ),
-                        Container(
-                            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            child: AnTitle(AppLocalizations.of(context)!
-                                .my_association_infos)),
-                        Divider(
-                          thickness: 3,
-                          indent: 15,
-                          endIndent: 15,
-                          color: Colors.teal,
-                          height: 30,
+                        IconButton(
+                          icon: Icon(Icons.edit, color: Colors.teal),
+                          onPressed: () => showModalBottomSheet(
+                            context: context,
+                            builder: (context) =>
+                                EditAssoDialog(_association, "description"),
+                          ),
                         ),
-                        Container(
-                            padding: EdgeInsets.fromLTRB(10, 20, 10, 5),
-                            child: DescriptionAsso(_association.description)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Column(
                           children: [
-                            IconButton(
-                              icon: Icon(Icons.edit, color: Colors.teal),
-                              onPressed: () => showModalBottomSheet(
-                                context: context,
-                                builder: (context) =>
-                                    EditAssoDialog(_association, "description"),
+                            ListTile(
+                              leading: Icon(Icons.home_filled,
+                                  color: Theme.of(context).accentColor),
+                              title: Text("Name",
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText2),
+                              subtitle: Text(
+                                _association.name,
+                                style: Theme.of(context).textTheme.subtitle1,
                               ),
-                            )
-                          ],
-                        ),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-                          child: Row(
-                            children: [
-                              Icon(Icons.home_filled, color: Colors.teal),
-                              Text("Name : ${_association.name}"),
-                              IconButton(
+                              trailing: IconButton(
                                 icon: Icon(Icons.edit, color: Colors.teal),
                                 onPressed: () => showModalBottomSheet(
                                   context: context,
                                   builder: (context) =>
                                       EditAssoDialog(_association, "name"),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                          child: Row(
-                            children: [
-                              Icon(Icons.phone, color: Colors.teal),
-                              Text("Phone number : ${_association.phone}"),
-                              IconButton(
-                                  icon: Icon(Icons.edit, color: Colors.teal),
-                                  onPressed: () => showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) => EditAssoDialog(
-                                            _association, "phone"),
-                                      ))
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                          child: Row(
-                            children: [
-                              Icon(Icons.home_filled, color: Colors.teal),
-                              Text(
-                                  "${AppLocalizations.of(context)!.address} : ${_association.address}"),
-                              IconButton(
-                                  icon: Icon(Icons.edit, color: Colors.teal),
-                                  onPressed: () => showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) => EditAssoDialog(
-                                            _association, "address"),
-                                      ))
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                          child: Row(
-                            children: [
-                              Icon(Icons.location_city, color: Colors.teal),
-                              Text(
-                                  "${AppLocalizations.of(context)!.city} : ${_association.city}"),
-                              IconButton(
-                                  icon: Icon(Icons.edit, color: Colors.teal),
-                                  onPressed: () => showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) => EditAssoDialog(
-                                            _association,
-                                            AppLocalizations.of(context)!.city),
-                                      ))
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                          child: Row(
-                            children: [
-                              Icon(Icons.mail, color: Colors.teal),
-                              Text("E-Mail : ${_association.mail}"),
-                              IconButton(
-                                  icon: Icon(Icons.edit, color: Colors.grey),
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            elevation: 50,
-                                            title: Icon(
-                                              Icons.info_outline_rounded,
-                                              color: Colors.teal,
-                                              size: 55,
-                                            ),
-                                            content: Text(
-                                                AppLocalizations.of(context)!
-                                                    .infos_contact_support),
-                                            actions: [
-                                              CupertinoButton(
-                                                child: Text("Ok"),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        });
-                                  })
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                          child: Row(
-                            children: [
-                              Icon(Icons.person, color: Colors.teal),
-                              Text(
-                                  "${AppLocalizations.of(context)!.president} : ${_association.president}"),
-                              IconButton(
-                                  icon: Icon(Icons.edit, color: Colors.grey),
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            elevation: 50,
-                                            title: Icon(
-                                              Icons.info_outline_rounded,
-                                              color: Colors.teal,
-                                              size: 55,
-                                            ),
-                                            content: Text(
-                                                AppLocalizations.of(context)!
-                                                    .infos_contact_support),
-                                            actions: [
-                                              CupertinoButton(
-                                                child: Text("Ok"),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        });
-                                  })
-                            ],
-                          ),
-                        ),
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.phone,
+                                  color: Theme.of(context).accentColor),
+                              title: Text("Phone number",
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText2),
+                              subtitle: Text(_association.phone,
+                                  style: Theme.of(context).textTheme.subtitle1),
+                              trailing: IconButton(
+                                icon: Icon(Icons.edit,
+                                    color: Theme.of(context).accentColor),
+                                onPressed: () => showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) =>
+                                      EditAssoDialog(_association, "phone"),
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.home_filled,
+                                  color: Theme.of(context).accentColor),
+                              title: Text(AppLocalizations.of(context)!.address,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText2),
+                              subtitle: Text(_association.address,
+                                  style: Theme.of(context).textTheme.subtitle1),
+                              trailing: IconButton(
+                                icon: Icon(Icons.edit,
+                                    color: Theme.of(context).accentColor),
+                                onPressed: () => showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) =>
+                                      EditAssoDialog(_association, "address"),
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.location_city_sharp,
+                                  color: Theme.of(context).accentColor),
+                              title: Text(AppLocalizations.of(context)!.city,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText2),
+                              subtitle: Text(_association.city,
+                                  style: Theme.of(context).textTheme.subtitle1),
+                              trailing: IconButton(
+                                icon: Icon(Icons.edit,
+                                    color: Theme.of(context).accentColor),
+                                onPressed: () => showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) =>
+                                      EditAssoDialog(_association, "city"),
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.mail_outline_sharp,
+                                  color: Theme.of(context).accentColor),
+                              title: Text(AppLocalizations.of(context)!.mail,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText2),
+                              subtitle: Text(_association.mail,
+                                  style: Theme.of(context).textTheme.subtitle1),
+                              trailing: IconButton(
+                                icon: Icon(Icons.info_outline,
+                                    color: Colors.grey),
+                                onPressed: () => showDialog(
+                                  context: context,
+                                  builder: (context) => ChangeInfoAlert(),
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.person_outline_sharp,
+                                  color: Theme.of(context).accentColor),
+                              title: Text(
+                                  AppLocalizations.of(context)!.president,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText2),
+                              subtitle: Text(_association.president,
+                                  style: Theme.of(context).textTheme.subtitle1),
+                              trailing: IconButton(
+                                icon: Icon(Icons.info_outline,
+                                    color: Colors.grey),
+                                onPressed: () => showDialog(
+                                  context: context,
+                                  builder: (context) => ChangeInfoAlert(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ],

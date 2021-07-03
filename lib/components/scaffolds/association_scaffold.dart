@@ -29,11 +29,7 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
   Widget _associationNavBar() {
     return BottomNavigationBar(
         currentIndex: _selectedPage,
-        unselectedItemColor: Colors.teal[400],
-        selectedItemColor: Colors.teal,
-        selectedFontSize: 16,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-        type: BottomNavigationBarType.fixed,
+        selectedFontSize: 12,
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.post_add),
@@ -72,17 +68,10 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
           : Container(),
       appBar: AppBar(
         centerTitle: true,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/icon/logo_an.png",
-              height: 40,
-            ),
-            Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(Constants.appName)),
-          ],
+        title: Image.asset(
+          Constants.fullHorizontalLogoPath,
+          fit: BoxFit.cover,
+          scale: Constants.appBarLogoScale,
         ),
         actions: [
           IconButton(
@@ -96,3 +85,17 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
     );
   }
 }
+/*
+Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/icon/logo_an.png",
+              height: 40,
+            ),
+            Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(Constants.appName)),
+          ],
+        )
+ */

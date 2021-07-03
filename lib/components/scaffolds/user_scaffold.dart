@@ -33,13 +33,8 @@ class _UserScaffoldState extends State<UserScaffold> {
 
   Widget _userNavBar() {
     return BottomNavigationBar(
-        backgroundColor: Colors.teal,
         currentIndex: _selectedPage,
-        unselectedItemColor: Colors.grey[400],
-        selectedItemColor: Colors.white,
-        selectedFontSize: 14,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-        type: BottomNavigationBarType.fixed,
+        selectedFontSize: 12,
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.dynamic_feed),
@@ -79,17 +74,10 @@ class _UserScaffoldState extends State<UserScaffold> {
       bottomNavigationBar: _user != null ? _userNavBar() : null,
       appBar: AppBar(
         centerTitle: true,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/icon/logo_an.png",
-              height: 40,
-            ),
-            Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(Constants.appName)),
-          ],
+        title: Image.asset(
+          Constants.fullHorizontalLogoPath,
+          fit: BoxFit.cover,
+          scale: Constants.appBarLogoScale,
         ),
         actions: [
           StreamBuilder<List<Association>>(

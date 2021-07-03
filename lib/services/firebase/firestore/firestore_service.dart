@@ -6,7 +6,7 @@ import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FireStoreService extends DatabaseInterface {
+class FireStoreService extends FirestoreServiceInterface {
   final FirebaseFirestore _service = FirebaseFirestore.instance;
 
   @override
@@ -21,7 +21,8 @@ class FireStoreService extends DatabaseInterface {
 
     CollectionReference posts = _service.collection("posts");
     try {
-      QuerySnapshot snapshot = await posts.get();
+      QuerySnapshot snapshot =
+          await posts.orderBy("timestamp", descending: true).get();
       List postList = List.empty(growable: true);
       snapshot.docs.forEach((post) async {
         if (associationList.contains(post.get('assosId'))) {
@@ -29,7 +30,7 @@ class FireStoreService extends DatabaseInterface {
             "post": Post(
                 post.id,
                 post.get('title'),
-                post.get('assosId').toString(),
+                post.get('assosId'),
                 post.get('content'),
                 post.get('photo'),
                 post.get('timestamp'),
@@ -274,5 +275,25 @@ class FireStoreService extends DatabaseInterface {
               e['usersRegistered'].contains(user.uid)))
         });
     return actionsList;
+  }
+
+  @override
+  Future<DocumentReference> getAssociationReference(String assosId) async {
+    DocumentReference assosRef =
+        _service.collection("associations").doc(assosId);
+    return assosRef;
+  }
+
+  @override
+  Future updateAssociationBanner(String assosId, String imgUrl) async {
+    try {
+      DocumentReference userRef =
+          _service.collection("associations").doc(assosId);
+      await userRef.update({"banner": imgUrl});
+
+      return true;
+    } on FirebaseException catch (e) {
+      Future.error("Couldn't change user's profile image");
+    }
   }
 }

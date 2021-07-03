@@ -25,16 +25,18 @@ class AssociationCard extends StatelessWidget {
                 right: Radius.elliptical(10, 15))),
         child: Stack(
           children: [
-            Image.network(
-              association.banner,
-              width: double.infinity,
-              height: double.infinity,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null)
-                  return child;
-                else
-                  return Center(child: CircularProgressIndicator());
-              },
+            Positioned.fill(
+              child: Image.network(
+                association.banner,
+                width: double.infinity,
+                height: double.infinity,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null)
+                    return child;
+                  else
+                    return Center(child: CircularProgressIndicator());
+                },
+              ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

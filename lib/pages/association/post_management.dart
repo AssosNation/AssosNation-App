@@ -24,9 +24,10 @@ class PostManagement extends StatelessWidget {
                   final List<Post> docs =
                       Converters.convertDocSnapshotsToListPost(
                           snapshot.data!.docs);
-                  print(docs);
                   return ListView.builder(
                     itemCount: docs.length,
+                    shrinkWrap: true,
+                    cacheExtent: 4,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),

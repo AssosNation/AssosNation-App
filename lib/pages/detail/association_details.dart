@@ -101,8 +101,8 @@ class AssociationDetails extends StatelessWidget {
                                   },
                                   icon: Icon(
                                       _association.didUserSubscribed(_user!.uid)
-                                          ? Icons.remove_circle
-                                          : Icons.add_circle),
+                                          ? Icons.favorite_sharp
+                                          : Icons.favorite_border_sharp),
                                 ),
                               ],
                             ),
