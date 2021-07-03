@@ -131,7 +131,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                 NewsFeedLikeComponent(
                     this.widget._post.usersWhoLiked.length,
                     this.widget._post.didUserLikeThePost(this.widget._userId),
-                    this.widget._post.id,
+                    this.widget._post,
                     this.widget._userId)
               ],
             ),

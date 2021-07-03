@@ -51,31 +51,44 @@ class _AsociationActionCardState extends State<AssociationActionCard> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    OutlinedButton.icon(
-                      icon: Icon(Icons.edit),
-                      onPressed: () => showDialog(
-                        context: context,
-                        builder: (context) => EditActionDialog(widget._action),
-                      ),
-                      label: Text(AppLocalizations.of(context)!.edit_button),
-                    ),
-                    OutlinedButton.icon(
-                      icon: Icon(
-                        Icons.delete_forever_outlined,
-                        color: Colors.red,
-                      ),
-                      onPressed: () => showModalBottomSheet(
-                        context: context,
-                        builder: (context) => DeleteObjectConfirmationDialog(
-                            AppLocalizations.of(context)!.delete_alert_action,
-                            null,
-                            this.widget._action),
-                      ),
-                      label: Text(
-                        AppLocalizations.of(context)!.delete_button,
-                        style: TextStyle(color: Colors.red),
+                    Icon(Icons.people),
+                    Text(widget._action.usersRegistered.toString()),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          OutlinedButton.icon(
+                            icon: Icon(Icons.edit),
+                            onPressed: () => showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  EditActionDialog(widget._action),
+                            ),
+                            label:
+                                Text(AppLocalizations.of(context)!.edit_button),
+                          ),
+                          OutlinedButton.icon(
+                            icon: Icon(
+                              Icons.delete_forever_outlined,
+                              color: Colors.red,
+                            ),
+                            onPressed: () => showModalBottomSheet(
+                              context: context,
+                              builder: (context) =>
+                                  DeleteObjectConfirmationDialog(
+                                      AppLocalizations.of(context)!
+                                          .delete_alert_action,
+                                      null,
+                                      this.widget._action),
+                            ),
+                            label: Text(
+                              AppLocalizations.of(context)!.delete_button,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
