@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:assosnation_app/components/no_image_placeholder.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -89,11 +90,13 @@ class _EditAssociationImgDialogState extends State<EditAssociationImgDialog> {
               children: [
                 OutlinedButton(
                     onPressed: () => Navigator.pop(context),
-                    child: Text("Cancel", style: TextStyle(color: Colors.red))),
+                    child: Text(
+                        AppLocalizations.of(context)!.cancel_button_label,
+                        style: TextStyle(color: Colors.red))),
                 OutlinedButton(
                     onPressed: _verifyAndValidateForm,
                     child: Text(
-                      "Update",
+                      AppLocalizations.of(context)!.confirm_button_label,
                       style: TextStyle(color: Theme.of(context).accentColor),
                     )),
               ],
