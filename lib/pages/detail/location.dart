@@ -27,13 +27,6 @@ class _LocationState extends State<Location> {
     super.initState();
   }
 
-  final Set<Marker> markers2 = {
-    Marker(
-        markerId: MarkerId("toto"),
-        position: LatLng(48.811269, 2.350707),
-        infoWindow: InfoWindow(title: "Passerelle")),
-  };
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -75,30 +68,3 @@ class _LocationState extends State<Location> {
         });
   }
 }
-
-/*
-FutureBuilder(
-                future: LocationService().generateMarkersList(widget.assosList),
-                builder: (context, AsyncSnapshot<Set<Marker>> snapshot2) {
-                  if (snapshot.hasData && snapshot2.hasData) {
-                    if (snapshot2.connectionState == ConnectionState.done) {
-                      GoogleMap(
-                        initialCameraPosition: LocationService().defaultPos,
-                        markers: snapshot2.data!,
-                        myLocationEnabled: true,
-                        myLocationButtonEnabled: true,
-                        compassEnabled: true,
-                        onMapCreated: (controller) async {
-                          _controller.complete(controller);
-                          controller.animateCamera(
-                              CameraUpdate.newCameraPosition(snapshot.data));
-                        },
-                        buildingsEnabled: false,
-                      );
-                    } else
-                      return CircularProgressIndicator();
-                  }
-                  return Container();
-                },
-              )
- */

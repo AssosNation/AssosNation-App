@@ -40,12 +40,16 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
           Navigator.pop(context);
           setState(() {
             Utils.displaySnackBarWithMessage(
-                context, "Your post has been updated", Colors.green);
+                context, AppLocalizations.of(context)!.post_updated, Colors.green);
+            _title = "";
+            _content = "";
+            Utils.displaySnackBarWithMessage(context,
+                AppLocalizations.of(context)!.post_updated, Colors.green);
           });
         } else {
           Navigator.pop(context);
           Utils.displaySnackBarWithMessage(context,
-              "Something wrong happened, please try again", Colors.red);
+              AppLocalizations.of(context)!.error_no_infos, Colors.red);
         }
       }
     }
@@ -76,7 +80,7 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  FormMainTitle("Creating a post"),
+                  FormMainTitle(AppLocalizations.of(context)!.post_creating),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -93,7 +97,8 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                               _title = title;
                               return null;
                             } else
-                              return "This field cannot be empty nor the same value as before";
+                              return AppLocalizations.of(context)!
+                                  .error_empty_field;
                           },
                           maxLines: 1,
                           style: TextStyle(color: Colors.black),
@@ -145,7 +150,8 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
                               _content = content;
                               return null;
                             } else
-                              return "This field cannot be empty nor the same value as before";
+                              return AppLocalizations.of(context)!
+                                  .error_empty_field;
                           },
                           maxLines: 3,
                           style: TextStyle(color: Colors.black),

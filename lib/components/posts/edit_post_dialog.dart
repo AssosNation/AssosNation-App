@@ -7,6 +7,7 @@ import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/utils/utils.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -39,11 +40,11 @@ class _EditPostDialogState extends State<EditPostDialog> {
         if (res == true) {
           Navigator.pop(context);
           Utils.displaySnackBarWithMessage(
-              context, "Your post has been updated", Colors.green);
+              context, AppLocalizations.of(context)!.post_updated, Colors.green);
         } else {
           Navigator.pop(context);
           Utils.displaySnackBarWithMessage(context,
-              "Something wrong happened, please try again", Colors.red);
+              AppLocalizations.of(context)!.error_no_infos, Colors.red);
         }
       }
     }
@@ -83,11 +84,11 @@ class _EditPostDialogState extends State<EditPostDialog> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                PostMainTitle("Editing post"),
+                PostMainTitle(AppLocalizations.of(context)!.editing_post),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    PostMainSubtitle("Title : "),
+                    PostMainSubtitle(AppLocalizations.of(context)!.title_label),
                     Expanded(
                       child: TextFormField(
                         maxLength: 30,
@@ -98,7 +99,8 @@ class _EditPostDialogState extends State<EditPostDialog> {
                             _title = title;
                             return null;
                           } else
-                            return "This field cannot be empty nor the same value as before";
+                            return AppLocalizations.of(context)!
+                                .error_empty_field;
                         },
                         maxLines: 1,
                         style: TextStyle(color: Colors.black),
@@ -137,7 +139,8 @@ class _EditPostDialogState extends State<EditPostDialog> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    PostMainSubtitle("Content : "),
+                    PostMainSubtitle(
+                        AppLocalizations.of(context)!.content_label),
                     Expanded(
                       child: TextFormField(
                         maxLength: 150,
@@ -149,7 +152,8 @@ class _EditPostDialogState extends State<EditPostDialog> {
                             _content = content;
                             return null;
                           } else
-                            return "This field cannot be empty nor the same value as before";
+                            return AppLocalizations.of(context)!
+                                .error_empty_field;
                         },
                         maxLines: 2,
                         style: TextStyle(color: Colors.black),
@@ -162,12 +166,13 @@ class _EditPostDialogState extends State<EditPostDialog> {
                   children: [
                     OutlinedButton(
                         onPressed: () => Navigator.pop(context),
-                        child: Text("Cancel",
+                        child: Text(
+                            AppLocalizations.of(context)!.cancel_button_label,
                             style: TextStyle(color: Colors.red))),
                     OutlinedButton(
                         onPressed: _verifyAndValidateForm,
                         child: Text(
-                          "Confirm",
+                          AppLocalizations.of(context)!.confirm_button_label,
                           style:
                               TextStyle(color: Theme.of(context).accentColor),
                         )),

@@ -54,7 +54,7 @@ class _SignInFormState extends State<SignInForm> {
                       Constants.fullLogoPath,
                     ),
                   ),
-                  FormMainTitle("Login"),
+                  FormMainTitle(AppLocalizations.of(context)!.signin_label),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: Column(
@@ -71,9 +71,11 @@ class _SignInFormState extends State<SignInForm> {
                                 _mail = email;
                                 return null;
                               } else if (email.isEmpty)
-                                return "This field cannot be empty";
+                                return AppLocalizations.of(context)!
+                                    .error_empty_field;
                               else
-                                return "This email address is not valid";
+                                return AppLocalizations.of(context)!
+                                    .mail_not_valid;
                             }),
                         TextFormField(
                           decoration: InputDecoration(
@@ -82,7 +84,8 @@ class _SignInFormState extends State<SignInForm> {
                           obscureText: true,
                           validator: (pwd) {
                             if (pwd == null || pwd == "")
-                              return "Not a valid password";
+                              return AppLocalizations.of(context)!
+                                  .password_not_valid;
                             _pwd = pwd;
                             return null;
                           },

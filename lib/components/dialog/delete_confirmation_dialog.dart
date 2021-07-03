@@ -1,6 +1,7 @@
 import 'package:assosnation_app/services/firebase/firestore/association_actions_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/material.dart';
 
 class DeleteObjectConfirmationDialog extends StatelessWidget {
@@ -36,7 +37,7 @@ class DeleteObjectConfirmationDialog extends StatelessWidget {
               OutlinedButton(
                   onPressed: () => Navigator.pop(context),
                   child: Text(
-                    "Cancel",
+                    AppLocalizations.of(context)!.cancel_button_label,
                     style: TextStyle(color: Colors.teal),
                   )),
               OutlinedButton(
@@ -49,7 +50,8 @@ class DeleteObjectConfirmationDialog extends StatelessWidget {
                     }
                     Navigator.pop(context);
                   },
-                  child: Text("Delete", style: TextStyle(color: Colors.red))),
+                  child: Text(AppLocalizations.of(context)!.delete_button,
+                      style: TextStyle(color: Colors.red))),
             ],
           )
         ],

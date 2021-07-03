@@ -1,6 +1,7 @@
 import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +53,8 @@ class _NewsFeedState extends State<NewsFeed> {
                     if (snapshot.hasError) {
                       print(snapshot.error);
                       return Container(
-                        child: Text("Something wrong happened"),
+                        child:
+                            Text(AppLocalizations.of(context)!.error_no_infos),
                       );
                     }
                     return Container();

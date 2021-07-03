@@ -1,6 +1,7 @@
 import 'package:assosnation_app/components/posts/post_main_subtitle.dart';
 import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,12 +43,12 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
         }
         if (res == true) {
           Navigator.pop(context);
-          Utils.displaySnackBarWithMessage(
-              context, "Infos has been updated ! ", Colors.green);
+          Utils.displaySnackBarWithMessage(context,
+              AppLocalizations.of(context)!.infos_updated, Colors.green);
         } else {
           Navigator.pop(context);
           Utils.displaySnackBarWithMessage(context,
-              "Something wrong happened, please try again", Colors.red);
+              AppLocalizations.of(context)!.error_no_infos, Colors.red);
         }
       }
     }
@@ -101,7 +102,7 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  PostMainSubtitle("Content : "),
+                  PostMainSubtitle(AppLocalizations.of(context)!.content_label),
                   Expanded(
                     child: TextFormField(
                       maxLength: _selectMaxCharacters(),
@@ -113,7 +114,8 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
                           _content = content;
                           return null;
                         } else
-                          return "This field cannot be empty nor the same value as before";
+                          return AppLocalizations.of(context)!
+                              .error_empty_field;
                       },
                       maxLines: _selectMaxLines(),
                       style: TextStyle(color: Colors.black),
@@ -126,12 +128,13 @@ class _EditAssoDetailsState extends State<EditAssoDialog> {
                 children: [
                   OutlinedButton(
                       onPressed: () => Navigator.pop(context),
-                      child:
-                          Text("Cancel", style: TextStyle(color: Colors.red))),
+                      child: Text(
+                          AppLocalizations.of(context)!.cancel_button_label,
+                          style: TextStyle(color: Colors.red))),
                   OutlinedButton(
                       onPressed: _verifyAndValidateForm,
                       child: Text(
-                        "Confirm",
+                        AppLocalizations.of(context)!.confirm_button_label,
                         style: TextStyle(color: Colors.teal),
                       )),
                 ],
