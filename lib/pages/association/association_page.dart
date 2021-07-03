@@ -81,8 +81,14 @@ class AssociationPage extends StatelessWidget {
                             ListTile(
                               leading: Icon(Icons.home_filled,
                                   color: Theme.of(context).accentColor),
-                              title: Text("Name"),
-                              subtitle: Text(_association.name),
+                              title: Text("Name",
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText2),
+                              subtitle: Text(
+                                _association.name,
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
                               trailing: IconButton(
                                 icon: Icon(Icons.edit, color: Colors.teal),
                                 onPressed: () => showModalBottomSheet(
@@ -95,8 +101,12 @@ class AssociationPage extends StatelessWidget {
                             ListTile(
                               leading: Icon(Icons.phone,
                                   color: Theme.of(context).accentColor),
-                              title: Text("Phone number"),
-                              subtitle: Text(_association.phone),
+                              title: Text("Phone number",
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText2),
+                              subtitle: Text(_association.phone,
+                                  style: Theme.of(context).textTheme.subtitle1),
                               trailing: IconButton(
                                 icon: Icon(Icons.edit,
                                     color: Theme.of(context).accentColor),
@@ -110,9 +120,12 @@ class AssociationPage extends StatelessWidget {
                             ListTile(
                               leading: Icon(Icons.home_filled,
                                   color: Theme.of(context).accentColor),
-                              title:
-                                  Text(AppLocalizations.of(context)!.address),
-                              subtitle: Text(_association.address),
+                              title: Text(AppLocalizations.of(context)!.address,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText2),
+                              subtitle: Text(_association.address,
+                                  style: Theme.of(context).textTheme.subtitle1),
                               trailing: IconButton(
                                 icon: Icon(Icons.edit,
                                     color: Theme.of(context).accentColor),
@@ -126,8 +139,12 @@ class AssociationPage extends StatelessWidget {
                             ListTile(
                               leading: Icon(Icons.location_city_sharp,
                                   color: Theme.of(context).accentColor),
-                              title: Text(AppLocalizations.of(context)!.city),
-                              subtitle: Text(_association.city),
+                              title: Text(AppLocalizations.of(context)!.city,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText2),
+                              subtitle: Text(_association.city,
+                                  style: Theme.of(context).textTheme.subtitle1),
                               trailing: IconButton(
                                 icon: Icon(Icons.edit,
                                     color: Theme.of(context).accentColor),
@@ -141,8 +158,12 @@ class AssociationPage extends StatelessWidget {
                             ListTile(
                               leading: Icon(Icons.mail_outline_sharp,
                                   color: Theme.of(context).accentColor),
-                              title: Text(AppLocalizations.of(context)!.mail),
-                              subtitle: Text(_association.mail),
+                              title: Text(AppLocalizations.of(context)!.mail,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText2),
+                              subtitle: Text(_association.mail,
+                                  style: Theme.of(context).textTheme.subtitle1),
                               trailing: IconButton(
                                 icon: Icon(Icons.info_outline,
                                     color: Colors.grey),
@@ -155,9 +176,13 @@ class AssociationPage extends StatelessWidget {
                             ListTile(
                               leading: Icon(Icons.person_outline_sharp,
                                   color: Theme.of(context).accentColor),
-                              title:
-                                  Text(AppLocalizations.of(context)!.president),
-                              subtitle: Text(_association.president),
+                              title: Text(
+                                  AppLocalizations.of(context)!.president,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText2),
+                              subtitle: Text(_association.president,
+                                  style: Theme.of(context).textTheme.subtitle1),
                               trailing: IconButton(
                                 icon: Icon(Icons.info_outline,
                                     color: Colors.grey),
@@ -181,25 +206,3 @@ class AssociationPage extends StatelessWidget {
     );
   }
 }
-
-/*
-Container(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: AnTitle(AppLocalizations.of(context)!
-                            .my_association_infos)),
-                    Divider(
-                      thickness: 3,
-                      indent: 15,
-                      endIndent: 15,
-                      color: Colors.teal,
-                      height: 30,
-                    ),
- */
-
-/*
-
- */
-
-/*
-
- */
