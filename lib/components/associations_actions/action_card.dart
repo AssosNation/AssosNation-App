@@ -41,7 +41,10 @@ class ActionCard extends StatelessWidget {
                               ),
                               imageUrl: action.association.banner,
                             ),
-                            Text(this.action.association.name),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                              child: Text(this.action.association.name),
+                            ),
                           ],
                         ),
                       ),

@@ -29,6 +29,7 @@ class MessagingPage extends StatelessWidget {
                         snapshot.data!.docs);
                 return ListView.builder(
                   itemCount: convs.length,
+                  clipBehavior: Clip.antiAlias,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -44,7 +45,7 @@ class MessagingPage extends StatelessWidget {
                           },
                           trailing: convs[index].messages.length > 0
                               ? Text(
-                              "${convs[index].getDiffTimeBetweenNowAndLastMessage()}")
+                                  "${convs[index].getDiffTimeBetweenNowAndLastMessage()}")
                               : Text(""),
                           title: Text(convs[index].names[1]),
                           subtitle: Row(

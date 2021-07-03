@@ -29,7 +29,6 @@ class UserConvPage extends StatelessWidget {
           Column(
             children: [
               Expanded(
-                flex: 10,
                 child: StreamBuilder(
                   stream: MessagingService()
                       .watchConversationById(conversation.uid),
@@ -40,27 +39,33 @@ class UserConvPage extends StatelessWidget {
                         final convInfos = Converters.convertDocSnapshotsToConv(
                             snapshots.data!);
                         conversation.messages = convInfos.messages;
-                        return ListView.builder(
-                          itemCount: conversation.messages.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              child: conversation
-                                          .messages[index]["sender"].id ==
-                                      _user!.uid
-                                  ? MessageCard(
-                                      "${_user.firstName} ${_user.lastName}",
-                                      conversation.messages[index]["content"],
-                                      conversation.messages[index]["timestamp"],
-                                      true)
-                                  : MessageCard(
-                                      conversation.names.firstWhere((name) =>
-                                          name !=
-                                          "${_user.firstName} ${_user.lastName}"),
-                                      conversation.messages[index]["content"],
-                                      conversation.messages[index]["timestamp"],
-                                      false),
-                            );
-                          },
+                        return Container(
+                          margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.height * 0.1),
+                          child: ListView.builder(
+                            itemCount: conversation.messages.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                child: conversation
+                                            .messages[index]["sender"].id ==
+                                        _user!.uid
+                                    ? MessageCard(
+                                        "${_user.firstName} ${_user.lastName}",
+                                        conversation.messages[index]["content"],
+                                        conversation.messages[index]
+                                            ["timestamp"],
+                                        true)
+                                    : MessageCard(
+                                        conversation.names.firstWhere((name) =>
+                                            name !=
+                                            "${_user.firstName} ${_user.lastName}"),
+                                        conversation.messages[index]["content"],
+                                        conversation.messages[index]
+                                            ["timestamp"],
+                                        false),
+                              );
+                            },
+                          ),
                         );
                       } else if (snapshots.connectionState ==
                           ConnectionState.waiting) {

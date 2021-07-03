@@ -27,6 +27,7 @@ class _SendMessageFormState extends State<SendMessageForm> {
         final res = await MessagingService().sendMessageToConversation(
             widget.convId, widget.sender, _msgToSend);
         _textFieldController.clear();
+        FocusScope.of(context).unfocus();
         if (!res)
           Utils.displaySnackBarWithMessage(
               context,

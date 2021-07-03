@@ -56,7 +56,7 @@ class _NewsFeedState extends State<NewsFeed> {
                       print(snapshot.error);
                       return Container(
                         child:
-                        Text(AppLocalizations.of(context)!.error_no_infos),
+                            Text(AppLocalizations.of(context)!.error_no_infos),
                       );
                     }
                     return Container();
