@@ -99,9 +99,9 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           centerTitle: true,
           title: Image.asset(
-            "assets/icon/logo_an_full_hori.png",
+            Constants.fullHorizontalLogoPath,
             fit: BoxFit.cover,
-            scale: 3.5,
+            scale: Constants.appBarLogoScale,
           ),
           actions: [
             StreamBuilder<List<Association>>(

@@ -1,5 +1,6 @@
 import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
+import 'package:assosnation_app/utils/constants.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -50,8 +51,7 @@ class _SignInFormState extends State<SignInForm> {
                   Container(
                     padding: EdgeInsets.all(15),
                     child: Image.asset(
-                      "assets/icon/logo_an.png",
-                      height: 120,
+                      Constants.fullLogoPath,
                     ),
                   ),
                   FormMainTitle("Login"),

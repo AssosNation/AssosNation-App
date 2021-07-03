@@ -5,6 +5,7 @@ import 'package:assosnation_app/pages/association/association_page.dart';
 import 'package:assosnation_app/pages/association/post_management.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/utils/constants.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:provider/provider.dart';
 
@@ -68,9 +69,9 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
       appBar: AppBar(
         centerTitle: true,
         title: Image.asset(
-          "assets/icon/logo_an_full_hori.png",
+          Constants.fullHorizontalLogoPath,
           fit: BoxFit.cover,
-          scale: 3.5,
+          scale: Constants.appBarLogoScale,
         ),
         actions: [
           IconButton(
