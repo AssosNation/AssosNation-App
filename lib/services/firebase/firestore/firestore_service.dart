@@ -1,4 +1,3 @@
-import 'package:assosnation_app/services/firebase/firestore/gamification_service.dart';
 import 'package:assosnation_app/services/interfaces/database_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
@@ -10,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FireStoreService extends DatabaseInterface {
   final FirebaseFirestore _service = FirebaseFirestore.instance;
 
+  @override
   Future<List<dynamic>> getAllPostsByAssociationList(
       List? associationList) async {
     if (associationList == null) {
@@ -45,7 +45,9 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
-  getAssociationListName(associationList) async {
+  @override
+  Future<Map<DocumentReference, String>> getAssociationListName(
+      associationList) async {
     Map<DocumentReference, String> associationNameList = {};
     for (DocumentReference association in associationList) {
       DocumentSnapshot assosRef = await association.get();
@@ -56,55 +58,12 @@ class FireStoreService extends DatabaseInterface {
   }
 
   @override
-  Future getAllUsers() {
-    // TODO: implement getAllUsers
-    throw UnimplementedError();
-  }
-
-  @override
-  Future addUserToDB(user) async {
-    CollectionReference users = _service.collection("users");
-    try {
-      user as AnUser;
-
-      await users.doc(user.uid).set({
-        'firstName': user.firstName,
-        'lastName': user.lastName,
-        'mail': user.mail,
-        'subscriptions': user.subscriptions,
-        'gamificationRef': user.gamificationRef
-      });
-
-      return true;
-    } on FirebaseException catch (e) {
-      Future.error("Error while adding user to database");
-    }
-  }
-
-  @override
-  Future<AnUser> getUserInfosFromDB(uid) async {
-    CollectionReference _users = _service.collection("users");
-    try {
-      DocumentSnapshot snapshot = await _users.doc(uid).get();
-      final _user = AnUser.withData(
-          uid,
-          snapshot.get('mail'),
-          snapshot.get('firstName'),
-          snapshot.get('lastName'),
-          snapshot.get("subscriptions"),
-          snapshot.get("gamificationRef"));
-      return _user;
-    } on FirebaseException catch (e) {
-      print(e.message);
-      return Future.error("Error while retrieving all user data");
-    }
-  }
-
   Future<Association> getAssociationInfosFromDBWithReference(
       DocumentReference association) async {
     return this.getAssociationInfosFromDB(association.id);
   }
 
+  @override
   Future<Association> getAssociationInfosFromDB(String assosId) async {
     CollectionReference associations = _service.collection("associations");
     try {
@@ -130,12 +89,6 @@ class FireStoreService extends DatabaseInterface {
       print(e.message);
       return Future.error("Error while retrieving association data");
     }
-  }
-
-  @override
-  Future removeUserFromDB(uid) {
-    // TODO: implement removeUserFromDB
-    throw UnimplementedError();
   }
 
   @override
@@ -194,6 +147,7 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
+  @override
   Future<List<AssociationAction>> getActionByAssociationReference(
       DocumentReference reference, _userId) async {
     Association association =
@@ -201,6 +155,7 @@ class FireStoreService extends DatabaseInterface {
     return this.getActionsByAssociation(association, _userId);
   }
 
+  @override
   Future<List<AssociationAction>> getAllActions(_userId) async {
     try {
       List<Association> associationList = await this.getAllAssociations();
@@ -218,6 +173,7 @@ class FireStoreService extends DatabaseInterface {
     }
   }
 
+  @override
   List<AssociationAction> getActionsByAssociation(
       Association association, _userId) {
     List<AssociationAction> actionList = [];
@@ -244,6 +200,7 @@ class FireStoreService extends DatabaseInterface {
     return actionList;
   }
 
+  @override
   Future<List<AssociationAction>> getUserAssociationsByDate(_userId) async {
     DocumentReference user = _service.collection("users").doc(_userId);
     try {
@@ -261,18 +218,6 @@ class FireStoreService extends DatabaseInterface {
     } on FirebaseException catch (e) {
       print(e.message);
       return Future.error("Error while retrieving all actions of user");
-    }
-  }
-
-  //TODO: Watch out, never tested
-  addActionToUser(AssociationAction action, User user) async {
-    DocumentReference documentUser = _service.collection("users").doc(user.uid);
-    List<String> reference = ["/actions/${action.id}"];
-    try {
-      await documentUser.update({"actions": FieldValue.arrayUnion(reference)});
-    } on FirebaseException catch (e) {
-      print(e.message);
-      return Future.error("Error while adding action to user");
     }
   }
 
@@ -305,58 +250,6 @@ class FireStoreService extends DatabaseInterface {
     } on FirebaseException catch (e) {
       print(e.message);
       return Future.error("Error while retrieving all associations");
-    }
-  }
-
-  addUserToAction(AssociationAction action, _userId) async {
-    Association association = action.association;
-    association.actions![action.id]['usersRegistered'].add(_userId);
-    _service
-        .collection('associations')
-        .doc(association.uid)
-        .update({"actions": association.actions});
-    final userInfo = await _service.collection("users").doc(_userId).get();
-    await GamificationService()
-        .increaseEventRegistrationByOne(userInfo.get("gamificationRef").id);
-  }
-
-  removeUserToAction(AssociationAction action, _userId) async {
-    Association association = action.association;
-    association.actions![action.id]['usersRegistered']
-        .removeWhere((userId) => userId == _userId);
-    _service
-        .collection('associations')
-        .doc(association.uid)
-        .update({"actions": association.actions});
-    final userInfo = await _service.collection("users").doc(_userId).get();
-    await GamificationService()
-        .decreaseEventRegistrationByOne(userInfo.get("gamificationRef").id);
-  }
-
-  Future addUsersToLikedList(String postId, AnUser user) async {
-    await _service.collection('posts').doc(postId).update({
-      'usersWhoLiked': FieldValue.arrayUnion([user.uid])
-    });
-    await GamificationService()
-        .increaseLikeNumberByOne(user.gamificationRef.id);
-  }
-
-  Future removeUserToLikedList(String postId, AnUser user) async {
-    _service.collection('posts').doc(postId).update({
-      'usersWhoLiked': FieldValue.arrayRemove([user.uid])
-    });
-    await GamificationService()
-        .decreaseLikeNumberByOne(user.gamificationRef.id);
-  }
-
-  @override
-  Future<bool> checkIfUserIsAssos(String uid) async {
-    DocumentReference assosRef = _service.collection("associations").doc(uid);
-    try {
-      final assos = await assosRef.get();
-      return assos.exists;
-    } on FirebaseException catch (e) {
-      return Future.error("Error while retrieving an association");
     }
   }
 
