@@ -39,8 +39,6 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
         if (postRef is DocumentReference) {
           Navigator.pop(context);
           setState(() {
-            Utils.displaySnackBarWithMessage(
-                context, AppLocalizations.of(context)!.post_updated, Colors.green);
             _title = "";
             _content = "";
             Utils.displaySnackBarWithMessage(context,

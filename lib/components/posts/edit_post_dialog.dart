@@ -6,8 +6,8 @@ import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/post.dart';
-import 'package:assosnation_app/utils/utils.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
+import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -39,8 +39,8 @@ class _EditPostDialogState extends State<EditPostDialog> {
               .uploadPostImageToStorage(_updatedImage!, widget._post.id);
         if (res == true) {
           Navigator.pop(context);
-          Utils.displaySnackBarWithMessage(
-              context, AppLocalizations.of(context)!.post_updated, Colors.green);
+          Utils.displaySnackBarWithMessage(context,
+              AppLocalizations.of(context)!.post_updated, Colors.green);
         } else {
           Navigator.pop(context);
           Utils.displaySnackBarWithMessage(context,
