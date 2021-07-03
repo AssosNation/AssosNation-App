@@ -8,7 +8,6 @@ import 'package:assosnation_app/services/firebase/firestore/firestore_service.da
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/association_search.dart';
-import 'package:assosnation_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -74,17 +73,10 @@ class _UserScaffoldState extends State<UserScaffold> {
       bottomNavigationBar: _user != null ? _userNavBar() : null,
       appBar: AppBar(
         centerTitle: true,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/icon/logo_an_v2.png",
-              height: 40,
-            ),
-            Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(Constants.appName)),
-          ],
+        title: Image.asset(
+          "assets/icon/logo_an_full_hori.png",
+          fit: BoxFit.cover,
+          scale: 3.5,
         ),
         actions: [
           StreamBuilder<List<Association>>(

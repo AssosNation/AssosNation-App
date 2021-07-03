@@ -5,7 +5,6 @@ import 'package:assosnation_app/pages/association/association_page.dart';
 import 'package:assosnation_app/pages/association/post_management.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
-import 'package:assosnation_app/utils/constants.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:provider/provider.dart';
 
@@ -68,17 +67,10 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
           : Container(),
       appBar: AppBar(
         centerTitle: true,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/icon/logo_an.png",
-              height: 40,
-            ),
-            Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(Constants.appName)),
-          ],
+        title: Image.asset(
+          "assets/icon/logo_an_full_hori.png",
+          fit: BoxFit.cover,
+          scale: 3.5,
         ),
         actions: [
           IconButton(
@@ -92,3 +84,17 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
     );
   }
 }
+/*
+Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/icon/logo_an.png",
+              height: 40,
+            ),
+            Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(Constants.appName)),
+          ],
+        )
+ */
