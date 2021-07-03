@@ -109,5 +109,6 @@
   "no_image_selected": "No image selected",
   "mail_not_valid": "This email address is not valid",
   "password_not_valid": "This password is not valid",
-  "association_no_actions": "{assosName} did not publish any action yet"
+  "association_no_actions": "{assosName} did not publish any action yet",
+  "association_name_label": "Your association's name"
 }

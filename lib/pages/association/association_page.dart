@@ -81,7 +81,9 @@ class AssociationPage extends StatelessWidget {
                             ListTile(
                               leading: Icon(Icons.home_filled,
                                   color: Theme.of(context).accentColor),
-                              title: Text("Name",
+                              title: Text(
+                                  AppLocalizations.of(context)!
+                                      .association_name_label,
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .bodyText2),
@@ -101,7 +103,7 @@ class AssociationPage extends StatelessWidget {
                             ListTile(
                               leading: Icon(Icons.phone,
                                   color: Theme.of(context).accentColor),
-                              title: Text("Phone number",
+                              title: Text(AppLocalizations.of(context)!.phone,
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .bodyText2),

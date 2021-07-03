@@ -109,5 +109,6 @@
   "no_image_selected": "Pas d'image selectionée",
   "mail_not_valid": "Cette adresse mail n'est pas valide",
   "password_not_valid": "Ce mot de passe n'est pas valide",
-  "association_no_actions": "{assosName} n'a pas encore organisé d'actions"
+  "association_no_actions": "{assosName} n'a pas encore organisé d'actions",
+  "association_name_label": "Nom de votre association"
 }
