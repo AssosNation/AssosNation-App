@@ -51,6 +51,8 @@
   "search_placeholder": "Recherchez une association",
   "error_no_infos": "Une erreur est survenue...",
   "no_messages_yet": "Aucun messages",
+  "enter_first_name": "Entrez votre prénom",
+  "enter_last_name": "Entrez votre nom de famille",
   "email_input_placeholder": "Inserez votre adresse mail",
   "pwd_input_placeholder": "Inserez votre mot de passe",
   "pwd_input_confirm_placeholder": "Confirmez votre mot de passe",
@@ -113,5 +115,6 @@
   "association_name_label": "Nom de votre association",
   "post_management_main_title": "Gestion des Posts",
   "events_management_main_title": "Gestion des évènements",
-  "association_messaging_main_title": "Messagerie"
+  "association_messaging_main_title": "Messagerie",
+  "label_no": "No"
 }

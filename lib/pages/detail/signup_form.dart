@@ -28,10 +28,14 @@ class _SignUpFormState extends State<SignUpForm> {
             _mail, _pwd, _firstName, _lastName);
         if (res == null) {
           Utils.displaySnackBarWithMessage(
-              context, "Failed to connect, try again", Colors.green);
+              context,
+              AppLocalizations.of(context)!.failed_to_connect_snackbar,
+              Colors.green);
         } else {
           Utils.displaySnackBarWithMessage(
-              context, "Succesfully connected ! Welcome", Colors.deepOrange);
+              context,
+              AppLocalizations.of(context)!.succeed_to_connect_snackbar,
+              Colors.deepOrange);
         }
       }
     }
@@ -60,7 +64,8 @@ class _SignUpFormState extends State<SignUpForm> {
                               AppLocalizations.of(context)!.global_infos_label),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Enter your First Name"),
+                                labelText: AppLocalizations.of(context)!
+                                    .enter_first_name),
                             keyboardType: TextInputType.name,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -69,12 +74,14 @@ class _SignUpFormState extends State<SignUpForm> {
                                 _firstName = firstName;
                                 return null;
                               } else
-                                return "Please enter your first name";
+                                return AppLocalizations.of(context)!
+                                    .enter_first_name;
                             },
                           ),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Enter your Last Name"),
+                                labelText: AppLocalizations.of(context)!
+                                    .enter_last_name),
                             keyboardType: TextInputType.name,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -83,7 +90,8 @@ class _SignUpFormState extends State<SignUpForm> {
                                 _lastName = lastName;
                                 return null;
                               } else
-                                return "Please enter your first name";
+                                return AppLocalizations.of(context)!
+                                    .enter_last_name;
                             },
                           ),
                         ],

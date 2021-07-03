@@ -51,6 +51,8 @@
   "search_placeholder": "Search for an association",
   "error_no_infos": "Something wrong happened..",
   "no_messages_yet": "There are no messages yet",
+  "enter_first_name": "Enter your first name",
+  "enter_last_name": "Enter your last name",
   "email_input_placeholder": "Enter your email address",
   "pwd_input_placeholder": "Enter your password",
   "pwd_input_confirm_placeholder": "Confirm your password",
@@ -113,5 +115,6 @@
   "association_name_label": "Your association's name",
   "post_management_main_title": "Posts Management",
   "events_management_main_title": "Events Management",
-  "association_messaging_main_title": "Messaging"
+  "association_messaging_main_title": "Messaging",
+  "label_no": "Pas de"
 }
