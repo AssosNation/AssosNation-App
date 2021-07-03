@@ -54,15 +54,20 @@ class AssociationSearch extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final associationReduced = associations.getRange(0, 4);
+    late final Iterable<Association> associationReduced;
+    if (associations.length < 3)
+      associationReduced = associations.getRange(0, 4);
+    else
+      associationReduced = associations;
 
-    return ListView(
-        children: associationReduced
-            .map((a) => ListTile(
-                  leading: Icon(Icons.arrow_forward_ios),
-                  title: Text(a.name),
-                  onTap: () => close(context, a),
-                ))
-            .toList());
+    final List<Widget> assosAsWidgetList = associationReduced
+        .map((a) => ListTile(
+              leading: Icon(Icons.arrow_forward_ios),
+              title: Text(a.name),
+              onTap: () => close(context, a),
+            ))
+        .toList();
+
+    return ListView(children: assosAsWidgetList);
   }
 }
