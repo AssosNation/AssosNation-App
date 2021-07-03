@@ -52,6 +52,7 @@ class _SignInFormState extends State<SignInForm> {
                     padding: EdgeInsets.all(15),
                     child: Image.asset(
                       Constants.fullLogoPath,
+                      scale: 3.5,
                     ),
                   ),
                   FormMainTitle(AppLocalizations.of(context)!.signin_label),
