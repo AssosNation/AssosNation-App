@@ -1,3 +1,4 @@
+import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
@@ -19,6 +20,7 @@ class _NewsFeedState extends State<NewsFeed> {
     return Container(
       child: Column(
         children: [
+          AnTitle("${AppLocalizations.of(context)!.user_tab_newsfeed}"),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +56,7 @@ class _NewsFeedState extends State<NewsFeed> {
                       print(snapshot.error);
                       return Container(
                         child:
-                            Text(AppLocalizations.of(context)!.error_no_infos),
+                        Text(AppLocalizations.of(context)!.error_no_infos),
                       );
                     }
                     return Container();

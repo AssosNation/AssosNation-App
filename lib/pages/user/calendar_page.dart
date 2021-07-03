@@ -1,3 +1,4 @@
+import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/components/associations_actions/action_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
@@ -22,6 +23,7 @@ class _CalendarState extends State<Calendar> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        AnTitle("${AppLocalizations.of(context)!.user_tab_events}"),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
