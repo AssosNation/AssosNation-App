@@ -1,6 +1,7 @@
 import 'package:assosnation_app/services/firebase/firestore/user_service.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -66,7 +67,9 @@ class _NewsFeedLikeComponentState extends State<NewsFeedLikeComponent> {
             icon: Icon(widget._userLiked
                 ? Icons.thumb_up_alt_rounded
                 : Icons.thumb_up_alt_outlined),
-            label: Text(this.widget._userLiked ? "Liked !" : "Like")),
+            label: Text(this.widget._userLiked
+                ? AppLocalizations.of(context)!.post_liked
+                : AppLocalizations.of(context)!.like_post)),
       ],
     );
   }

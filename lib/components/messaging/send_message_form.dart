@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:assosnation_app/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,7 +26,9 @@ class _SendMessageFormState extends State<SendMessageForm> {
             widget.convId, widget.sender, _msgToSend);
         if (!res)
           Utils.displaySnackBarWithMessage(
-              context, "Couldn't send your message", Colors.deepOrange);
+              context,
+              AppLocalizations.of(context)!.error_sending_message,
+              Colors.deepOrange);
       }
     }
   }
@@ -53,7 +56,7 @@ class _SendMessageFormState extends State<SendMessageForm> {
                             _msgToSend = msg;
                             return null;
                           } else
-                            return "This field cannot be empty";
+                            AppLocalizations.of(context)!.error_empty_field;
                         },
                       ),
                     ))),

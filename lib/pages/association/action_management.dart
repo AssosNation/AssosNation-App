@@ -5,6 +5,7 @@ import 'package:assosnation_app/services/firebase/firestore/association_service.
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/utils/converters.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,8 +47,8 @@ class ActionManagement extends StatelessWidget {
                             if (action != null) {
                               return AssociationActionCard(action);
                             } else {
-                              return Text(
-                                  "Vous n'avez pas encore créé d'actions");
+                              return Text(AppLocalizations.of(context)!
+                                  .no_actions_available);
                             }
                           })),
                 ]),

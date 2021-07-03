@@ -2,6 +2,7 @@ import 'package:assosnation_app/components/posts/post_main_subtitle.dart';
 import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/association_actions_service.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,7 +48,8 @@ class _EditActionDialogState extends State<EditActionDialog> {
         AssociationActionsService()
             .updateAssociationAction(widget._action, newAction);
         Navigator.pop(context);
-        _displaySnackBarWithMessage("Your post has been updated", Colors.green);
+        _displaySnackBarWithMessage(
+            AppLocalizations.of(context)!.post_updated, Colors.green);
       }
     }
   }
@@ -75,11 +77,12 @@ class _EditActionDialogState extends State<EditActionDialog> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  PostMainTitle("Editing post"),
+                  PostMainTitle(AppLocalizations.of(context)!.action_edition),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      PostMainSubtitle("Title : "),
+                      PostMainSubtitle(
+                          AppLocalizations.of(context)!.title_label),
                       Expanded(
                         child: TextFormField(
                           maxLength: 30,
@@ -90,7 +93,8 @@ class _EditActionDialogState extends State<EditActionDialog> {
                               _title = title;
                               return null;
                             } else
-                              return "This field cannot be empty nor the same value as before";
+                              return AppLocalizations.of(context)!
+                                  .error_empty_field;
                           },
                           maxLines: 1,
                           style: TextStyle(color: Colors.black),
@@ -101,7 +105,7 @@ class _EditActionDialogState extends State<EditActionDialog> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PostMainSubtitle("city : "),
+                      PostMainSubtitle(AppLocalizations.of(context)!.city),
                       Expanded(
                         child: TextFormField(
                           maxLength: 30,
@@ -113,7 +117,8 @@ class _EditActionDialogState extends State<EditActionDialog> {
                               _city = city;
                               return null;
                             } else
-                              return "This field cannot be empty nor the same value as before";
+                              return AppLocalizations.of(context)!
+                                  .error_empty_field;
                           },
                           maxLines: 1,
                           style: TextStyle(color: Colors.black),
@@ -124,7 +129,8 @@ class _EditActionDialogState extends State<EditActionDialog> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PostMainSubtitle("Postal code : "),
+                      PostMainSubtitle(
+                          AppLocalizations.of(context)!.postalcode),
                       Expanded(
                         child: TextFormField(
                           maxLength: 5,
@@ -136,7 +142,8 @@ class _EditActionDialogState extends State<EditActionDialog> {
                               _postalCode = postalCode;
                               return null;
                             } else
-                              return "This field cannot be empty nor the same value as before";
+                              return AppLocalizations.of(context)!
+                                  .error_empty_field;
                           },
                           maxLines: 1,
                           style: TextStyle(color: Colors.black),
@@ -147,7 +154,7 @@ class _EditActionDialogState extends State<EditActionDialog> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PostMainSubtitle("Address : "),
+                      PostMainSubtitle(AppLocalizations.of(context)!.address),
                       Expanded(
                         child: TextFormField(
                           maxLength: 50,
@@ -159,7 +166,8 @@ class _EditActionDialogState extends State<EditActionDialog> {
                               _address = address;
                               return null;
                             } else
-                              return "This field cannot be empty nor the same value as before";
+                              return AppLocalizations.of(context)!
+                                  .error_empty_field;
                           },
                           maxLines: 1,
                           style: TextStyle(color: Colors.black),
@@ -170,7 +178,8 @@ class _EditActionDialogState extends State<EditActionDialog> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PostMainSubtitle("Description : "),
+                      PostMainSubtitle(
+                          AppLocalizations.of(context)!.description),
                       Expanded(
                         child: TextFormField(
                           maxLength: 150,
@@ -182,7 +191,8 @@ class _EditActionDialogState extends State<EditActionDialog> {
                               _description = description;
                               return null;
                             } else
-                              return "This field cannot be empty nor the same value as before";
+                              return AppLocalizations.of(context)!
+                                  .error_empty_field;
                           },
                           maxLines: 2,
                           style: TextStyle(color: Colors.black),
@@ -193,7 +203,7 @@ class _EditActionDialogState extends State<EditActionDialog> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      PostMainSubtitle("Type : "),
+                      PostMainSubtitle(AppLocalizations.of(context)!.type),
                       Expanded(
                         child: DropdownButton(
                           value: _type,
@@ -203,10 +213,9 @@ class _EditActionDialogState extends State<EditActionDialog> {
                             });
                           },
                           items: <String>[
-                            'Donation',
-                            'Action caritative',
-                            'Autre',
-                            'type'
+                            '${AppLocalizations.of(context)!.type_asso_donation}',
+                            '${AppLocalizations.of(context)!.type_asso_charity}',
+                            '${AppLocalizations.of(context)!.type_asso_other}',
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -220,7 +229,8 @@ class _EditActionDialogState extends State<EditActionDialog> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PostMainSubtitle("Start date : "),
+                      PostMainSubtitle(
+                          AppLocalizations.of(context)!.start_date),
                       Expanded(
                         child: DateTimePicker(
                           type: DateTimePickerType.dateTime,
@@ -242,7 +252,7 @@ class _EditActionDialogState extends State<EditActionDialog> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PostMainSubtitle("End date : "),
+                      PostMainSubtitle(AppLocalizations.of(context)!.end_date),
                       Expanded(
                         child: DateTimePicker(
                           type: DateTimePickerType.dateTime,
@@ -266,12 +276,13 @@ class _EditActionDialogState extends State<EditActionDialog> {
                     children: [
                       OutlinedButton(
                           onPressed: () => Navigator.pop(context),
-                          child: Text("Cancel",
+                          child: Text(
+                              AppLocalizations.of(context)!.cancel_button_label,
                               style: TextStyle(color: Colors.red))),
                       OutlinedButton(
                           onPressed: _verifyAndValidateForm,
                           child: Text(
-                            "Confirm",
+                            AppLocalizations.of(context)!.confirm_button_label,
                             style: TextStyle(color: Colors.teal),
                           )),
                     ],

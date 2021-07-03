@@ -28,7 +28,7 @@ class _CalendarState extends State<Calendar> {
             children: [
               ElevatedButton(
                   onPressed: () => setState(() => _isFirstPart = true),
-                  child: Text("Actions de mes assos")),
+                  child: Text(AppLocalizations.of(context)!.my_assos_actions)),
               ElevatedButton(
                   onPressed: () => setState(() => _isFirstPart = false),
                   child: Text(AppLocalizations.of(context)!.all_events_label)),

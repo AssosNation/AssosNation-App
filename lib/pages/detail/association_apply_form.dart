@@ -32,10 +32,10 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
             _phone, _address, _postalCode, _city, _president, _pwd);
         if (res == null) {
           _displaySnackBarWithMessage(
-              "Something wrong happened, please try again");
+              AppLocalizations.of(context)!.error_no_infos);
         } else {
           _displaySnackBarWithMessage(
-              "Your application has been sent ! You will be contacted by our team soon");
+              AppLocalizations.of(context)!.application_sended);
         }
       }
     }
@@ -81,7 +81,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                               AppLocalizations.of(context)!.global_infos_label),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Enter the association's Name"),
+                                labelText: AppLocalizations.of(context)!
+                                    .enter_association_name),
                             keyboardType: TextInputType.name,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -90,12 +91,14 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _name = name;
                                 return null;
                               } else
-                                return "Please enter the association's name";
+                                return AppLocalizations.of(context)!
+                                    .enter_association_name;
                             },
                           ),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Enter the president's name"),
+                                labelText: AppLocalizations.of(context)!
+                                    .enter_president_name),
                             keyboardType: TextInputType.name,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -104,13 +107,14 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _president = president;
                                 return null;
                               } else
-                                return "Please enter the president's name";
+                                return AppLocalizations.of(context)!
+                                    .enter_president_name;
                             },
                           ),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText:
-                                    "Enter the association's description"),
+                                labelText: AppLocalizations.of(context)!
+                                    .enter_description),
                             keyboardType: TextInputType.multiline,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -119,7 +123,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _description = description;
                                 return null;
                               } else
-                                return "Please enter the association's description";
+                                return AppLocalizations.of(context)!
+                                    .enter_description;
                             },
                           ),
                         ],
@@ -133,8 +138,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                               .connection_infos_label),
                           TextFormField(
                               decoration: InputDecoration(
-                                  labelText:
-                                      "Enter the association email address"),
+                                  labelText: AppLocalizations.of(context)!
+                                      .enter_asso_email),
                               keyboardType: TextInputType.emailAddress,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -143,14 +148,16 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                   _mail = email;
                                   return null;
                                 } else if (email.isEmpty)
-                                  return "This field cannot be empty";
+                                  return AppLocalizations.of(context)!
+                                      .error_empty_field;
                                 else
-                                  return "This email address is not valid";
+                                  return AppLocalizations.of(context)!
+                                      .mail_not_valid;
                               }),
                           TextFormField(
                               decoration: InputDecoration(
-                                  labelText:
-                                      "Enter the association phone number"),
+                                  labelText: AppLocalizations.of(context)!
+                                      .enter_asso_phone),
                               keyboardType: TextInputType.phone,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -159,7 +166,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                   _phone = phone;
                                   return null;
                                 } else
-                                  return "Please enter the association's description";
+                                  return AppLocalizations.of(context)!
+                                      .enter_description;
                               }),
                         ],
                       ),
@@ -172,7 +180,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                               AppLocalizations.of(context)!.postal_infos_label),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Enter the association's address"),
+                                labelText: AppLocalizations.of(context)!
+                                    .enter_asso_address),
                             keyboardType: TextInputType.streetAddress,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -181,12 +190,14 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _address = address;
                                 return null;
                               } else
-                                return "Please enter the address";
+                                return AppLocalizations.of(context)!
+                                    .enter_asso_address;
                             },
                           ),
                           TextFormField(
-                            decoration:
-                                InputDecoration(labelText: "Enter the city"),
+                            decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!
+                                    .enter_asso_city),
                             keyboardType: TextInputType.name,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -195,13 +206,14 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _city = city;
                                 return null;
                               } else
-                                return "Please enter the city";
+                                return AppLocalizations.of(context)!
+                                    .enter_asso_city;
                             },
                           ),
                           TextFormField(
                             decoration: InputDecoration(
-                                labelText:
-                                    "Enter the association's postal code"),
+                                labelText: AppLocalizations.of(context)!
+                                    .enter_asso_postal_code),
                             keyboardType: TextInputType.number,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -210,7 +222,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _postalCode = postalCode;
                                 return null;
                               } else
-                                return "Please enter the postal code";
+                                return AppLocalizations.of(context)!
+                                    .enter_asso_postal_code;
                             },
                           ),
                         ],
@@ -234,7 +247,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _pwd = pwd;
                                 return null;
                               } else
-                                return "Please enter a password";
+                                return AppLocalizations.of(context)!
+                                    .enter_password;
                             },
                           ),
                           TextFormField(
@@ -249,7 +263,8 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                                 _pwd2 = pwd2;
                                 return null;
                               } else
-                                return "Please match your passwords";
+                                return AppLocalizations.of(context)!
+                                    .passwords_not_matched;
                             },
                           ),
                         ],
