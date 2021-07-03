@@ -28,10 +28,14 @@ class _SignUpFormState extends State<SignUpForm> {
             _mail, _pwd, _firstName, _lastName);
         if (res == null) {
           Utils.displaySnackBarWithMessage(
-              context, "Failed to connect, try again", Colors.green);
+              context,
+              AppLocalizations.of(context)!.failed_to_connect_snackbar,
+              Colors.green);
         } else {
           Utils.displaySnackBarWithMessage(
-              context, "Succesfully connected ! Welcome", Colors.deepOrange);
+              context,
+              AppLocalizations.of(context)!.succeed_to_connect_snackbar,
+              Colors.deepOrange);
         }
       }
     }
