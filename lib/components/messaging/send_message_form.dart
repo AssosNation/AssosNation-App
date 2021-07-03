@@ -17,13 +17,16 @@ class SendMessageForm extends StatefulWidget {
 
 class _SendMessageFormState extends State<SendMessageForm> {
   final _formKey = GlobalKey<FormState>();
-  late String _msgToSend;
+  late String _msgToSend = "";
+
+  TextEditingController _textFieldController = TextEditingController();
 
   _verifyAndValidateForm() async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         final res = await MessagingService().sendMessageToConversation(
             widget.convId, widget.sender, _msgToSend);
+        _textFieldController.clear();
         if (!res)
           Utils.displaySnackBarWithMessage(
               context,
@@ -51,6 +54,7 @@ class _SendMessageFormState extends State<SendMessageForm> {
                       padding: const EdgeInsets.fromLTRB(10, 5, 5, 10),
                       child: TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: _textFieldController,
                         validator: (msg) {
                           if (msg!.isNotEmpty) {
                             _msgToSend = msg;
@@ -61,6 +65,7 @@ class _SendMessageFormState extends State<SendMessageForm> {
                       ),
                     ))),
             IconButton(
+                key: Key("SendButton"),
                 icon: Icon(
                   Icons.send_sharp,
                   color: Theme.of(context).accentColor,

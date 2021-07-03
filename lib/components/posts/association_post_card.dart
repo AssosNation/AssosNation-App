@@ -3,6 +3,7 @@ import 'package:assosnation_app/components/posts/edit_post_dialog.dart';
 import 'package:assosnation_app/components/posts/post_main_title.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,23 @@ class AssociationPostCard extends StatefulWidget {
 }
 
 class _AssociationPostCardState extends State<AssociationPostCard> {
+  Widget _displayImageIfExists() {
+    if (widget._post.photo != "")
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          child: AspectRatio(
+            aspectRatio: 4 / 3,
+            child: CachedNetworkImage(
+              imageUrl: widget._post.photo,
+              fit: BoxFit.scaleDown,
+            ),
+          ),
+        ),
+      );
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,7 +47,7 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
         child: Column(
           children: [
             PostMainTitle(
-              this.widget._post.title,
+              widget._post.title,
             ),
             Row(
               children: [
@@ -37,7 +55,7 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
                     child: Text(
-                      this.widget._post.content,
+                      widget._post.content,
                       maxLines: 7,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.justify,
@@ -46,6 +64,7 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
                 ),
               ],
             ),
+            _displayImageIfExists(),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
               child: Padding(

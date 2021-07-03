@@ -10,11 +10,6 @@ class MessageCard extends StatelessWidget {
   MessageCard(
       this.sender, this.content, this.timestamp, this.senderIsLocalUser);
 
-  _converTimestampToDateTime() {
-    final DateTime time = timestamp.toDate();
-    return "${time.hour}h${time.minute}";
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
