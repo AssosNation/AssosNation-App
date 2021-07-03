@@ -30,15 +30,10 @@ class GamificationService extends GamificationInterface {
   }
 
   @override
-  Future<Gamification> getGamificationInfos(String userId) async {
+  Future<Gamification> getGamificationInfos(String gamificationId) async {
     try {
-      DocumentReference userRef = _service.collection("users").doc(userId);
-
-      final userInfos = await userRef.get();
-
-      DocumentReference gamiRef = _service
-          .collection("gamification")
-          .doc(userInfos.get("gamificationId"));
+      DocumentReference gamiRef =
+          _service.collection("gamification").doc(gamificationId);
 
       final response = await gamiRef.get();
       Gamification gamification = Gamification.withInfos(
