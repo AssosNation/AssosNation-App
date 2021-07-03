@@ -26,6 +26,8 @@ class PostManagement extends StatelessWidget {
                           snapshot.data!.docs);
                   return ListView.builder(
                     itemCount: docs.length,
+                    shrinkWrap: true,
+                    cacheExtent: 4,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
