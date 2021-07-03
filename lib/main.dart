@@ -7,6 +7,7 @@ import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/association_search.dart';
 import 'package:assosnation_app/utils/constants.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:assosnation_app/utils/route_generator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,20 @@ class MyApp extends StatelessWidget {
               title: Constants.appName,
               theme: ThemeData(
                 primarySwatch: Colors.teal,
+                appBarTheme: AppBarTheme(color: Colors.teal[300]),
+                cardTheme: CardTheme(
+                    elevation: 2.0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.horizontal(
+                            left: Radius.elliptical(15, 10),
+                            right: Radius.elliptical(10, 15)))),
+                bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                  backgroundColor: Colors.teal[300],
+                  unselectedItemColor: Colors.teal[100],
+                  selectedItemColor: Colors.white,
+                  selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  type: BottomNavigationBarType.fixed,
+                ),
                 textTheme: GoogleFonts.montserratTextTheme(
                   Theme.of(context).textTheme,
                 ),

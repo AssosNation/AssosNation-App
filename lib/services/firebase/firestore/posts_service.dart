@@ -42,7 +42,10 @@ class PostService implements PostsInterface {
     DocumentReference assosRef =
         _service.collection("associations").doc(assos.uid);
     CollectionReference postsRef = _service.collection("posts");
-    return postsRef.where("assosId", isEqualTo: assosRef).snapshots();
+    return postsRef
+        .where("assosId", isEqualTo: assosRef)
+        .orderBy("timestamp", descending: true)
+        .snapshots();
   }
 
   @override

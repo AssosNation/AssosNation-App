@@ -11,8 +11,10 @@ class DescriptionAsso extends StatelessWidget {
     return Container(
       child: Text(
         _descriptionAsso,
-        style: TextStyle(fontSize: 16.0, color: Colors.black),
-        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 16.0),
+        textAlign: TextAlign.justify,
+        overflow: TextOverflow.visible,
+        maxLines: 5,
       ),
     );
   }

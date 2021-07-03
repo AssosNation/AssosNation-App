@@ -29,11 +29,7 @@ class _AssociationScaffoldState extends State<AssociationScaffold> {
   Widget _associationNavBar() {
     return BottomNavigationBar(
         currentIndex: _selectedPage,
-        unselectedItemColor: Colors.teal[400],
-        selectedItemColor: Colors.teal,
-        selectedFontSize: 16,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-        type: BottomNavigationBarType.fixed,
+        selectedFontSize: 12,
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.post_add),
