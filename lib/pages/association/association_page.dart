@@ -1,5 +1,6 @@
 import 'package:assosnation_app/components/description_asso.dart';
 import 'package:assosnation_app/components/dialog/change_infos_alert.dart';
+import 'package:assosnation_app/components/dialog/edit_association_img_dialog.dart';
 import 'package:assosnation_app/components/edit_asso_dialog.dart';
 import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
@@ -30,7 +31,11 @@ class AssociationPage extends StatelessWidget {
                     Column(
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () => showModalBottomSheet(
+                            context: context,
+                            builder: (context) => EditAssociationImgDialog(
+                                association: _association),
+                          ),
                           child: Container(
                             decoration: BoxDecoration(
                                 color: Colors.grey[200],
@@ -47,9 +52,13 @@ class AssociationPage extends StatelessWidget {
                                   ),
                                 ),
                                 Positioned.fill(
-                                    child: Icon(
-                                  Icons.add_a_photo_outlined,
-                                  color: Theme.of(context).accentColor,
+                                    child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Icon(
+                                    Icons.add_a_photo_outlined,
+                                    color: Theme.of(context).accentColor,
+                                    size: 45,
+                                  ),
                                 )),
                               ],
                             ),

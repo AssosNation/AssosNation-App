@@ -168,7 +168,8 @@ class _EditPostDialogState extends State<EditPostDialog> {
                         onPressed: _verifyAndValidateForm,
                         child: Text(
                           "Confirm",
-                          style: TextStyle(color: Colors.teal),
+                          style:
+                              TextStyle(color: Theme.of(context).accentColor),
                         )),
                   ],
                 )

@@ -9,10 +9,6 @@ abstract class StorageInterface {
 
   Future<String> getImageByPost(String _postId);
 
-  Future getBannerByName(String path);
-
-  Future uploadBannerToStorage(dynamic banner);
-
   Future uploadAndUpdateUserImage(AnUser user);
 
   Future<String> getDefaultUserProfileImg();
@@ -20,4 +16,6 @@ abstract class StorageInterface {
   Future<File> selectImageFromGallery();
 
   Future<String> uploadPostImageToStorage(File image, String postId);
+
+  Future<String> uploadAssociationImageToStorage(File image, String assosId);
 }

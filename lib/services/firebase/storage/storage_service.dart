@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/posts_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/user_service.dart';
 import 'package:assosnation_app/services/interfaces/storage_interface.dart';
+import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,18 +48,6 @@ class StorageService extends StorageInterface {
     } on FirebaseException catch (e) {
       return Future.error("Cannot find the default image url");
     }
-  }
-
-  @override
-  Future getBannerByName(String path) {
-    // TODO: implement getBannerByName
-    throw UnimplementedError();
-  }
-
-  @override
-  Future uploadBannerToStorage(banner) {
-    // TODO: implement uploadBannerToStorage
-    throw UnimplementedError();
   }
 
   Future<PermissionStatus> _requesPhotoAccessPermission() async {
@@ -125,6 +115,44 @@ class StorageService extends StorageInterface {
         await _storage.ref().child('posts_images/$postId').putFile(image);
     String imgUrl = await snapshot.ref.getDownloadURL();
     await PostService().updatePostImageUrl(postId, imgUrl);
+    return imgUrl;
+  }
+
+  Future uploadAndUpdateAssociationBanner(Association association) async {
+    final permissionStatus = await _requesPhotoAccessPermission();
+
+    if (permissionStatus.isGranted) {
+      final _picker = ImagePicker();
+      PickedFile? image = await _picker.getImage(source: ImageSource.gallery);
+
+      if (image != null) {
+        var file = File(image.path);
+        final snapshot = await _storage
+            .ref()
+            .child('associations_banners/${association.uid}')
+            .putFile(file);
+
+        final imageUrl = await snapshot.ref.getDownloadURL();
+        await FireStoreService()
+            .updateAssociationBanner(association.uid, imageUrl);
+        return Future.value(true);
+      } else {
+        return Future.error('No Path Received');
+      }
+    } else {
+      return Future.error('Grant Permissions and try again');
+    }
+  }
+
+  @override
+  Future<String> uploadAssociationImageToStorage(
+      File image, String assosId) async {
+    final snapshot = await _storage
+        .ref()
+        .child('associations_banners/$assosId')
+        .putFile(image);
+    String imgUrl = await snapshot.ref.getDownloadURL();
+    await FireStoreService().updateAssociationBanner(assosId, imgUrl);
     return imgUrl;
   }
 }
