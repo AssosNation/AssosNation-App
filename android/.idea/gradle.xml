@@ -26,7 +26,9 @@
             <option value="$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/location-4.3.0/android" />
             <option value="$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.2/android" />
             <option value="$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler-8.1.2/android" />
+            <option value="$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/share_plus-2.1.4/android" />
             <option value="$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.0+3/android" />
+            <option value="$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-6.0.8/android" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
