@@ -18,7 +18,6 @@ class GamificationXpBar extends StatelessWidget {
         valueColor:
             AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
         minHeight: 20,
-        color: Colors.teal[200],
       ),
       Align(
           alignment: Alignment.center,
