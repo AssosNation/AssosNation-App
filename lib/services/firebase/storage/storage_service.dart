@@ -50,16 +50,19 @@ class StorageService extends StorageInterface {
     }
   }
 
-  Future<PermissionStatus> _requesPhotoAccessPermission() async {
+  Future<bool> _requestPhotoAccessPermission() async {
+    if (Platform.isIOS) {
+      return true;
+    }
+
     await Permission.photos.request();
-    return await Permission.photos.status;
+    return await Permission.photos.status.isGranted;
   }
 
   @override
   Future uploadAndUpdateUserImage(AnUser user) async {
-    final permissionStatus = await _requesPhotoAccessPermission();
-
-    if (permissionStatus.isGranted) {
+    final permissionGranted = await _requestPhotoAccessPermission();
+    if (permissionGranted) {
       final _picker = ImagePicker();
       PickedFile? image = await _picker.getImage(source: ImageSource.gallery);
 
@@ -95,9 +98,9 @@ class StorageService extends StorageInterface {
 
   @override
   Future<File> selectImageFromGallery() async {
-    final permissionStatus = await _requesPhotoAccessPermission();
+    final permissionGranted = await _requestPhotoAccessPermission();
 
-    if (permissionStatus.isGranted) {
+    if (permissionGranted) {
       final _picker = ImagePicker();
       PickedFile? image = await _picker.getImage(source: ImageSource.gallery);
       if (image != null)
@@ -119,9 +122,9 @@ class StorageService extends StorageInterface {
   }
 
   Future uploadAndUpdateAssociationBanner(Association association) async {
-    final permissionStatus = await _requesPhotoAccessPermission();
+    final permissionGranted = await _requestPhotoAccessPermission();
 
-    if (permissionStatus.isGranted) {
+    if (permissionGranted) {
       final _picker = ImagePicker();
       PickedFile? image = await _picker.getImage(source: ImageSource.gallery);
 
