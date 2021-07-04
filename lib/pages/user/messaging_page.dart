@@ -27,44 +27,60 @@ class MessagingPage extends StatelessWidget {
                 final List<Conversation> convs =
                     Converters.convertDocSnapshotsToConvList(
                         snapshot.data!.docs);
-                return ListView.builder(
-                  itemCount: convs.length,
-                  clipBehavior: Clip.antiAlias,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.horizontal(
-                                left: Radius.elliptical(15, 10),
-                                right: Radius.elliptical(10, 15))),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.of(context).pushNamed("/convAsUser",
-                                arguments: convs[index]);
-                          },
-                          trailing: convs[index].messages.length > 0
-                              ? Text(
-                                  "${convs[index].getDiffTimeBetweenNowAndLastMessage()}")
-                              : Text(""),
-                          title: Text(convs[index].names[1]),
-                          subtitle: Row(
-                            children: [
-                              Text("${convs[index].getLastMessageSender()}"),
-                              Expanded(
-                                child: Text(
-                                  convs[index].getLastMessageSent(),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              )
-                            ],
+                if (convs.length > 0) {
+                  return ListView.builder(
+                    itemCount: convs.length,
+                    clipBehavior: Clip.antiAlias,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.horizontal(
+                                  left: Radius.elliptical(15, 10),
+                                  right: Radius.elliptical(10, 15))),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.of(context).pushNamed("/convAsUser",
+                                  arguments: convs[index]);
+                            },
+                            trailing: convs[index].messages.length > 0
+                                ? Text(
+                                    "${convs[index].getDiffTimeBetweenNowAndLastMessage()}")
+                                : Text(""),
+                            title: Text(convs[index].names[1]),
+                            subtitle: Row(
+                              children: [
+                                Text("${convs[index].getLastMessageSender()}"),
+                                Expanded(
+                                  child: Text(
+                                    convs[index].getLastMessageSent(),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                );
+                      );
+                    },
+                  );
+                } else {
+                  return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text(
+                              'Aucune conversation n\'a été commencée.\nPour commencer une conversation, allez sur le détail d\'une association et commencez une conversation.',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Theme.of(context).primaryColor)),
+                        )
+                      ]);
+                }
               }
               return Container();
             },
