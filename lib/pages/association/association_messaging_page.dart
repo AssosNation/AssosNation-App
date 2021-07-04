@@ -32,42 +32,58 @@ class AssociationMessagingPage extends StatelessWidget {
                 final List<Conversation> convs =
                     Converters.convertDocSnapshotsToConvList(
                         snapshot.data!.docs);
-                return ListView.builder(
-                  itemCount: convs.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.horizontal(
-                                left: Radius.elliptical(15, 10),
-                                right: Radius.elliptical(10, 15))),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                                "/convAsAssociation",
-                                arguments: convs[index]);
-                          },
-                          trailing: Text(
-                              "${convs[index].getDiffTimeBetweenNowAndLastMessage()}"),
-                          title: Text(convs[index].names[0]),
-                          subtitle: Row(
-                            children: [
-                              Text("${convs[index].getLastMessageSender()}"),
-                              Expanded(
-                                child: Text(
-                                  convs[index].getLastMessageSent(),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              )
-                            ],
+                if (convs.length > 0) {
+                  return ListView.builder(
+                    itemCount: convs.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.horizontal(
+                                  left: Radius.elliptical(15, 10),
+                                  right: Radius.elliptical(10, 15))),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                  "/convAsAssociation",
+                                  arguments: convs[index]);
+                            },
+                            trailing: Text(
+                                "${convs[index].getDiffTimeBetweenNowAndLastMessage()}"),
+                            title: Text(convs[index].names[0]),
+                            subtitle: Row(
+                              children: [
+                                Text("${convs[index].getLastMessageSender()}"),
+                                Expanded(
+                                  child: Text(
+                                    convs[index].getLastMessageSent(),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                );
+                      );
+                    },
+                  );
+                } else {
+                  return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text(
+                              'Vous n\'avez pas de conversation en cours. Une conversation sera créée lorsqu\'un utilisateur voudra vous contacter.',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Theme.of(context).primaryColor)),
+                        )
+                      ]);
+                }
               }
               return Container();
             },

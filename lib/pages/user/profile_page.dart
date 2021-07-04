@@ -1,5 +1,6 @@
 import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/components/dialog/are_you_sure_dialog.dart';
+import 'package:assosnation_app/components/gamification_badge.dart';
 import 'package:assosnation_app/components/gamification_xpbar.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/gamification_service.dart';
@@ -119,45 +120,95 @@ class _ProfileState extends State<Profile> {
                           if (snapshot.hasData) {
                             Gamification gamification = snapshot.data!;
                             return Padding(
-                              padding: const EdgeInsets.all(30),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() => {_first = !_first});
-                                          },
-                                          child: AnimatedCrossFade(
-                                              firstChild: Text(
+                                padding: const EdgeInsets.all(30),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      InkWell(
+                                          onTap: () => showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                      title: Text(
+                                                          'L\'expérience',
+                                                          style: TextStyle(
+                                                              fontSize: 20,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .primaryColor)),
+                                                      content: Text(
+                                                          'Quantité d\'xp : ${gamification.exp}\n'
+                                                          'Xp nécessaire avant le prochain niveau :  ${Constants.xpToLevelMultiplier - (gamification.exp % Constants.xpToLevelMultiplier)}\n'
+                                                          'Chaque like à un post te donne 25 xp\n'
+                                                          'Chaque connexion à l\'application te donne 35 xp\n'
+                                                          'Il te faut ${Constants.xpToLevelMultiplier} d\'xp pour monter de niveau',
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .primaryColor)))),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
                                                   'Niveau : ${gamification.level}',
                                                   style: TextStyle(
                                                       fontSize: 18,
                                                       color: Theme.of(context)
                                                           .primaryColor)),
-                                              secondChild: Text(
-                                                  'Il te manque ${Constants.xpToLevelMultiplier - (gamification.exp % Constants.xpToLevelMultiplier)} points d\'xp\n'
-                                                  'pour atteindre le niveau ${gamification.level + 1}',
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Theme.of(context)
-                                                          .primaryColor)),
-                                              crossFadeState: _first
-                                                  ? CrossFadeState.showFirst
-                                                  : CrossFadeState.showSecond,
-                                              duration: const Duration(
-                                                  milliseconds: 500)),
-                                        ),
-                                      ]),
-                                  GamificationXpBar(
-                                      level: gamification.level,
-                                      exp: gamification.exp),
-                                ],
-                              ),
-                            );
+                                              GamificationXpBar(
+                                                  level: gamification.level,
+                                                  exp: gamification.exp),
+                                            ],
+                                          )),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0.0, 15.0, 0.0, 0.0),
+                                        child: Text('Mes badges',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Theme.of(context)
+                                                    .primaryColor)),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          GamificationBadge(
+                                              gamification.likeNumber,
+                                              Color(0XFF614e1a),
+                                              100,
+                                              Icons.thumb_up_sharp,
+                                              'Like de bronze',
+                                              'Décerné lorsque l\'utilisateur a atteint 100 likes'),
+                                          GamificationBadge(
+                                              gamification.likeNumber,
+                                              Color(0XFFC0C0C0),
+                                              500,
+                                              Icons.thumb_up_sharp,
+                                              'Like d\'argent',
+                                              'Décerné lorsque l\'utilisateur a atteint 500 likes'),
+                                          GamificationBadge(
+                                              gamification.likeNumber,
+                                              Color(0XFFffd700),
+                                              1000,
+                                              Icons.thumb_up_sharp,
+                                              'Like d\'or',
+                                              'Décerné lorsque l\'utilisateur a atteint 1000 likes'),
+                                          GamificationBadge(
+                                              gamification.likeNumber,
+                                              Color(0XFF000000),
+                                              10000,
+                                              Icons.thumb_up_sharp,
+                                              'Black Like',
+                                              'La légende raconte que celui qui atteindra le black like aura atteint 10 000 likes, et aura passé beaucoup trop de temps sur notre application')
+                                        ],
+                                      )
+                                    ]));
                           } else {
                             return CircularProgressIndicator();
                           }
