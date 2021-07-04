@@ -1,4 +1,5 @@
 import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:assosnation_app/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,16 +17,22 @@ class SendMessageForm extends StatefulWidget {
 
 class _SendMessageFormState extends State<SendMessageForm> {
   final _formKey = GlobalKey<FormState>();
-  late String _msgToSend;
+  late String _msgToSend = "";
+
+  TextEditingController _textFieldController = TextEditingController();
 
   _verifyAndValidateForm() async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         final res = await MessagingService().sendMessageToConversation(
             widget.convId, widget.sender, _msgToSend);
+        _textFieldController.clear();
+        FocusScope.of(context).unfocus();
         if (!res)
           Utils.displaySnackBarWithMessage(
-              context, "Couldn't send your message", Colors.deepOrange);
+              context,
+              AppLocalizations.of(context)!.error_sending_message,
+              Colors.deepOrange);
       }
     }
   }
@@ -48,16 +55,18 @@ class _SendMessageFormState extends State<SendMessageForm> {
                       padding: const EdgeInsets.fromLTRB(10, 5, 5, 10),
                       child: TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: _textFieldController,
                         validator: (msg) {
                           if (msg!.isNotEmpty) {
                             _msgToSend = msg;
                             return null;
                           } else
-                            return "This field cannot be empty";
+                            AppLocalizations.of(context)!.error_empty_field;
                         },
                       ),
                     ))),
             IconButton(
+                key: Key("SendButton"),
                 icon: Icon(
                   Icons.send_sharp,
                   color: Theme.of(context).accentColor,

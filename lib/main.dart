@@ -7,6 +7,7 @@ import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/association_search.dart';
 import 'package:assosnation_app/utils/constants.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:assosnation_app/utils/route_generator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -42,9 +43,29 @@ class MyApp extends StatelessWidget {
               title: Constants.appName,
               theme: ThemeData(
                 primarySwatch: Colors.teal,
-                textTheme: GoogleFonts.montserratTextTheme(
-                  Theme.of(context).textTheme,
+                appBarTheme: AppBarTheme(color: Colors.teal[300]),
+                cardTheme: CardTheme(
+                    elevation: 2.0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.horizontal(
+                            left: Radius.elliptical(15, 10),
+                            right: Radius.elliptical(10, 15)))),
+                bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                  backgroundColor: Colors.teal[300],
+                  unselectedItemColor: Colors.teal[100],
+                  selectedItemColor: Colors.white,
+                  selectedLabelStyle: TextStyle(fontWeight: FontWeight.w800),
+                  type: BottomNavigationBarType.fixed,
                 ),
+                textTheme: GoogleFonts.montserratTextTheme().copyWith(
+                    subtitle2: GoogleFonts.montserrat(),
+                    subtitle1: GoogleFonts.montserrat(),
+                    headline3: GoogleFonts.montserrat(
+                        color: Colors.teal,
+                        fontSize: 26,
+                        fontWeight: FontWeight.w500),
+                    bodyText2: GoogleFonts.montserrat(
+                        color: Colors.teal, fontWeight: FontWeight.w500)),
               ),
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: L10n.all,
@@ -82,17 +103,10 @@ class _MyHomePageState extends State<MyHomePage> {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                "assets/icon/logo_an.png",
-                height: 40,
-              ),
-              Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(Constants.appName)),
-            ],
+          title: Image.asset(
+            Constants.fullHorizontalLogoPath,
+            fit: BoxFit.cover,
+            scale: Constants.appBarLogoScale,
           ),
           actions: [
             StreamBuilder<List<Association>>(

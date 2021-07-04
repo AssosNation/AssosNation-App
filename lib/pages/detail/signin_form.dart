@@ -1,5 +1,6 @@
 import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
+import 'package:assosnation_app/utils/constants.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -50,11 +51,11 @@ class _SignInFormState extends State<SignInForm> {
                   Container(
                     padding: EdgeInsets.all(15),
                     child: Image.asset(
-                      "assets/icon/logo_an.png",
-                      height: 120,
+                      Constants.fullLogoPath,
+                      scale: 3.5,
                     ),
                   ),
-                  FormMainTitle("Login"),
+                  FormMainTitle(AppLocalizations.of(context)!.signin_label),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 30, 10, 0),
                     child: Column(
@@ -71,9 +72,11 @@ class _SignInFormState extends State<SignInForm> {
                                 _mail = email;
                                 return null;
                               } else if (email.isEmpty)
-                                return "This field cannot be empty";
+                                return AppLocalizations.of(context)!
+                                    .error_empty_field;
                               else
-                                return "This email address is not valid";
+                                return AppLocalizations.of(context)!
+                                    .mail_not_valid;
                             }),
                         TextFormField(
                           decoration: InputDecoration(
@@ -82,7 +85,8 @@ class _SignInFormState extends State<SignInForm> {
                           obscureText: true,
                           validator: (pwd) {
                             if (pwd == null || pwd == "")
-                              return "Not a valid password";
+                              return AppLocalizations.of(context)!
+                                  .password_not_valid;
                             _pwd = pwd;
                             return null;
                           },

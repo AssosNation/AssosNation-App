@@ -1,7 +1,9 @@
+import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/services/firebase/firestore/messaging_service.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/converters.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,7 @@ class MessagingPage extends StatelessWidget {
     final _user = context.watch<AnUser?>();
     return Column(
       children: [
+        AnTitle("${AppLocalizations.of(context)!.user_tab_messaging}"),
         Expanded(
           child: StreamBuilder(
             stream: MessagingService().watchAllConversationsByUser(_user!),
@@ -26,6 +29,7 @@ class MessagingPage extends StatelessWidget {
                         snapshot.data!.docs);
                 return ListView.builder(
                   itemCount: convs.length,
+                  clipBehavior: Clip.antiAlias,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),

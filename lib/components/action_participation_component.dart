@@ -41,7 +41,7 @@ class _ActionParticipationComponentState
               ),
               Text((widget._action.usersRegistered > 0
                       ? this.widget._action.usersRegistered.toString()
-                      : 'pas de') +
+                      : AppLocalizations.of(context)!.label_no) +
                   ' participant' +
                   (widget._action.usersRegistered > 1 ? 's' : '')),
             ],

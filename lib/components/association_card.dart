@@ -1,6 +1,7 @@
 import 'package:assosnation_app/components/association_card_infos.dart';
 import 'package:assosnation_app/components/association_card_title.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -25,16 +26,21 @@ class AssociationCard extends StatelessWidget {
                 right: Radius.elliptical(10, 15))),
         child: Stack(
           children: [
-            Image.network(
-              association.banner,
-              width: double.infinity,
-              height: double.infinity,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null)
-                  return child;
-                else
-                  return Center(child: CircularProgressIndicator());
-              },
+            Align(
+              alignment: Alignment.center,
+              child: AspectRatio(
+                aspectRatio: 16 / 10,
+                child: CachedNetworkImage(
+                  imageUrl: association.banner,
+                  progressIndicatorBuilder: (context, url, progress) =>
+                      LinearProgressIndicator(
+                    value: progress.progress,
+                  ),
+                  imageBuilder: (context, imageProvider) {
+                    return Image(image: imageProvider);
+                  },
+                ),
+              ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

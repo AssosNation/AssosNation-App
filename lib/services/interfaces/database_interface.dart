@@ -3,7 +3,7 @@ import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-abstract class DatabaseInterface {
+abstract class FirestoreServiceInterface {
   Future<List<Association>> getAllAssociations();
 
   Future addAssociationToDb(Association association);
@@ -32,4 +32,8 @@ abstract class DatabaseInterface {
       Association association, _userId);
 
   Future<List<AssociationAction>> getUserAssociationsByDate(_userId);
+
+  Future<DocumentReference> getAssociationReference(String assosId);
+
+  Future updateAssociationBanner(String assosId, String imgUrl);
 }

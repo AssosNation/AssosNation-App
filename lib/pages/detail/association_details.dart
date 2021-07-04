@@ -13,6 +13,7 @@ import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/converters.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:assosnation_app/utils/utils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -39,10 +40,10 @@ class AssociationDetails extends StatelessWidget {
     return StreamBuilder<DocumentSnapshot>(
       stream: AssociationService().watchAssociationInfo(assos),
       builder: (context, snapshot) {
-        final Association _association =
-            Converters.convertDocSnapshotsToAssos(snapshot.data!);
         if (snapshot.hasData) {
           if (snapshot.connectionState == ConnectionState.active) {
+            final Association _association =
+                Converters.convertDocSnapshotsToAssos(snapshot.data!);
             return Scaffold(
               appBar: AppBar(
                 title: Text(_association.name),
@@ -53,14 +54,17 @@ class AssociationDetails extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          Image.network(
-                            _association.banner,
-                            width: MediaQuery.of(context).size.width,
+                          AspectRatio(
+                            aspectRatio: 4 / 3,
+                            child: CachedNetworkImage(
+                              imageUrl: _association.banner,
+                              fit: BoxFit.scaleDown,
+                            ),
                           ),
                         ],
                       ),
                       Container(
-                        color: Colors.teal,
+                        color: Colors.teal[300],
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -101,8 +105,8 @@ class AssociationDetails extends StatelessWidget {
                                   },
                                   icon: Icon(
                                       _association.didUserSubscribed(_user!.uid)
-                                          ? Icons.remove_circle
-                                          : Icons.add_circle),
+                                          ? Icons.favorite_sharp
+                                          : Icons.favorite_border_sharp),
                                 ),
                               ],
                             ),
@@ -190,9 +194,8 @@ class AssociationDetails extends StatelessWidget {
                           }
                           if (snapshot.hasError) {
                             return Container(
-                              child: Text("Something wrong happened"),
-
-                              /// TODO I18N
+                              child: Text(
+                                  AppLocalizations.of(context)!.error_no_infos),
                             );
                           }
                           return Container();

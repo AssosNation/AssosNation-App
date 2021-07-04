@@ -1,5 +1,7 @@
 import 'package:assosnation_app/components/news_feed_like_component.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
+import 'package:assosnation_app/services/models/post.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,9 +9,10 @@ import 'package:intl/intl.dart';
 import 'forms/form_main_title.dart';
 
 class NewsFeedCard extends StatefulWidget {
-  final _post;
-  final _assosName;
+  final Post _post;
+  final String _assosName;
   final _userId;
+
   NewsFeedCard(this._post, this._assosName, this._userId);
 
   @override
@@ -39,7 +42,26 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
-                        child: CircleAvatar(),
+                        child: FutureBuilder(
+                          future: StorageService()
+                              .getBannerByAssociation(widget._post.assosId.id),
+                          builder: (context, AsyncSnapshot<String> snapshot) {
+                            if (snapshot.hasData) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return CachedNetworkImage(
+                                  imageBuilder: (context, imageProvider) =>
+                                      CircleAvatar(
+                                    backgroundImage: imageProvider,
+                                  ),
+                                  imageUrl: snapshot.data!,
+                                );
+                              } else
+                                return CircularProgressIndicator();
+                            }
+                            return Container();
+                          },
+                        ),
                       ),
                       Text(widget._assosName)
                     ],
@@ -51,21 +73,6 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
               children: [
                 FormMainTitle(
                   this.widget._post.title,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(DateFormat('dd-MM-yyyy').add_Hm().format(
-                          DateTime.parse(this
-                              .widget
-                              ._post
-                              .timestamp
-                              .toDate()
-                              .toString()))),
-                    ],
-                  ),
                 ),
                 Row(
                   children: [
@@ -109,10 +116,25 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                         }),
                   ],
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        DateFormat('dd MM yyyy').add_Hm().format(DateTime.parse(
+                            this.widget._post.timestamp.toDate().toString())),
+                        style: TextStyle(
+                            color: Theme.of(context).accentColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
                 NewsFeedLikeComponent(
                     this.widget._post.usersWhoLiked.length,
                     this.widget._post.didUserLikeThePost(this.widget._userId),
-                    this.widget._post.id,
+                    this.widget._post,
                     this.widget._userId)
               ],
             ),

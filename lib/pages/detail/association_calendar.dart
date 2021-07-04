@@ -3,6 +3,7 @@ import 'package:assosnation_app/services/firebase/firestore/firestore_service.da
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -61,12 +62,13 @@ class AssociationCalendar extends StatelessWidget {
                           } else
                             return Container(
                               alignment: AlignmentDirectional.center,
-                              child: Text(
-                                  "${assos.name} n'a pas d'actions à venir ! "),
+                              child: Text(AppLocalizations.of(context)!
+                                  .association_no_actions),
                             );
                         }
                       } else if (snapshot.hasError) {
-                        return Text("Pas d'actions pour toi l'ami");
+                        return Text(
+                            AppLocalizations.of(context)!.error_no_infos);
                       } else
                         return Container();
                     },

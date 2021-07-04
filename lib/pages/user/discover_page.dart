@@ -41,7 +41,7 @@ class _DiscoverState extends State<Discover> {
                             autoPlay: true,
                             autoPlayInterval: Duration(seconds: 7),
                             autoPlayCurve: Curves.easeInOutBack,
-                            height: MediaQuery.of(context).size.height * 0.95),
+                            height: MediaQuery.of(context).size.height),
                       );
                     case ConnectionState.none:
                       return CircularProgressIndicator();

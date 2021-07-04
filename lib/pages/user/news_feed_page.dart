@@ -1,24 +1,29 @@
+import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NewsFeed extends StatelessWidget {
+class NewsFeed extends StatefulWidget {
+  @override
+  _NewsFeedState createState() => _NewsFeedState();
+}
+
+class _NewsFeedState extends State<NewsFeed> {
   @override
   Widget build(BuildContext context) {
     final _user = context.watch<AnUser?>();
 
     return Container(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          AnTitle("${AppLocalizations.of(context)!.user_tab_newsfeed}"),
           Expanded(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FutureBuilder(
                   future: FireStoreService()
@@ -28,12 +33,19 @@ class NewsFeed extends StatelessWidget {
                       if (snapshot.connectionState == ConnectionState.done) {
                         List<dynamic> postList = snapshot.data!;
                         return Expanded(
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return NewsFeedCard(postList[index]['post'],
-                                  postList[index]['assosName'], _user.uid);
+                          child: RefreshIndicator(
+                            onRefresh: () async {
+                              setState(() {});
                             },
-                            itemCount: postList.length,
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                return NewsFeedCard(postList[index]['post'],
+                                    postList[index]['assosName'], _user.uid);
+                              },
+                              itemCount: postList.length,
+                              shrinkWrap: true,
+                              cacheExtent: 4,
+                            ),
                           ),
                         );
                       } else if (snapshot.connectionState ==
@@ -43,7 +55,8 @@ class NewsFeed extends StatelessWidget {
                     if (snapshot.hasError) {
                       print(snapshot.error);
                       return Container(
-                        child: Text("Something wrong happened"),
+                        child:
+                            Text(AppLocalizations.of(context)!.error_no_infos),
                       );
                     }
                     return Container();

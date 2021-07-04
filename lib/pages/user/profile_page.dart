@@ -1,13 +1,18 @@
 import 'package:assosnation_app/components/an_title.dart';
+import 'package:assosnation_app/components/dialog/are_you_sure_dialog.dart';
+import 'package:assosnation_app/components/gamification_xpbar.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/gamification_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/user_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/services/models/gamification.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/constants.dart';
 import 'package:assosnation_app/utils/converters.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,6 +24,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  bool _first = true;
   @override
   Widget build(BuildContext context) {
     AnUser? _user = context.watch<AnUser?>();
@@ -43,7 +49,7 @@ class _ProfileState extends State<Profile> {
                           color: Theme.of(context).primaryColor),
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                      padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -59,7 +65,7 @@ class _ProfileState extends State<Profile> {
                                         .uploadAndUpdateUserImage(_user!);
                                   },
                                   icon: Icon(Icons.add_a_photo),
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme.of(context).accentColor,
                                 ),
                               ),
                               Container(
@@ -67,11 +73,15 @@ class _ProfileState extends State<Profile> {
                                 child: CircleAvatar(
                                   radius: 70,
                                   backgroundColor:
-                                      Theme.of(context).primaryColor,
-                                  child: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(_user!.profileImg),
-                                    radius: 66,
+                                      Theme.of(context).accentColor,
+                                  child: CachedNetworkImage(
+                                    imageUrl: _user!.profileImg,
+                                    imageBuilder: (context, imageProvider) {
+                                      return CircleAvatar(
+                                        backgroundImage: imageProvider,
+                                        radius: 66,
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
@@ -102,13 +112,56 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
                     ),
-                    Divider(
-                      thickness: 3,
-                      indent: 15,
-                      endIndent: 15,
-                      color: Theme.of(context).primaryColor,
-                      height: 50,
-                    ),
+                    FutureBuilder(
+                        future: GamificationService()
+                            .getGamificationInfos(_user!.gamificationRef.id),
+                        builder: (ctx, AsyncSnapshot<Gamification> snapshot) {
+                          if (snapshot.hasData) {
+                            Gamification gamification = snapshot.data!;
+                            return Padding(
+                              padding: const EdgeInsets.all(30),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() => {_first = !_first});
+                                          },
+                                          child: AnimatedCrossFade(
+                                              firstChild: Text(
+                                                  'Niveau : ${gamification.level}',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Theme.of(context)
+                                                          .primaryColor)),
+                                              secondChild: Text(
+                                                  'Il te manque ${Constants.xpToLevelMultiplier - (gamification.exp % Constants.xpToLevelMultiplier)} points d\'xp\n'
+                                                  'pour atteindre le niveau ${gamification.level + 1}',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Theme.of(context)
+                                                          .primaryColor)),
+                                              crossFadeState: _first
+                                                  ? CrossFadeState.showFirst
+                                                  : CrossFadeState.showSecond,
+                                              duration: const Duration(
+                                                  milliseconds: 500)),
+                                        ),
+                                      ]),
+                                  GamificationXpBar(
+                                      level: gamification.level,
+                                      exp: gamification.exp),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        }),
                     AnTitle(
                         AppLocalizations.of(context)!.association_list_label),
                     Expanded(
@@ -130,18 +183,7 @@ class _ProfileState extends State<Profile> {
                                           itemBuilder: (BuildContext context,
                                               int index) {
                                             return Card(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.horizontal(
-                                                          left:
-                                                              Radius.elliptical(
-                                                                  15, 10),
-                                                          right:
-                                                              Radius.elliptical(
-                                                                  10, 15))),
-                                              elevation: 5,
-                                              color:
-                                                  Theme.of(context).accentColor,
+                                              color: Colors.teal[300],
                                               child: ListTile(
                                                 onTap: () {
                                                   Navigator.of(context)
@@ -153,10 +195,13 @@ class _ProfileState extends State<Profile> {
                                                 title: Text(
                                                   assosList[index].name,
                                                   style: TextStyle(
-                                                      color: Colors.white),
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
-                                                subtitle: Text(assosList[index]
-                                                    .description),
+                                                subtitle: Text(
+                                                  assosList[index].description,
+                                                ),
                                               ),
                                             );
                                           }));
@@ -178,37 +223,7 @@ class _ProfileState extends State<Profile> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return AlertDialog(
-                                elevation: 50,
-                                title: Icon(
-                                  Icons.info_outline_rounded,
-                                  color: Colors.redAccent,
-                                  size: 55,
-                                ),
-                                content: Text(
-                                    AppLocalizations.of(context)!.are_you_sure),
-                                actions: [
-                                  CupertinoButton(
-                                    child:
-                                        Text(AppLocalizations.of(context)!.yes),
-                                    onPressed: () {
-                                      final _auth = FirebaseAuth.instance;
-                                      _auth.signOut();
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  CupertinoButton(
-                                    child: Text(
-                                      AppLocalizations.of(context)!.no,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  )
-                                ],
-                              );
+                              return AreYouSureDialog();
                             },
                           );
                         },
