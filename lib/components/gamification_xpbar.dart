@@ -21,8 +21,9 @@ class GamificationXpBar extends StatelessWidget {
       ),
       Align(
           alignment: Alignment.center,
-          child:
-              Text("$exp exp", style: Theme.of(context).textTheme.subtitle1)),
+          child: Text(
+              "$exp / ${(exp - (exp % Constants.xpToLevelMultiplier)) + Constants.xpToLevelMultiplier}  exp",
+              style: Theme.of(context).textTheme.subtitle1)),
     ]);
   }
 }
