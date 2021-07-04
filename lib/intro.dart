@@ -1,18 +1,21 @@
+import 'package:assosnation_app/components/scaffolds/association_scaffold.dart';
 import 'package:assosnation_app/components/scaffolds/user_scaffold.dart';
+import 'package:assosnation_app/pages/authentication.dart';
 import 'package:assosnation_app/utils/constants.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/scrollbar_behavior_enum.dart';
 import 'package:intro_slider/slide_object.dart';
 
 class IntroScreen extends StatefulWidget {
-  IntroScreen({Key? key}) : super(key: key);
+  final scaffoldType;
+  IntroScreen(this.scaffoldType, {Key? key}) : super(key: key);
 
   @override
   IntroScreenState createState() => new IntroScreenState();
 }
 
-// ------------------ Custom config ------------------
 class IntroScreenState extends State<IntroScreen> {
   List<Slide> slides = [];
 
@@ -106,10 +109,33 @@ class IntroScreenState extends State<IntroScreen> {
   }
 
   void onDonePress() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => UserScaffold()),
-    );
+    if (widget.scaffoldType == "UserScaffold") {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => UserScaffold()),
+      );
+    } else if (widget.scaffoldType == "AssociationScaffold") {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => AssociationScaffold()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Scaffold(
+                  appBar: AppBar(
+                    centerTitle: true,
+                    title: Image.asset(
+                      Constants.fullHorizontalLogoPath,
+                      fit: BoxFit.cover,
+                      scale: Constants.appBarLogoScale,
+                    ),
+                  ),
+                  body: Center(child: Authentication()),
+                )),
+      );
+    }
   }
 
   Widget renderNextBtn() {
@@ -167,7 +193,7 @@ class IntroScreenState extends State<IntroScreen> {
       sizeDot: 13.0,
 
       // Show or hide status bar
-      hideStatusBar: true,
+      hideStatusBar: false,
       backgroundColorAllSlides: Colors.grey,
 
       // Scrollbar

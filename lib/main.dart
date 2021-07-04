@@ -138,6 +138,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return IntroScreen();
+    final _association = context.watch<Association?>();
+    final _user = context.watch<AnUser?>();
+
+    var scaf = _selectScaffold(_user, _association);
+    return IntroScreen(scaf.toString());
   }
 }
