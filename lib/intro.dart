@@ -106,7 +106,7 @@ class IntroScreenState extends State<IntroScreen> {
   }
 
   void onDonePress() {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => UserScaffold()),
     );
