@@ -13,6 +13,7 @@ import 'package:assosnation_app/services/models/user.dart';
 import 'package:assosnation_app/utils/converters.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:assosnation_app/utils/utils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -53,9 +54,12 @@ class AssociationDetails extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          Image.network(
-                            _association.banner,
-                            width: MediaQuery.of(context).size.width,
+                          AspectRatio(
+                            aspectRatio: 4 / 3,
+                            child: CachedNetworkImage(
+                              imageUrl: _association.banner,
+                              fit: BoxFit.scaleDown,
+                            ),
                           ),
                         ],
                       ),

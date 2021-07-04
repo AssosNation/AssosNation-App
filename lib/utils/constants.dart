@@ -1,6 +1,6 @@
 class Constants {
   static String appName = "AssosNation";
-  static int xpToLevelMultiplier = 250;
+  static int xpToLevelMultiplier = 500;
   static int likeCountExpValue = 25;
   static int loginCountExpValue = 35;
   static int subCountExpValue = 75;
@@ -9,4 +9,8 @@ class Constants {
   static String fullHorizontalLogoPath = "assets/icon/logo_an_full_hori.png";
   static String logoPath = "assets/icon/logo_an.png";
   static double appBarLogoScale = 3.8;
+  static int allCoeffs = likeCountExpValue +
+      loginCountExpValue +
+      subCountExpValue +
+      eventRegistrationsExpValue;
 }

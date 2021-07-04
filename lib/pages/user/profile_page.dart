@@ -1,5 +1,6 @@
 import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/components/dialog/are_you_sure_dialog.dart';
+import 'package:assosnation_app/components/gamification_xpbar.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/gamification_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/user_service.dart';
@@ -151,13 +152,9 @@ class _ProfileState extends State<Profile> {
                                                   milliseconds: 500)),
                                         ),
                                       ]),
-                                  LinearProgressIndicator(
-                                      value: (gamification.exp %
-                                              Constants.xpToLevelMultiplier) /
-                                          Constants.xpToLevelMultiplier,
-                                      backgroundColor: Colors.grey,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          Theme.of(context).primaryColor)),
+                                  GamificationXpBar(
+                                      level: gamification.level,
+                                      exp: gamification.exp),
                                 ],
                               ),
                             );
