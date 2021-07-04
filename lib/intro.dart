@@ -1,6 +1,3 @@
-import 'package:assosnation_app/components/scaffolds/association_scaffold.dart';
-import 'package:assosnation_app/components/scaffolds/user_scaffold.dart';
-import 'package:assosnation_app/pages/authentication.dart';
 import 'package:assosnation_app/utils/constants.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +6,7 @@ import 'package:intro_slider/scrollbar_behavior_enum.dart';
 import 'package:intro_slider/slide_object.dart';
 
 class IntroScreen extends StatefulWidget {
-  final scaffoldType;
-  IntroScreen(this.scaffoldType, {Key? key}) : super(key: key);
+  IntroScreen({Key? key}) : super(key: key);
 
   @override
   IntroScreenState createState() => new IntroScreenState();
@@ -33,7 +29,7 @@ class IntroScreenState extends State<IntroScreen> {
             fontWeight: FontWeight.bold,
             fontFamily: 'RobotoMono'),
         description:
-            "Nous vous souhaitons la bienvenue sur le nouveau réseau social consacrée au domaine associatif ! ",
+            "Nous vous souhaitons la bienvenue sur le nouveau réseau social consacré au domaine associatif ! ",
         styleDescription: TextStyle(
             color: Colors.white, fontSize: 20.0, fontFamily: 'Raleway'),
         marginDescription:
@@ -109,33 +105,7 @@ class IntroScreenState extends State<IntroScreen> {
   }
 
   void onDonePress() {
-    if (widget.scaffoldType == "UserScaffold") {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => UserScaffold()),
-      );
-    } else if (widget.scaffoldType == "AssociationScaffold") {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => AssociationScaffold()),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Scaffold(
-                  appBar: AppBar(
-                    centerTitle: true,
-                    title: Image.asset(
-                      Constants.fullHorizontalLogoPath,
-                      fit: BoxFit.cover,
-                      scale: Constants.appBarLogoScale,
-                    ),
-                  ),
-                  body: Center(child: Authentication()),
-                )),
-      );
-    }
+    Navigator.pop(context);
   }
 
   Widget renderNextBtn() {

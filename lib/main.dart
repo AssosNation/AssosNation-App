@@ -141,7 +141,6 @@ class _MyHomePageState extends State<MyHomePage> {
     final _association = context.watch<Association?>();
     final _user = context.watch<AnUser?>();
 
-    var scaf = _selectScaffold(_user, _association);
-    return IntroScreen(scaf.toString());
+    return _selectScaffold(_user, _association);
   }
 }
