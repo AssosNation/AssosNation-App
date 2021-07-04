@@ -40,6 +40,23 @@ class _AuthenticationState extends State<Authentication> {
               ],
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: OutlinedButton.icon(
+                    icon: Icon(Icons.info_outline_rounded),
+                    onPressed: () => Navigator.pushNamed(context, "/intro"),
+                    label: Text(
+                      "Je découvre AssosNation ! ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+              )
+            ],
+          )
         ],
       ),
     );
