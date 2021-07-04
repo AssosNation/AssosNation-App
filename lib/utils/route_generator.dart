@@ -1,3 +1,4 @@
+import 'package:assosnation_app/intro.dart';
 import 'package:assosnation_app/pages/authentication.dart';
 import 'package:assosnation_app/pages/detail/association_apply_form.dart';
 import 'package:assosnation_app/pages/detail/association_calendar.dart';
@@ -43,6 +44,9 @@ class RouteGenerator {
 
       case "/messagingPage":
         return MaterialPageRoute(builder: (_) => MessagingPage());
+
+      case "/intro":
+        return MaterialPageRoute(builder: (_) => IntroScreen());
 
       case "/associationCalendarPage":
         if (args is Association) {

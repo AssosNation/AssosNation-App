@@ -1,5 +1,6 @@
 import 'package:assosnation_app/components/scaffolds/association_scaffold.dart';
 import 'package:assosnation_app/components/scaffolds/user_scaffold.dart';
+import 'package:assosnation_app/intro.dart';
 import 'package:assosnation_app/pages/authentication.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
