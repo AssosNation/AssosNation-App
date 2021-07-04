@@ -30,7 +30,7 @@ class IntroScreenState extends State<IntroScreen> {
             fontWeight: FontWeight.bold,
             fontFamily: 'RobotoMono'),
         description:
-            "Nous vous souhaitons la bienvenue sur le nouveau réseau social du domaine associatif",
+            "Nous vous souhaitons la bienvenue sur le nouveau réseau social consacrée au domaine associatif ! ",
         styleDescription: TextStyle(
             color: Colors.white, fontSize: 20.0, fontFamily: 'Raleway'),
         marginDescription:
@@ -45,7 +45,7 @@ class IntroScreenState extends State<IntroScreen> {
     );
     slides.add(
       new Slide(
-        title: "Bienvenue sur AssosNation !",
+        title: "Entraidons nous ! ",
         maxLineTitle: 2,
         styleTitle: TextStyle(
             color: Colors.white,
@@ -53,15 +53,19 @@ class IntroScreenState extends State<IntroScreen> {
             fontWeight: FontWeight.bold,
             fontFamily: 'RobotoMono'),
         description:
-            "Ye indulgence unreserved connection alteration appearance",
+            "AssosNation permet de découvrir des associations près de chez soi, et de pouvoir suivre leur actualité en toute simplicité.",
         styleDescription: TextStyle(
             color: Colors.white, fontSize: 20.0, fontFamily: 'Raleway'),
-        backgroundColor: Colors.teal,
+        centerWidget: Image.asset(
+          "assets/help.png",
+          height: 200,
+        ),
+        backgroundColor: Colors.teal[300],
       ),
     );
     slides.add(
       new Slide(
-        title: "Bienvenue sur AssosNation !",
+        title: "Créons le contact !",
         maxLineTitle: 2,
         styleTitle: TextStyle(
             color: Colors.white,
@@ -69,10 +73,34 @@ class IntroScreenState extends State<IntroScreen> {
             fontWeight: FontWeight.bold,
             fontFamily: 'RobotoMono'),
         description:
-            "Much evil soon high in hope do view. Out may few northward believing attempted. Yet timed being songs marry one defer men our. Although finished blessing do of",
+            "Avec notre application, vous pouvez contacter directement nos associations partenaires via notre messagerie intégrée ! ",
         styleDescription: TextStyle(
             color: Colors.white, fontSize: 20.0, fontFamily: 'Raleway'),
-        backgroundColor: Colors.teal,
+        centerWidget: Image.asset(
+          "assets/smartphone.png",
+          height: 200,
+        ),
+        backgroundColor: Colors.teal[300],
+      ),
+    );
+    slides.add(
+      new Slide(
+        title: "Place à l'inscription !",
+        maxLineTitle: 2,
+        styleTitle: TextStyle(
+            color: Colors.white,
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'RobotoMono'),
+        description:
+            "Inscrivez vous et rejoignez notre communauté ! Vous verrez, c'est facile ! ",
+        styleDescription: TextStyle(
+            color: Colors.white, fontSize: 20.0, fontFamily: 'Raleway'),
+        centerWidget: Image.asset(
+          "assets/community.png",
+          height: 200,
+        ),
+        backgroundColor: Colors.teal[300],
       ),
     );
   }
@@ -134,7 +162,7 @@ class IntroScreenState extends State<IntroScreen> {
       doneButtonStyle: myButtonStyle(),
 
       // Dot indicator
-      colorDot: Color(0x33FFA8B0),
+      colorDot: Colors.grey,
       colorActiveDot: Colors.white,
       sizeDot: 13.0,
 
