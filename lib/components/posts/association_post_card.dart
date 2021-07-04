@@ -72,7 +72,7 @@ class _AssociationPostCardState extends State<AssociationPostCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(Icons.people),
+                    Icon(Icons.thumb_up, color: Theme.of(context).primaryColor),
                     Text(widget._post.usersWhoLiked.length.toString()),
                     Container(
                       child: Row(

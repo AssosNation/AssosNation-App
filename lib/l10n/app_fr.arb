@@ -116,5 +116,13 @@
   "post_management_main_title": "Gestion des Posts",
   "events_management_main_title": "Gestion des évènements",
   "association_messaging_main_title": "Messagerie",
-  "label_no": "Pas de"
+  "label_no": "Pas de",
+  "intro_slide_1": "Nous vous souhaitons la bienvenue sur le nouveau réseau social dédié au domaine associatif ! ",
+  "intro_slide_2": "AssosNation allows you to discover associations near your home, and to be able to follow easily their news.",
+  "intro_slide_3": "Avec notre application, vous pouvez contacter directement nos associations partenaires via notre messagerie intégrée !",
+  "intro_slide_4": "Inscrivez vous et rejoignez notre communauté ! Vous verrez, c'est facile ! ",
+  "intro_slide_1_title": "Bienvenue sur AssosNation !",
+  "intro_slide_2_title": "Entraidons nous ! ",
+  "intro_slide_3_title": "Créons le contact !",
+  "intro_slide_4_title": "Place à l'inscription !"
 }
