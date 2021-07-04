@@ -64,7 +64,7 @@ class AssociationDetails extends StatelessWidget {
                         ],
                       ),
                       Container(
-                        color: Colors.teal,
+                        color: Colors.teal[300],
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
