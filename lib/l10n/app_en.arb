@@ -124,5 +124,10 @@
   "intro_slide_1_title": "Welcome to AssosNation !",
   "intro_slide_2_title": "Let's help each other ! ",
   "intro_slide_3_title": "Let's create contact !",
-  "intro_slide_4_title": "It's time to register !"
+  "intro_slide_4_title": "It's time to register !",
+  "gamification_next_level": "Xp needed before next level : ",
+  "gamification_like_post": "Each like to a post gives you 25 xp ",
+  "gamification_connection": "Each connection to the app gives you 35 xp ",
+  "gamification_need": "You need "
+
 }
