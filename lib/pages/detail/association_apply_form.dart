@@ -2,6 +2,7 @@ import 'package:assosnation_app/components/forms/form_main_title.dart';
 import 'package:assosnation_app/components/forms/form_subtitle.dart';
 import 'package:assosnation_app/services/firebase/authentication/auth_service.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
+import 'package:assosnation_app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -31,27 +32,14 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
         dynamic res = await _auth.applyAsAssociation(_name, _description, _mail,
             _phone, _address, _postalCode, _city, _president, _pwd);
         if (res == null) {
-          _displaySnackBarWithMessage(
-              AppLocalizations.of(context)!.error_no_infos);
+          Utils.displaySnackBarWithMessage(context,
+              AppLocalizations.of(context)!.error_no_infos, Colors.deepOrange);
         } else {
-          _displaySnackBarWithMessage(
-              AppLocalizations.of(context)!.application_sended);
+          Utils.displaySnackBarWithMessage(context,
+              AppLocalizations.of(context)!.application_sended, Colors.green);
         }
       }
     }
-  }
-
-  _isEmailValidated(String email) {
-    return email
-        .contains(new RegExp(r'([a-z0-9A-Z-.]+@[a-zA-Z]+\.[a-z]{1,3})'));
-  }
-
-  _displaySnackBarWithMessage(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(msg),
-      backgroundColor: Colors.deepOrange,
-      duration: Duration(seconds: 3),
-    ));
   }
 
   @override
@@ -144,7 +132,7 @@ class _AssociationApplyFormState extends State<AssociationApplyForm> {
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               validator: (email) {
-                                if (_isEmailValidated(email!)) {
+                                if (Utils.isEmailValidated(email!)) {
                                   _mail = email;
                                   return null;
                                 } else if (email.isEmpty)

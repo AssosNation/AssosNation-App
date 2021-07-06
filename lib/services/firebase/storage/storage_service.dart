@@ -31,7 +31,7 @@ class StorageService extends StorageInterface {
       Reference ref = _storage
           .ref()
           .child('associations_banners')
-          .child('default_assos.jpg');
+          .child('default_assos.png');
       final _imageUrl = await ref.getDownloadURL();
       return _imageUrl;
     } on FirebaseException catch (e) {
