@@ -168,7 +168,7 @@
       }
     }
   },
-  "gamification_info_connections": "Each connections gives you {connecXp} EXP",
+  "gamification_info_connections": "Each connection gives you {connecXp} EXP",
   "@gamification_info_connections": {
     "placeholders": {
       "connecXp": {
