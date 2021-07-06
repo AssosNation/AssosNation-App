@@ -53,8 +53,18 @@ class _AsociationActionCardState extends State<AssociationActionCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(Icons.people),
-                    Text(widget._action.usersRegistered.toString()),
+                    InkWell(
+                      splashColor: Colors.teal,
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                            "/associationActionParticipants",
+                            arguments: this.widget._action);
+                      },
+                      child: Row(children: [
+                        Icon(Icons.people),
+                        Text(widget._action.usersRegistered.toString()),
+                      ]),
+                    ),
                     Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
