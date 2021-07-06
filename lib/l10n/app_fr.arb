@@ -21,11 +21,11 @@
   "participate_button_label": "Je participe",
   "participants_number_label": "participants",
   "days_label": "Jours",
-  "are_you_sure": "En êtes-vous sûr ?",
+  "are_you_sure": "En es-tu sûr ?",
   "yes": "Oui",
   "no": "Non",
-  "unsubscribe": "Vous n'êtes plus abonné à cette association !",
-  "subscribe": "Vous êtes désormais abonné à cette association !",
+  "unsubscribe": "Tu n'es plus abonné à cette association !",
+  "subscribe": "Tu es désormais abonné à cette association !",
   "association_no_posts": "{assosName} n'a pas encore publié son premier post !",
   "@association_no_posts": {
     "placeholders": {
@@ -48,7 +48,7 @@
   "description": "Description",
   "start_date": "Date du début",
   "end_date": "Date de fin",
-  "search_placeholder": "Recherchez une association",
+  "search_placeholder": "Rechercher une association",
   "error_no_infos": "Une erreur est survenue...",
   "no_messages_yet": "Aucun messages",
   "enter_first_name": "Entrez votre prénom",
