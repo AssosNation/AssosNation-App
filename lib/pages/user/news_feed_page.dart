@@ -1,4 +1,5 @@
 import 'package:assosnation_app/components/an_title.dart';
+import 'package:assosnation_app/components/empty_newsfeed.dart';
 import 'package:assosnation_app/components/news_feed_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/user.dart';
@@ -32,22 +33,26 @@ class _NewsFeedState extends State<NewsFeed> {
                     if (snapshot.hasData) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         List<dynamic> postList = snapshot.data!;
-                        return Expanded(
-                          child: RefreshIndicator(
-                            onRefresh: () async {
-                              setState(() {});
-                            },
-                            child: ListView.builder(
-                              itemBuilder: (context, index) {
-                                return NewsFeedCard(postList[index]['post'],
-                                    postList[index]['assosName'], _user.uid);
+                        if (snapshot.data!.length == 0)
+                          return EmptyNewsFeed();
+                        else {
+                          return Expanded(
+                            child: RefreshIndicator(
+                              onRefresh: () async {
+                                setState(() {});
                               },
-                              itemCount: postList.length,
-                              shrinkWrap: true,
-                              cacheExtent: 4,
+                              child: ListView.builder(
+                                itemBuilder: (context, index) {
+                                  return NewsFeedCard(postList[index]['post'],
+                                      postList[index]['assosName'], _user.uid);
+                                },
+                                itemCount: postList.length,
+                                shrinkWrap: true,
+                                cacheExtent: 4,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
                       } else if (snapshot.connectionState ==
                           ConnectionState.waiting)
                         return CircularProgressIndicator();
@@ -59,7 +64,7 @@ class _NewsFeedState extends State<NewsFeed> {
                             Text(AppLocalizations.of(context)!.error_no_infos),
                       );
                     }
-                    return Container();
+                    return EmptyNewsFeed();
                   },
                 ),
               ],

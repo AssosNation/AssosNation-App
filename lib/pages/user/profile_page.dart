@@ -183,29 +183,29 @@ class _ProfileState extends State<Profile> {
                                               Color(0XFF614e1a),
                                               100,
                                               Icons.thumb_up_sharp,
-                                              'Like de bronze',
-                                              'Décerné lorsque l\'utilisateur a atteint 100 likes'),
+                                              "${AppLocalizations.of(context)!.bronze_like_label}",
+                                              "${AppLocalizations.of(context)!.bronze_like_description}"),
                                           GamificationBadge(
                                               gamification.likeNumber,
                                               Color(0XFFC0C0C0),
                                               500,
                                               Icons.thumb_up_sharp,
-                                              'Like d\'argent',
-                                              'Décerné lorsque l\'utilisateur a atteint 500 likes'),
+                                              "${AppLocalizations.of(context)!.silver_like_label}",
+                                              "${AppLocalizations.of(context)!.silver_like_description}"),
                                           GamificationBadge(
                                               gamification.likeNumber,
                                               Color(0XFFffd700),
                                               1000,
                                               Icons.thumb_up_sharp,
-                                              'Like d\'or',
-                                              'Décerné lorsque l\'utilisateur a atteint 1000 likes'),
+                                              "${AppLocalizations.of(context)!.gold_like_description}",
+                                              "${AppLocalizations.of(context)!.gold_like_description}"),
                                           GamificationBadge(
                                               gamification.likeNumber,
                                               Color(0XFF000000),
                                               10000,
                                               Icons.thumb_up_sharp,
-                                              'Black Like',
-                                              'La légende raconte que celui qui atteindra le black like aura atteint 10 000 likes, et aura passé beaucoup trop de temps sur notre application')
+                                              "${AppLocalizations.of(context)!.black_like_label}",
+                                              "${AppLocalizations.of(context)!.black_like_description}")
                                         ],
                                       )
                                     ]));

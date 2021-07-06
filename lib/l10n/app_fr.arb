@@ -128,5 +128,17 @@
   "gamification_next_level": "Xp nécessaire avant le prochain niveau :",
   "gamification_like_post": "Chaque like à un post te donne 25 xp",
   "gamification_connection": "Chaque connexion à l'application te donne 35 xp",
-  "gamification_need": "Il te faut "
+  "gamification_need": "Il te faut ",
+  "no_posts_msg_part1": "Oh ! Aucun posts trouvés",
+  "no_posts_msg_part2": "Essayez de suivre des associations :)",
+  "no_conv_part1": "Aucune conversation n'a été commencée.",
+  "no_conv_part2": "Pour commencer une conversation, allez sur le détail d'une association et commencez une conversation.",
+  "bronze_like_label": "Bronze Like !",
+  "bronze_like_description": "Décerné lorsque vous aurez atteint 100 likes !",
+  "silver_like_label": "Silver Like !",
+  "silver_like_description": "Décerné lorsque vous aurez atteint 500 likes !",
+  "gold_like_label": "Gold Like !",
+  "gold_like_description": "Décerné lorsque vous aurez atteint 1000 likes !",
+  "black_like_label": "Black Like !",
+  "black_like_description": "La légende raconte que celui qui obtiendra le black like aura atteint 10 000 likes, et aura passé beaucoup trop de temps sur notre application !"
 }

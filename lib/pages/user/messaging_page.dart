@@ -74,10 +74,12 @@ class MessagingPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Text(
-                              'Aucune conversation n\'a été commencée.\nPour commencer une conversation, allez sur le détail d\'une association et commencez une conversation.',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Theme.of(context).primaryColor)),
+                            "${AppLocalizations.of(context)!.no_conv_part1}.\n${AppLocalizations.of(context)!.no_conv_part2}",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Theme.of(context).primaryColor),
+                            textAlign: TextAlign.center,
+                          ),
                         )
                       ]);
                 }
