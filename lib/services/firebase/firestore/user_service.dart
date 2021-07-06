@@ -120,6 +120,16 @@ class UserService extends UserServiceInterface {
     }
   }
 
+  Future<bool> checkIfAssosIsApproved(String assosId) async {
+    DocumentReference assosRef = _service.collection("associations").doc(assosId);
+    try {
+      final assos = await assosRef.get();
+      return assos["approved"];
+    } on FirebaseException catch (e) {
+      return Future.error("Error while retrieving an association");
+    }
+  }
+
   @override
   Future removeUserFromDB(String uid) {
     // TODO: implement removeUserFromDB

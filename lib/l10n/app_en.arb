@@ -199,5 +199,9 @@
         "type": "String"
       }
     }
-  }
+  },
+  "user_not_found": "No user found for that email.",
+  "wrong_password": "Wrong password provided for that user.",
+  "problem_occured_signin": "A problem occured when signin in",
+  "assos_not_approved": "Association not approved yet"
 }

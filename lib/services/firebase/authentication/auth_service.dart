@@ -5,6 +5,7 @@ import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/interfaces/authentication_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/user.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService extends AuthenticationInterface {
@@ -32,21 +33,24 @@ class AuthService extends AuthenticationInterface {
     if (isAssociation) {
       final assosInfos =
           await FireStoreService().getAssociationInfosFromDB(_user.uid);
-      return Association(
-          _user.uid,
-          assosInfos.name,
-          assosInfos.description,
-          assosInfos.mail,
-          assosInfos.address,
-          assosInfos.city,
-          assosInfos.postalCode,
-          assosInfos.phone,
-          assosInfos.banner,
-          assosInfos.president,
-          assosInfos.approved,
-          assosInfos.type,
-          assosInfos.actions,
-          assosInfos.subscribers);
+      final isApproved = await UserService().checkIfAssosIsApproved(assosInfos.uid);
+      if(isApproved) {
+        return Association(
+            _user.uid,
+            assosInfos.name,
+            assosInfos.description,
+            assosInfos.mail,
+            assosInfos.address,
+            assosInfos.city,
+            assosInfos.postalCode,
+            assosInfos.phone,
+            assosInfos.banner,
+            assosInfos.president,
+            assosInfos.approved,
+            assosInfos.type,
+            assosInfos.actions,
+            assosInfos.subscribers);
+      } else return null;
     }
   }
 
@@ -118,20 +122,26 @@ class AuthService extends AuthenticationInterface {
   }
 
   @override
-  Future signIn(mail, pwd) async {
+  Future signIn(mail, pwd, context) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: mail, password: pwd);
+      final UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: mail, password: pwd);
+      bool isAssos = await UserService().checkIfUserIsAssos(userCredential.user!.uid);
+      if(isAssos) {
+        bool isApproved = await UserService().checkIfAssosIsApproved(userCredential.user!.uid);
+        if(!isApproved) {
+          _auth.signOut();
+          return Future.value(AppLocalizations.of(context)!.assos_not_approved);
+        }
+      }
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-        return false;
+        return Future.value(AppLocalizations.of(context)!.user_not_found);
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-        return false;
+        return Future.value(AppLocalizations.of(context)!.wrong_password);
       }
     } on FirebaseException catch (e) {
-      print("A problem occured when signing in");
+      Future.error(AppLocalizations.of(context)!.problem_occured_signin);
     }
   }
 

@@ -19,11 +19,11 @@ class _SignInFormState extends State<SignInForm> {
   _verifyAndValidateForm() async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
-        dynamic res = await _auth.signIn(_mail, _pwd);
-        if (res == null) {
+        final res = await _auth.signIn(_mail, _pwd, context);
+        if (res is String) {
           Utils.displaySnackBarWithMessage(
               context,
-              AppLocalizations.of(context)!.failed_to_connect_snackbar,
+              res,
               Colors.red);
         } else {
           Utils.displaySnackBarWithMessage(
