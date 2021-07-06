@@ -140,5 +140,64 @@
   "gold_like_label": "Gold Like !",
   "gold_like_description": "Given when you will reach 1000 likes !",
   "black_like_label": "Black Like !",
-  "black_like_description": "The legends says that the one who reaches that goal will have liked 10 000 likes and thus would have spend too much time on our app !"
+  "black_like_description": "The legends says that the one who reaches that goal will have liked 10 000 likes and thus would have spend too much time on our app !",
+  "my_badges_label": "My badges",
+  "level_label": "Level",
+  "gamification_info_title": "What is experience ?",
+  "gamification_info_xpamount": "Amount of EXP : {xpAmount}",
+  "@gamification_info_xpamount": {
+    "placeholders": {
+      "xpAmount": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_xpbefore": "The amount of EXP you need before reaching next level : {xpBefore}",
+  "@gamification_info_xpbefore": {
+    "placeholders": {
+      "xpBefore": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_likes": "Each like gives you {likeXp} EXP",
+  "@gamification_info_likes": {
+    "placeholders": {
+      "likeXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_connections": "Each connections gives you {connecXp} EXP",
+  "@gamification_info_connections": {
+    "placeholders": {
+      "connecXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_subs": "Each subscribtion gives you {subXp} EXP",
+  "@gamification_info_subs": {
+    "placeholders": {
+      "subXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_events": "Each event participation gives you {eventXp} EXP",
+  "@gamification_info_events": {
+    "placeholders": {
+      "eventXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_xpremaning": "You need {xpRemaning} EXP before reaching next level !",
+  "@gamification_info_xpremaning": {
+    "placeholders": {
+      "xpRemaning": {
+        "type": "String"
+      }
+    }
+  }
 }

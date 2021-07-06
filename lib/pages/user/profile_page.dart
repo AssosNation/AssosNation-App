@@ -1,6 +1,7 @@
 import 'package:assosnation_app/components/an_title.dart';
 import 'package:assosnation_app/components/dialog/are_you_sure_dialog.dart';
 import 'package:assosnation_app/components/gamification_badge.dart';
+import 'package:assosnation_app/components/gamification_infos_dialog.dart';
 import 'package:assosnation_app/components/gamification_xpbar.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/gamification_service.dart';
@@ -9,7 +10,6 @@ import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/gamification.dart';
 import 'package:assosnation_app/services/models/user.dart';
-import 'package:assosnation_app/utils/constants.dart';
 import 'package:assosnation_app/utils/converters.dart';
 import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -125,50 +125,46 @@ class _ProfileState extends State<Profile> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      InkWell(
-                                          onTap: () => showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  AlertDialog(
-                                                      title: Text(
-                                                          'L\'expérience',
-                                                          style: TextStyle(
-                                                              fontSize: 20,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .primaryColor)),
-                                                      content: Text(
-                                                          'Quantité d\'xp : ${gamification.exp}\n'
-                                                          'Xp nécessaire avant le prochain niveau :  ${Constants.xpToLevelMultiplier - (gamification.exp % Constants.xpToLevelMultiplier)}\n'
-                                                          'Chaque like à un post te donne 25 xp\n'
-                                                          'Chaque connexion à l\'application te donne 35 xp\n'
-                                                          'Il te faut ${Constants.xpToLevelMultiplier} d\'xp pour monter de niveau',
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .primaryColor)))),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Row(
                                             children: [
                                               Text(
-                                                  'Niveau : ${gamification.level}',
+                                                  '${AppLocalizations.of(context)!.level_label} : ${gamification.level}',
                                                   style: TextStyle(
                                                       fontSize: 18,
                                                       color: Theme.of(context)
                                                           .primaryColor)),
-                                              GamificationXpBar(
-                                                  level: gamification.level,
-                                                  exp: gamification.exp),
+                                              IconButton(
+                                                  onPressed: () => showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          GamificationInfosDialog(
+                                                            gamification:
+                                                                gamification,
+                                                          )),
+                                                  icon: Icon(
+                                                    Icons.info_outline,
+                                                    color: Colors.teal,
+                                                  ))
                                             ],
-                                          )),
+                                          ),
+                                          GamificationXpBar(
+                                              level: gamification.level,
+                                              exp: gamification.exp),
+                                        ],
+                                      ),
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             0.0, 15.0, 0.0, 0.0),
-                                        child: Text('Mes badges',
+                                        child: Text(
+                                            AppLocalizations.of(context)!
+                                                .my_badges_label,
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 color: Theme.of(context)

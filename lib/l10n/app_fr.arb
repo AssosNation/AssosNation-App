@@ -140,5 +140,63 @@
   "gold_like_label": "Gold Like !",
   "gold_like_description": "Décerné lorsque vous aurez atteint 1000 likes !",
   "black_like_label": "Black Like !",
-  "black_like_description": "La légende raconte que celui qui obtiendra le black like aura atteint 10 000 likes, et aura passé beaucoup trop de temps sur notre application !"
+  "black_like_description": "La légende raconte que celui qui obtiendra le black like aura atteint 10 000 likes, et aura passé beaucoup trop de temps sur notre application !",
+  "my_badges_label": "Mes badges",
+  "gamification_info_title": "Qu'est-ce que l'Experience ?",
+  "gamification_info_xpamount": "Montant d'EXP : {xpAmount}",
+  "@gamification_info_xpamount": {
+    "placeholders": {
+      "xpAmount": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_xpbefore": "Le montant d'EXP dont vous avez besoin pour atteindre le prochain niveau : {xpBefore}",
+  "@gamification_info_xpbefore": {
+    "placeholders": {
+      "xpBefore": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_likes": "Chaque like vous donne {likeXp} EXP",
+  "@gamification_info_likes": {
+    "placeholders": {
+      "likeXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_connections": "Chaque connexion vous donne {connecXp} EXP",
+  "@gamification_info_connections": {
+    "placeholders": {
+      "connecXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_subs": "Chaque abonnement vous donne {subXp} EXP",
+  "@gamification_info_subs": {
+    "placeholders": {
+      "subXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_events": "Chaque participation à un évènement vous donne {eventXp} EXP",
+  "@gamification_info_events": {
+    "placeholders": {
+      "eventXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_xpremaning": "Il vous reste {xpRemaning} EXP avant de monter de niveau",
+  "@gamification_info_xpremaning": {
+    "placeholders": {
+      "xpRemaning": {
+        "type": "String"
+      }
+    }
+  }
 }
