@@ -1,4 +1,4 @@
-import 'package:assosnation_app/components/associations_actions/association_action_card.dart';
+import 'package:assosnation_app/components/associations_actions/action_card.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
@@ -52,8 +52,8 @@ class AssociationCalendar extends StatelessWidget {
                             return Expanded(
                               child: ListView.builder(
                                 itemBuilder: (context, index) {
-                                  return AssociationActionCard(
-                                      actionList[index]);
+                                  return ActionCard(
+                                      actionList[index], _user.uid);
                                 },
                                 itemCount: actionList.length,
                                 shrinkWrap: true,

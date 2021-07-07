@@ -22,7 +22,7 @@ class _LocationState extends State<Location> {
   @override
   void initState() {
     LocationService()
-        .generateMarkersList(widget.assosList)
+        .generateMarkersList(widget.assosList, context)
         .then((value) => markers = value);
     super.initState();
   }

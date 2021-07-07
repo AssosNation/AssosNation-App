@@ -1,6 +1,8 @@
+import 'package:assosnation_app/services/firebase/firestore/user_service.dart';
 import 'package:assosnation_app/services/interfaces/association_actions_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
 import 'package:assosnation_app/services/models/association_action.dart';
+import 'package:assosnation_app/services/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AssociationActionsService implements AssociationActionsInterface {
@@ -60,5 +62,19 @@ class AssociationActionsService implements AssociationActionsInterface {
         association,
         associationInfos['usersRegistered'].length,
         true);
+  }
+
+  Future<List<AnUser>> getParticipants(AssociationAction action) async {
+    final userIdList =
+        action.association.actions![action.id]['usersRegistered'];
+
+    List<AnUser> userList = List.empty(growable: true);
+
+    for (final userId in userIdList) {
+      AnUser user = await UserService().getUserInfosFromDB(userId);
+      userList.add(user);
+    }
+
+    return userList;
   }
 }

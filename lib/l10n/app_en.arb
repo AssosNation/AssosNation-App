@@ -116,5 +116,92 @@
   "post_management_main_title": "Posts Management",
   "events_management_main_title": "Events Management",
   "association_messaging_main_title": "Messaging",
-  "label_no": "No"
+  "label_no": "No",
+  "intro_slide_1": "We welcome you to the new social network dedicated to associations!",
+  "intro_slide_2": "AssosNation allows you to discover associations near your home, and to be able to follow easily their news.",
+  "intro_slide_3": "With our app, you can directly contact our partner associations via our integrated messaging !",
+  "intro_slide_4": "Register and join our community ! You'll see, it's easy !",
+  "intro_slide_1_title": "Welcome to AssosNation !",
+  "intro_slide_2_title": "Let's help each other ! ",
+  "intro_slide_3_title": "Let's create contact !",
+  "intro_slide_4_title": "It's time to register !",
+  "gamification_next_level": "Xp needed before next level : ",
+  "gamification_like_post": "Each like to a post gives you 25 xp ",
+  "gamification_connection": "Each connection to the app gives you 35 xp ",
+  "gamification_need": "You need ",
+  "no_posts_msg_part1": "Oh ! No posts found",
+  "no_posts_msg_part2": "Try to follow some associations",
+  "no_conv_part1": "No conversations began",
+  "no_conv_part2": "To began one, go to an association's page and send a message ! :)",
+  "bronze_like_label": "Bronze Like !",
+  "bronze_like_description": "Given when you will reach 100 likes !",
+  "silver_like_label": "Silver Like !",
+  "silver_like_description": "Given when you will reach 500 likes !",
+  "gold_like_label": "Gold Like !",
+  "gold_like_description": "Given when you will reach 1000 likes !",
+  "black_like_label": "Black Like !",
+  "black_like_description": "The legends says that the one who reaches that goal will have liked 10 000 likes and thus would have spend too much time on our app !",
+  "my_badges_label": "My badges",
+  "level_label": "Level",
+  "gamification_info_title": "What is experience ?",
+  "gamification_info_xpamount": "Amount of EXP : {xpAmount}",
+  "@gamification_info_xpamount": {
+    "placeholders": {
+      "xpAmount": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_xpbefore": "The amount of EXP you need before reaching next level : {xpBefore}",
+  "@gamification_info_xpbefore": {
+    "placeholders": {
+      "xpBefore": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_likes": "Each like gives you {likeXp} EXP",
+  "@gamification_info_likes": {
+    "placeholders": {
+      "likeXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_connections": "Each connection gives you {connecXp} EXP",
+  "@gamification_info_connections": {
+    "placeholders": {
+      "connecXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_subs": "Each subscribtion gives you {subXp} EXP",
+  "@gamification_info_subs": {
+    "placeholders": {
+      "subXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_events": "Each event participation gives you {eventXp} EXP",
+  "@gamification_info_events": {
+    "placeholders": {
+      "eventXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_xpremaning": "You need {xpRemaning} EXP before reaching next level !",
+  "@gamification_info_xpremaning": {
+    "placeholders": {
+      "xpRemaning": {
+        "type": "String"
+      }
+    }
+  },
+  "user_not_found": "No user found for that email.",
+  "wrong_password": "Wrong password provided for that user.",
+  "problem_occured_signin": "A problem occured when signin in",
+  "assos_not_approved": "Association not approved yet"
 }

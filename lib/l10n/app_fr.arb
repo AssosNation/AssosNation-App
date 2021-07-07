@@ -21,11 +21,11 @@
   "participate_button_label": "Je participe",
   "participants_number_label": "participants",
   "days_label": "Jours",
-  "are_you_sure": "En êtes-vous sûr ?",
+  "are_you_sure": "En es-tu sûr ?",
   "yes": "Oui",
   "no": "Non",
-  "unsubscribe": "Vous n'êtes plus abonné à cette association !",
-  "subscribe": "Vous êtes désormais abonné à cette association !",
+  "unsubscribe": "Tu n'es plus abonné à cette association !",
+  "subscribe": "Tu es désormais abonné à cette association !",
   "association_no_posts": "{assosName} n'a pas encore publié son premier post !",
   "@association_no_posts": {
     "placeholders": {
@@ -48,7 +48,7 @@
   "description": "Description",
   "start_date": "Date du début",
   "end_date": "Date de fin",
-  "search_placeholder": "Recherchez une association",
+  "search_placeholder": "Rechercher une association",
   "error_no_infos": "Une erreur est survenue...",
   "no_messages_yet": "Aucun messages",
   "enter_first_name": "Entrez votre prénom",
@@ -116,5 +116,91 @@
   "post_management_main_title": "Gestion des Posts",
   "events_management_main_title": "Gestion des évènements",
   "association_messaging_main_title": "Messagerie",
-  "label_no": "Pas de"
+  "label_no": "Pas de",
+  "intro_slide_1": "Nous vous souhaitons la bienvenue sur le nouveau réseau social dédié au domaine associatif ! ",
+  "intro_slide_2": "AssosNation permet de découvrir des associations près de chez soi, et de pouvoir suivre leur actualité en toute simplicité." ,
+  "intro_slide_3": "Avec notre application, vous pouvez contacter directement nos associations partenaires via notre messagerie intégrée !",
+  "intro_slide_4": "Inscrivez vous et rejoignez notre communauté ! Vous verrez, c'est facile ! ",
+  "intro_slide_1_title": "Bienvenue sur AssosNation !",
+  "intro_slide_2_title": "Entraidons nous ! ",
+  "intro_slide_3_title": "Créons le contact !",
+  "intro_slide_4_title": "Place à l'inscription !",
+  "gamification_next_level": "Exp nécessaire avant le prochain niveau :",
+  "gamification_like_post": "Chaque like à un post te donne 25 xp",
+  "gamification_connection": "Chaque connexion à l'application te donne 35 xp",
+  "gamification_need": "Il te faut ",
+  "no_posts_msg_part1": "Oh ! Aucun post trouvé",
+  "no_posts_msg_part2": "Essaye de suivre des associations :)",
+  "no_conv_part1": "Aucune conversation n'a été commencée.",
+  "no_conv_part2": "Pour commencer une conversation, va sur le détail d'une association et envoie un message.",
+  "bronze_like_label": "Bronze Like !",
+  "bronze_like_description": "Décerné lorsque tu auras atteint 100 likes !",
+  "silver_like_label": "Silver Like !",
+  "silver_like_description": "Décerné lorsque tu auras atteint 500 likes !",
+  "gold_like_label": "Gold Like !",
+  "gold_like_description": "Décerné lorsque tu auras atteint 1000 likes !",
+  "black_like_label": "Black Like !",
+  "black_like_description": "La légende raconte que celui qui obtiendra le black like aura atteint 10 000 likes, et aura passé beaucoup trop de temps sur notre application !",
+  "my_badges_label": "Mes badges",
+  "gamification_info_title": "Qu'est-ce que l'Experience ?",
+  "gamification_info_xpamount": "Montant d'EXP : {xpAmount}",
+  "@gamification_info_xpamount": {
+    "placeholders": {
+      "xpAmount": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_xpbefore": "Le montant d'EXP dont vous avez besoin pour atteindre le prochain niveau : {xpBefore}",
+  "@gamification_info_xpbefore": {
+    "placeholders": {
+      "xpBefore": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_likes": "Chaque like vous donne {likeXp} EXP",
+  "@gamification_info_likes": {
+    "placeholders": {
+      "likeXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_connections": "Chaque connexion vous donne {connecXp} EXP",
+  "@gamification_info_connections": {
+    "placeholders": {
+      "connecXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_subs": "Chaque abonnement vous donne {subXp} EXP",
+  "@gamification_info_subs": {
+    "placeholders": {
+      "subXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_events": "Chaque participation à un évènement vous donne {eventXp} EXP",
+  "@gamification_info_events": {
+    "placeholders": {
+      "eventXp": {
+        "type": "String"
+      }
+    }
+  },
+  "gamification_info_xpremaning": "Il vous reste {xpRemaning} EXP avant de monter de niveau",
+  "@gamification_info_xpremaning": {
+    "placeholders": {
+      "xpRemaning": {
+        "type": "String"
+      }
+    }
+  },
+  "user_not_found": "Aucun utilisateur trouvé avec cet email.",
+  "wrong_password": "Mauvais mot-de-passe inséré.",
+  "problem_occured_signin": "Un problème est survenu pendant la connexion",
+  "assos_not_approved": "Votre association n'est toujours pas approuvé"
 }

@@ -50,6 +50,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                               if (snapshot.connectionState ==
                                   ConnectionState.done) {
                                 return CachedNetworkImage(
+                                  progressIndicatorBuilder: (context, url, progress) => LinearProgressIndicator(value: progress.progress),
                                   imageBuilder: (context, imageProvider) =>
                                       CircleAvatar(
                                     backgroundImage: imageProvider,
@@ -73,21 +74,6 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
               children: [
                 FormMainTitle(
                   this.widget._post.title,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
-                        child: Text(
-                          this.widget._post.content,
-                          maxLines: 7,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.justify,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -116,6 +102,21 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                         }),
                   ],
                 ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 10),
+                        child: Text(
+                          this.widget._post.content,
+                          maxLines: 7,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -125,8 +126,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                         DateFormat('dd MM yyyy').add_Hm().format(DateTime.parse(
                             this.widget._post.timestamp.toDate().toString())),
                         style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontWeight: FontWeight.bold),
+                            color: Theme.of(context).accentColor, fontSize: 12),
                       ),
                     ],
                   ),

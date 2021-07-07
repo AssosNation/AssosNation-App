@@ -110,7 +110,7 @@ class ActionCard extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       Text(
-                        "${this.action.address}, ${this.action.city} ${this.action.postalCode}",
+                        "${this.action.address}, ${this.action.city}",
                         style: Theme.of(context).textTheme.subtitle2,
                       ),
                     ],

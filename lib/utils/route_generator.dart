@@ -1,5 +1,6 @@
 import 'package:assosnation_app/intro.dart';
 import 'package:assosnation_app/pages/authentication.dart';
+import 'package:assosnation_app/pages/detail/association_action_participants.dart';
 import 'package:assosnation_app/pages/detail/association_apply_form.dart';
 import 'package:assosnation_app/pages/detail/association_calendar.dart';
 import 'package:assosnation_app/pages/detail/association_conversation_page.dart';
@@ -7,6 +8,7 @@ import 'package:assosnation_app/pages/detail/association_details.dart';
 import 'package:assosnation_app/pages/detail/user_conversation_page.dart';
 import 'package:assosnation_app/pages/user/messaging_page.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/services/models/association_action.dart';
 import 'package:assosnation_app/services/models/conversation.dart';
 import 'package:flutter/material.dart';
 
@@ -52,6 +54,13 @@ class RouteGenerator {
         if (args is Association) {
           return MaterialPageRoute(
               builder: (context) => AssociationCalendar(args));
+        }
+        return _errorRoute();
+
+      case "/associationActionParticipants":
+        if (args is AssociationAction) {
+          return MaterialPageRoute(
+              builder: (context) => AssociationActionParticipants(args));
         }
         return _errorRoute();
 
