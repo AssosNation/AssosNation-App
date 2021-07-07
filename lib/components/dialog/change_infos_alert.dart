@@ -1,3 +1,4 @@
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class ChangeInfoAlert extends StatelessWidget {
         size: 55,
       ),
       content: Text(
-        "If you want to change this information, please contact the support.",
+        AppLocalizations.of(context)!.infos_contact_support,
         textAlign: TextAlign.justify,
       ),
       actions: [
