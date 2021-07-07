@@ -25,7 +25,7 @@ class FireStoreService extends FirestoreServiceInterface {
           await posts.orderBy("timestamp", descending: true).get();
       List postList = List.empty(growable: true);
       snapshot.docs.forEach((post) async {
-        if (associationList.contains(post.get('assosId'))) {
+        if (associationNameList.containsKey(post.get('assosId'))) {
           postList.add({
             "post": Post(
                 post.id,
@@ -52,9 +52,11 @@ class FireStoreService extends FirestoreServiceInterface {
     Map<DocumentReference, String> associationNameList = {};
     for (DocumentReference association in associationList) {
       DocumentSnapshot assosRef = await association.get();
-      associationNameList[association] = assosRef.get('name');
+      bool isApproved = assosRef.get("approved");
+      if(isApproved) {
+        associationNameList[association] = assosRef.get('name');
+      }
     }
-
     return associationNameList;
   }
 
@@ -96,7 +98,7 @@ class FireStoreService extends FirestoreServiceInterface {
   Future<List<Association>> getAllAssociations() async {
     CollectionReference associations = _service.collection("associations");
     try {
-      QuerySnapshot snapshot = await associations.get();
+      QuerySnapshot snapshot = await associations.where("approved", isEqualTo: true).get();
       List<Association> assosList = snapshot.docs
           .map((e) => Association(
               e.id,
@@ -139,8 +141,7 @@ class FireStoreService extends FirestoreServiceInterface {
         'posts': [],
         'actions': [],
         'subscribers': [],
-        'approved':
-            true // TODO need to change this after everything will be fine
+        'approved': false
       });
     } on FirebaseException catch (e) {
       print("Error while adding association to database");
@@ -228,6 +229,7 @@ class FireStoreService extends FirestoreServiceInterface {
     DocumentReference documentUser = _service.collection("users").doc(user.uid);
     try {
       final snapshot = await associations
+          .where("approved", isEqualTo: true)
           .where("subscribers", arrayContains: documentUser)
           .get();
       List<Association> _subAssosList = snapshot.docs

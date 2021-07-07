@@ -50,6 +50,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                               if (snapshot.connectionState ==
                                   ConnectionState.done) {
                                 return CachedNetworkImage(
+                                  progressIndicatorBuilder: (context, url, progress) => LinearProgressIndicator(value: progress.progress),
                                   imageBuilder: (context, imageProvider) =>
                                       CircleAvatar(
                                     backgroundImage: imageProvider,

@@ -48,7 +48,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                 },
                                 itemCount: postList.length,
                                 shrinkWrap: true,
-                                cacheExtent: 4,
+                                cacheExtent: 10,
                               ),
                             ),
                           );
@@ -64,7 +64,7 @@ class _NewsFeedState extends State<NewsFeed> {
                             Text(AppLocalizations.of(context)!.error_no_infos),
                       );
                     }
-                    return EmptyNewsFeed();
+                    return CircularProgressIndicator();
                   },
                 ),
               ],

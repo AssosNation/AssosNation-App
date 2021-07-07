@@ -198,5 +198,9 @@
         "type": "String"
       }
     }
-  }
+  },
+  "user_not_found": "Aucun utilisateur trouvé avec cet email.",
+  "wrong_password": "Mauvais mot-de-passe inséré.",
+  "problem_occured_signin": "Un problème est survenu pendant la connexion",
+  "assos_not_approved": "Votre association n'est toujours pas approuvé"
 }

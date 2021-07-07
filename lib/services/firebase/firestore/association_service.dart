@@ -88,7 +88,7 @@ class AssociationService extends AssociationServiceInterface {
       await assoRef.update({"address": content});
       return Future.value(true);
     } on FirebaseException catch (e) {
-      return Future.error("Cannot update phone with id ${assos.uid}");
+      return Future.error("Cannot update address with id ${assos.uid}");
     }
   }
 
@@ -100,7 +100,7 @@ class AssociationService extends AssociationServiceInterface {
       await assoRef.update({"city": content});
       return Future.value(true);
     } on FirebaseException catch (e) {
-      return Future.error("Cannot update phone with id ${assos.uid}");
+      return Future.error("Cannot update city with id ${assos.uid}");
     }
   }
 
