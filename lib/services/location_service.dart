@@ -1,5 +1,6 @@
 import 'package:assosnation_app/services/interfaces/location_interface.dart';
 import 'package:assosnation_app/services/models/association.dart';
+import 'package:assosnation_app/utils/imports/commons.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -77,19 +78,27 @@ class LocationService implements LocationInterface {
   }
 
   @override
-  Future<Set<Marker>> generateMarkersList(List<Association> _assoslist) async {
+  Future<Set<Marker>> generateMarkersList(
+      List<Association> _assoslist, BuildContext context) async {
+    final markerIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(48, 48)),
+        'assets/icon/logo_an_marker.png');
     final Set<Marker> markers = {};
-    for (var e in _assoslist) {
+    for (var asso in _assoslist) {
       var i = 0;
-      final List<Location> position =
-          await locationFromAddress("${e.address}, ${e.city} ${e.postalCode}");
+      final List<Location> position = await locationFromAddress(
+          "${asso.address}, ${asso.city} ${asso.postalCode}");
 
       markers.add(Marker(
-          markerId: MarkerId(e.name),
+          flat: true,
+          markerId: MarkerId(asso.name),
+          icon: markerIcon,
           position: LatLng(position[i].latitude, position[i].longitude),
           infoWindow: InfoWindow(
-              title: e.name,
-              snippet: "${e.address}, ${e.city} ${e.postalCode}")));
+              onTap: () => Navigator.of(context)
+                  .pushNamed('/associationDetails', arguments: asso),
+              title: asso.name,
+              snippet: "${asso.address}, ${asso.city} ${asso.postalCode}")));
       i++;
     }
     return markers;
