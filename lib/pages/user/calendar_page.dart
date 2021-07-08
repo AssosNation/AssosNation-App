@@ -14,7 +14,7 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
-  var _isFirstPart = false;
+  var _isFirstPart = true;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,19 @@ class _CalendarState extends State<Calendar> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             OutlinedButton(
+                style: _isFirstPart
+                    ? ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.tealAccent))
+                    : ButtonStyle(),
                 onPressed: () => setState(() => _isFirstPart = true),
                 child: Text(AppLocalizations.of(context)!.my_assos_actions)),
             OutlinedButton(
+                style: !_isFirstPart
+                    ? ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.tealAccent))
+                    : ButtonStyle(),
                 onPressed: () => setState(() => _isFirstPart = false),
                 child: Text(AppLocalizations.of(context)!.all_events_label)),
           ],

@@ -1,4 +1,6 @@
 import 'package:assosnation_app/components/news_feed_like_component.dart';
+import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
+import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/post.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -50,7 +52,10 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                               if (snapshot.connectionState ==
                                   ConnectionState.done) {
                                 return CachedNetworkImage(
-                                  progressIndicatorBuilder: (context, url, progress) => LinearProgressIndicator(value: progress.progress),
+                                  progressIndicatorBuilder:
+                                      (context, url, progress) =>
+                                          LinearProgressIndicator(
+                                              value: progress.progress),
                                   imageBuilder: (context, imageProvider) =>
                                       CircleAvatar(
                                     backgroundImage: imageProvider,
@@ -64,7 +69,15 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                           },
                         ),
                       ),
-                      Text(widget._assosName)
+                      InkWell(
+                          child: Text(widget._assosName),
+                          onTap: () async {
+                            Navigator.of(context).pushNamed(
+                                "/associationDetails",
+                                arguments: await FireStoreService()
+                                    .getAssociationInfosFromDB(
+                                        this.widget._post.assosId.id));
+                          })
                     ],
                   ),
                 )
