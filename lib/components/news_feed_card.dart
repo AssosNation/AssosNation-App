@@ -1,5 +1,4 @@
 import 'package:assosnation_app/components/news_feed_like_component.dart';
-import 'package:assosnation_app/services/firebase/firestore/association_service.dart';
 import 'package:assosnation_app/services/firebase/firestore/firestore_service.dart';
 import 'package:assosnation_app/services/firebase/storage/storage_service.dart';
 import 'package:assosnation_app/services/models/post.dart';
@@ -39,46 +38,46 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 10, 5, 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
-                        child: FutureBuilder(
-                          future: StorageService()
-                              .getBannerByAssociation(widget._post.assosId.id),
-                          builder: (context, AsyncSnapshot<String> snapshot) {
-                            if (snapshot.hasData) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                return CachedNetworkImage(
-                                  progressIndicatorBuilder:
-                                      (context, url, progress) =>
-                                          LinearProgressIndicator(
-                                              value: progress.progress),
-                                  imageBuilder: (context, imageProvider) =>
-                                      CircleAvatar(
-                                    backgroundImage: imageProvider,
-                                  ),
-                                  imageUrl: snapshot.data!,
-                                );
-                              } else
-                                return CircularProgressIndicator();
-                            }
-                            return Container();
-                          },
+                  child: InkWell(
+                    onTap: () async {
+                      Navigator.of(context).pushNamed("/associationDetails",
+                          arguments: await FireStoreService()
+                              .getAssociationInfosFromDB(
+                                  this.widget._post.assosId.id));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 5, 5),
+                          child: FutureBuilder(
+                            future: StorageService().getBannerByAssociation(
+                                widget._post.assosId.id),
+                            builder: (context, AsyncSnapshot<String> snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return CachedNetworkImage(
+                                    progressIndicatorBuilder:
+                                        (context, url, progress) =>
+                                            LinearProgressIndicator(
+                                                value: progress.progress),
+                                    imageBuilder: (context, imageProvider) =>
+                                        CircleAvatar(
+                                      backgroundImage: imageProvider,
+                                    ),
+                                    imageUrl: snapshot.data!,
+                                  );
+                                } else
+                                  return CircularProgressIndicator();
+                              }
+                              return Container();
+                            },
+                          ),
                         ),
-                      ),
-                      InkWell(
-                          child: Text(widget._assosName),
-                          onTap: () async {
-                            Navigator.of(context).pushNamed(
-                                "/associationDetails",
-                                arguments: await FireStoreService()
-                                    .getAssociationInfosFromDB(
-                                        this.widget._post.assosId.id));
-                          })
-                    ],
+                        Text(widget._assosName),
+                      ],
+                    ),
                   ),
                 )
               ],
