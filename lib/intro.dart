@@ -52,7 +52,7 @@ class IntroScreenState extends State<IntroScreen> {
             fontWeight: FontWeight.bold,
             fontFamily: 'RobotoMono'),
         description:
-            "AssosNation permet de découvrir des associations près de chez soi, et de pouvoir suivre leur actualité en toute simplicité.",
+            "AssosNation permet de découvrir des associations près de chez soi, de pouvoir suivre leur actualité, et ainsi participer à la vie associative. Tout ça en une seule application ! ",
         styleDescription: TextStyle(
             color: Colors.white, fontSize: 20.0, fontFamily: 'Raleway'),
         centerWidget: Image.asset(
@@ -72,7 +72,7 @@ class IntroScreenState extends State<IntroScreen> {
             fontWeight: FontWeight.bold,
             fontFamily: 'RobotoMono'),
         description:
-            "Avec notre application, vous pouvez contacter directement nos associations partenaires via notre messagerie intégrée ! ",
+            "Avec notre application, vous pouvez contacter directement nos associations partenaires via notre messagerie intégrée. ",
         styleDescription: TextStyle(
             color: Colors.white, fontSize: 20.0, fontFamily: 'Raleway'),
         centerWidget: Image.asset(
